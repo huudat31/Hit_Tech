@@ -1,4 +1,14 @@
 class AppStrings {
+  static const String noInternetConnection = 'Không có kết nối internet';
+  static const String serverError = 'Lỗi máy chủ';
+  static const String invalidResponse = 'Phản hồi không hợp lệ';
+  static const String badRequest = 'Yêu cầu không hợp lệ';
+  static const String unauthorized = 'Chưa được xác thực';
+  static const String forbidden = 'Không có quyền truy cập';
+  static const String notFound = 'Không tìm thấy';
+  static const String validationError = 'Dữ liệu không hợp lệ';
+  static const String forgotPasswordSuccess =
+      'Link đặt lại mật khẩu đã được gửi';
   // Authentication
   static const String loginFailed = 'Đăng nhập thất bại';
   static const String registerFailed = 'Đăng ký thất bại';
