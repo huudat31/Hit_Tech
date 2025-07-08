@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 2));
 
     // Check if user is logged in
-    final isLoggedIn = await SharedPreferencesService.isLoggedIn();
+    final isLoggedIn =false;
 
     if (isLoggedIn) {
       Navigator.pushReplacementNamed(context, '/home');
