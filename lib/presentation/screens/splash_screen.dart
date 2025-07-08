@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hit_tech/services/shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -18,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 2));
 
     // Check if user is logged in
-    final isLoggedIn =false;
+    final isLoggedIn = await SharedPreferencesService.isLoggedIn();
 
     if (isLoggedIn) {
       Navigator.pushReplacementNamed(context, '/home');
