@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hit_tech/data/models/verify_opt_request.dart';
+import 'package:hit_tech/data/auth/models/verify_opt_request.dart';
 import 'dart:async';
 
 import 'package:hit_tech/data/repositories/auth_repository.dart';

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hit_tech/data/models/login_request.dart';
-import 'package:hit_tech/data/models/register_request.dart';
+import 'package:hit_tech/data/auth/models/login_request.dart';
+import 'package:hit_tech/data/auth/models/register_request.dart';
 import 'package:hit_tech/data/repositories/auth_repository.dart';
 
 // Events

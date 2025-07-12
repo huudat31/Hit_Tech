@@ -25,9 +25,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _firstnameController = TextEditingController(); //Tên
   final _lastnameController = TextEditingController(); //Họ
   bool _isPasswordVisible = false;
-  bool _agree = false; // đã tick checkbox?
-  bool isLoading = false; // hiển thị CircularProgressIndicator?
-
+  bool _agree = false;
+  bool isLoading = false;
   // Thêm hàm _showSnackBar
   void _showSnackBar(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -72,8 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 135,
                     decoration: const BoxDecoration(color: Color(0xFF2454F8)),
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start, // 👈 quan trọng
+                      crossAxisAlignment: CrossAxisAlignment.start,
 
                       children: [
                         const SizedBox(height: AppDimensions.spaceXL),
@@ -269,7 +267,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildRegisterButton() => BlocBuilder<AuthBloc, AuthState>(
     builder: (context, state) {
       final isLoading = state is AuthLoading;
-
       return AuthCustomButton(
         text: isLoading ? 'Đang đăng ký...' : AppStrings.register,
         onPressed: isLoading ? null : _handleRegister,
