@@ -1,17 +1,19 @@
+import 'package:hit_tech/core/constants/api_endpoint.dart';
 import 'package:hit_tech/core/constants/app_string.dart';
-import 'package:hit_tech/data/models/verify_opt_request.dart';
-import 'package:hit_tech/data/models/verify_opt_response.dart';
+import 'package:hit_tech/data/auth/models/reset_password_request.dart';
+import 'package:hit_tech/data/auth/models/reset_password_response.dart';
+import 'package:hit_tech/data/auth/models/verify_opt_request.dart';
+import 'package:hit_tech/data/auth/models/verify_opt_response.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-import '../models/register_request.dart';
-import '../models/register_response.dart';
-import '../models/login_request.dart';
-import '../models/login_response.dart';
+import '../auth/models/register_request.dart';
+import '../auth/models/register_response.dart';
+import '../auth/models/login_request.dart';
+import '../auth/models/login_response.dart';
 
 class AuthRepository {
-  static const String _baseUrl = 'http://192.168.184.103:8080/api/v1/auth';
   static const Duration _timeout = Duration(seconds: 30);
 
   static const Map<String, String> _defaultHeaders = {
@@ -19,12 +21,11 @@ class AuthRepository {
     'Accept': 'application/json',
   };
 
-  /// Register a new user
   Future<RegisterResponse> register(RegisterRequest request) async {
     try {
       final response = await http
           .post(
-            Uri.parse('$_baseUrl/register'),
+            Uri.parse(ApiEndpoint.register),
             headers: _defaultHeaders,
             body: jsonEncode(request.toJson()),
           )
@@ -48,12 +49,11 @@ class AuthRepository {
     }
   }
 
-  /// Login user
   Future<LoginResponse> login(LoginRequest request) async {
     try {
       final response = await http
           .post(
-            Uri.parse('$_baseUrl/login'),
+            Uri.parse(ApiEndpoint.login),
             headers: _defaultHeaders,
             body: jsonEncode(request.toJson()),
           )
@@ -74,12 +74,11 @@ class AuthRepository {
     }
   }
 
-  /// Verify OTP
   Future<VerifyOtpResponse> verifyOtp(VerifyOtpRequest request) async {
     try {
       final response = await http
           .post(
-            Uri.parse('$_baseUrl/verify-otp'),
+            Uri.parse(ApiEndpoint.verifyOtp),
             headers: _defaultHeaders,
             body: jsonEncode(request.toJson()),
           )
@@ -106,43 +105,6 @@ class AuthRepository {
     }
   }
 
-  /// Forgot password
-  Future<ForgotPasswordResponse> forgotPassword(String email) async {
-    try {
-      final request = ForgotPasswordRequest(email: email);
-      final response = await http
-          .post(
-            Uri.parse('$_baseUrl/forgot-password'),
-            headers: _defaultHeaders,
-            body: jsonEncode(request.toJson()),
-          )
-          .timeout(_timeout);
-
-      return _handleForgotPasswordResponse(response);
-    } on SocketException {
-      return ForgotPasswordResponse(
-        success: false,
-        message: AppStrings.noInternetConnection,
-      );
-    } on HttpException {
-      return ForgotPasswordResponse(
-        success: false,
-        message: AppStrings.serverError,
-      );
-    } on FormatException {
-      return ForgotPasswordResponse(
-        success: false,
-        message: AppStrings.invalidResponse,
-      );
-    } catch (e) {
-      return ForgotPasswordResponse(
-        success: false,
-        message: AppStrings.generalError,
-      );
-    }
-  }
-
-  // Private methods for handling responses
   RegisterResponse _handleRegisterResponse(http.Response response) {
     final responseData = _parseResponse(response);
 
@@ -193,16 +155,83 @@ class AuthRepository {
     }
   }
 
-  ForgotPasswordResponse _handleForgotPasswordResponse(http.Response response) {
-    final responseData = _parseResponse(response);
+  Map<String, dynamic> _parseResponse(http.Response response) {
+    try {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } catch (e) {
+      return {};
+    }
+  }
 
-    if (response.statusCode == 200) {
-      return ForgotPasswordResponse(
+  Future<ApiResponse> verifyOptResetPassword(VerifyOtpRequest request) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse(ApiEndpoint.verifyOptResetPassword),
+            headers: _defaultHeaders,
+            body: jsonEncode(request.toJson()),
+          )
+          .timeout(_timeout);
+      return _handleApiResponse(response);
+    } on SocketException {
+      return ApiResponse(
+        success: false,
+        message: AppStrings.noInternetConnection,
+      );
+    } on HttpException {
+      return ApiResponse(success: false, message: AppStrings.serverError);
+    } on FormatException {
+      return ApiResponse(success: false, message: AppStrings.invalidResponse);
+    } catch (e) {
+      return ApiResponse(success: false, message: AppStrings.generalError);
+    }
+  }
+
+  Future<ResetPasswordResponse> resetPassword(
+    ResetPasswordRequest request,
+  ) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse(ApiEndpoint.resetPassword),
+            headers: _defaultHeaders,
+            body: jsonEncode(request.toJson()),
+          )
+          .timeout(_timeout);
+
+      return _handleResetPasswordResponse(response);
+    } on SocketException {
+      return ResetPasswordResponse(
+        success: false,
+        message: AppStrings.noInternetConnection,
+      );
+    } on HttpException {
+      return ResetPasswordResponse(
+        success: false,
+        message: AppStrings.serverError,
+      );
+    } on FormatException {
+      return ResetPasswordResponse(
+        success: false,
+        message: AppStrings.invalidResponse,
+      );
+    } catch (e) {
+      return ResetPasswordResponse(
+        success: false,
+        message: AppStrings.generalError,
+      );
+    }
+  }
+
+  ResetPasswordResponse _handleResetPasswordResponse(http.Response response) {
+    final responseData = _parseResponse(response);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ResetPasswordResponse(
         success: true,
-        message: responseData['message'] ?? AppStrings.forgotPasswordSuccess,
+        message: responseData['message'] ?? "Đặt lại mật khẩu thành công",
       );
     } else {
-      return ForgotPasswordResponse(
+      return ResetPasswordResponse(
         success: false,
         message:
             responseData['message'] ?? _getErrorMessage(response.statusCode),
@@ -210,11 +239,19 @@ class AuthRepository {
     }
   }
 
-  Map<String, dynamic> _parseResponse(http.Response response) {
-    try {
-      return jsonDecode(response.body) as Map<String, dynamic>;
-    } catch (e) {
-      return {};
+  ApiResponse _handleApiResponse(http.Response response) {
+    final responseData = _parseResponse(response);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return ApiResponse(
+        success: true,
+        message: responseData['message'] ?? AppStrings.forgotPasswordSuccess,
+      );
+    } else {
+      return ApiResponse(
+        success: false,
+        message:
+            responseData['message'] ?? _getErrorMessage(response.statusCode),
+      );
     }
   }
 
@@ -238,27 +275,9 @@ class AuthRepository {
   }
 }
 
-// Model classes for forgot password
-class ForgotPasswordRequest {
-  final String email;
-
-  ForgotPasswordRequest({required this.email});
-
-  Map<String, dynamic> toJson() {
-    return {'email': email};
-  }
-}
-
-class ForgotPasswordResponse {
+class ApiResponse {
   final bool success;
   final String message;
 
-  ForgotPasswordResponse({required this.success, required this.message});
-
-  factory ForgotPasswordResponse.fromJson(Map<String, dynamic> json) {
-    return ForgotPasswordResponse(
-      success: json['success'] ?? false,
-      message: json['message'] ?? '',
-    );
-  }
+  ApiResponse({required this.success, required this.message});
 }
