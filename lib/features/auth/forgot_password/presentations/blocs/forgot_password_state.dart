@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum ForgotPasswordStatus { initial, loading, success, failure }
+enum ForgotPasswordStatus { initial, loading, success, failure, email }
 
 class ForgotPasswordState extends Equatable {
   final int currentStep;

@@ -123,6 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // Username Field
                       CustomInputField(
+                        isPassword: true,
                         hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
@@ -144,6 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // Password Field
                       CustomInputField(
+                        isPassword: true,
                         hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontSize: 16,
