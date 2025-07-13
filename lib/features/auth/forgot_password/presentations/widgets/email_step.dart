@@ -28,6 +28,7 @@ class EmailStep extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               CustomInputField(
+                isPassword: true,
                 controller: _emailController,
                 title: "Email",
                 keyboardType: TextInputType.emailAddress,

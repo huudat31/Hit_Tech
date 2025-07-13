@@ -12,7 +12,7 @@ class EmailSubmitted extends ForgotPasswordEvent {
 class VerifyOptSubmitted extends ForgotPasswordEvent {
   final String email;
   final String otpCode;
-  const VerifyOptSubmitted(this.email, {required this.otpCode});
+  const VerifyOptSubmitted({required this.email, required this.otpCode});
 }
 
 class PasswordResetSubmitted extends ForgotPasswordEvent {

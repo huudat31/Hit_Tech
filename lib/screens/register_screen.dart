@@ -146,6 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomInputField(
+            isPassword: true,
             width: screenWidth * 0.9,
             controller: _emailController,
             title: AppStrings.email,
@@ -155,6 +156,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           const SizedBox(height: AppDimensions.spaceM),
           CustomInputField(
+            isPassword: true,
             width: screenWidth * 0.9,
             controller: _usernameController,
             title: AppStrings.username,
@@ -166,6 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomInputField(
+                isPassword: true,
                 controller: _firstnameController,
                 title: AppStrings.firstName,
                 focusedBorderColor: Color(0xFF2454F8),
@@ -174,6 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const SizedBox(width: AppDimensions.spaceM),
               CustomInputField(
+                isPassword: true,
                 controller: _lastnameController,
                 title: AppStrings.lastName,
                 focusedBorderColor: Color(0xFF2454F8),
@@ -184,6 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           const SizedBox(height: AppDimensions.spaceM),
           CustomInputField(
+            isPassword: true,
             width: screenWidth * 0.9,
             focusedBorderColor: Color(0xFF2454F8),
             controller: _passwordController,

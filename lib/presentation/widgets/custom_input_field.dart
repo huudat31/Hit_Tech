@@ -42,6 +42,7 @@ class CustomInputField extends StatefulWidget {
     this.validator,
     this.keyboardType,
     this.suffixIcon,
+    required bool isPassword,
   }) : super(key: key);
 
   @override
