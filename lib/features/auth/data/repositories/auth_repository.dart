@@ -1,9 +1,9 @@
 import 'package:hit_tech/core/constants/api_endpoint.dart';
 import 'package:hit_tech/core/constants/app_string.dart';
-import 'package:hit_tech/data/auth/models/reset_password_request.dart';
-import 'package:hit_tech/data/auth/models/reset_password_response.dart';
-import 'package:hit_tech/data/auth/models/verify_opt_request.dart';
-import 'package:hit_tech/data/auth/models/verify_opt_response.dart';
+import 'package:hit_tech/features/auth/data/auth/models/reset_password_request.dart';
+import 'package:hit_tech/features/auth/data/auth/models/reset_password_response.dart';
+import 'package:hit_tech/features/auth/data/auth/models/verify_opt_request.dart';
+import 'package:hit_tech/features/auth/data/auth/models/verify_opt_response.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';

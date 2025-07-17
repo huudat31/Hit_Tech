@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hit_tech/features/auth/forgot_password/data/repository/forgot_password_repository.dart';
+import 'package:hit_tech/features/auth/forgot_password/data/repository/forgot_password_repo.dart';
 import 'package:hit_tech/features/auth/forgot_password/presentations/blocs/forgot_password_event.dart';
 import 'package:hit_tech/features/auth/forgot_password/presentations/blocs/forgot_password_state.dart';
 

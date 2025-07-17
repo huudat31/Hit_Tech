@@ -40,7 +40,6 @@ class EmailStep extends StatelessWidget {
                 onPressed: state.status == ForgotPasswordStatus.loading
                     ? null
                     : () {
-                        // Remove the null check operator (!) and use ?. with ?? false
                         if (formKey.currentState?.validate() ?? false) {
                           context.read<ForgotPasswordBloc>().add(
                             EmailSubmitted(email: _emailController.text),

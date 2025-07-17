@@ -7,6 +7,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool _isChecking = true; // Thêm biến trạng thái
+
   @override
   void initState() {
     super.initState();
@@ -14,11 +16,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _checkLoginStatus() async {
-    // Wait for 2 seconds to show splash screen
     await Future.delayed(Duration(seconds: 2));
 
-    // Check if user is logged in
     final isLoggedIn = await SharedPreferencesService.isLoggedIn();
+
+    setState(() {
+      _isChecking = false; // Ẩn indicator trước khi chuyển trang
+    });
+
+    // Thêm delay nhỏ để đảm bảo UI kịp cập nhật
+    await Future.delayed(Duration(milliseconds: 100));
 
     if (isLoggedIn) {
       Navigator.pushReplacementNamed(context, '/home');
@@ -35,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // App Logo
             Container(
               width: 120,
               height: 120,
@@ -55,9 +61,10 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             SizedBox(height: 16),
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
+            if (_isChecking) // Chỉ hiển thị indicator khi đang kiểm tra
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
           ],
         ),
       ),

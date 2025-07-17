@@ -5,7 +5,7 @@ import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
 import 'package:hit_tech/core/constants/app_string.dart';
 import 'package:hit_tech/core/utils/validators.dart';
-import 'package:hit_tech/presentation/blocs/register_cubit.dart';
+import 'package:hit_tech/features/auth/register/blocs/register_cubit.dart';
 import 'package:hit_tech/presentation/widgets/auth_custom_button.dart';
 import 'package:hit_tech/presentation/widgets/button_gg_fb_auth.dart';
 import 'package:hit_tech/presentation/widgets/custom_input_field.dart';
