@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hit_tech/presentation/blocs/register_cubit.dart';
+import 'package:hit_tech/features/auth/register/blocs/register_cubit.dart';
 import 'package:hit_tech/services/shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -10,4 +10,12 @@ abstract class ApiEndpoint {
   static const String resetPassword = '$baseUrl$version/auth/reset-password';
   static const String verifyOptResetPassword =
       '$baseUrl$version/auth/verify-opt-to-reset-password';
+  
+
+
+  // Heath_Information Endpoints
+  static const String  heathInformation = '$baseUrl$version/user-heath/health-information';
+
+  //  Training Plan Endpoints
+  static const String trainingPlan ='$baseUrl$version/training-plan/step';
 }
