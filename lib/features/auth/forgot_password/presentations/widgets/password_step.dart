@@ -4,8 +4,8 @@ import 'package:hit_tech/core/utils/validators.dart';
 import 'package:hit_tech/features/auth/forgot_password/presentations/blocs/forgot_password_bloc.dart';
 import 'package:hit_tech/features/auth/forgot_password/presentations/blocs/forgot_password_event.dart';
 import 'package:hit_tech/features/auth/forgot_password/presentations/blocs/forgot_password_state.dart';
-import 'package:hit_tech/presentation/widgets/auth_custom_button.dart';
-import 'package:hit_tech/presentation/widgets/custom_input_field.dart';
+import 'package:hit_tech/features/auth/presentation/widgets/auth_custom_button.dart';
+import 'package:hit_tech/features/auth/presentation/widgets/custom_input_field.dart';
 
 class PasswordStep extends StatelessWidget {
   const PasswordStep({super.key});
