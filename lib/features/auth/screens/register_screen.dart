@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      // backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         // Thêm BlocListener để lắng nghe AuthState
         child: BlocListener<AuthBloc, AuthState>(
@@ -118,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       onTap: () => Navigator.pop(context),
       child: const Icon(
         Icons.arrow_back_ios,
-        color: AppColors.backgroundColor,
+        // color: AppColors.backgroundColor,
         size: AppDimensions.backIconSize,
       ),
     );
@@ -227,7 +227,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Checkbox(
               value: _agree,
               onChanged: (v) => setState(() => _agree = v ?? false),
-              activeColor: AppColors.primaryAppColor,
+              // activeColor: AppColors.primaryAppColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -283,15 +283,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildDivider() {
     return const Row(
       children: [
-        Expanded(child: Divider(color: AppColors.primaryAppColor)),
+        Expanded(child: Divider(color: Color(0xFF2454F8))),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppDimensions.spaceS),
           child: Text(
             AppStrings.orRegisterWith,
-            style: TextStyle(color: AppColors.primaryAppColor, fontSize: 16),
+            style: TextStyle(color: Color(0xeeeeeeee), fontSize: 16),
           ),
         ),
-        Expanded(child: Divider(color: AppColors.primaryAppColor)),
+        Expanded(child: Divider(color: Color(0xFF2454F8))),
       ],
     );
   }
@@ -330,7 +330,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextSpan(
                 text: AppStrings.login,
                 style: TextStyle(
-                  color: AppColors.primaryAppColor,
+                  // color: AppColors.primaryAppColor,
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline,
                 ),

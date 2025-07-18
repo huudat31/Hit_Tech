@@ -5,8 +5,8 @@ import 'package:hit_tech/features/auth/register/blocs/register_cubit.dart';
 import 'package:hit_tech/features/auth/forgot_password/presentations/screens/forgot_password_screen.dart';
 import 'package:hit_tech/features/auth/presentation/screens/home_screen.dart';
 import 'package:hit_tech/features/auth/presentation/screens/splash_screen.dart';
-import 'package:hit_tech/screens/login_screen.dart';
-import 'package:hit_tech/screens/register_screen.dart';
+import 'package:hit_tech/features/auth/screens/login_screen.dart';
+import 'package:hit_tech/features/auth/screens/register_screen.dart';
 
 void main() {
   runApp(MyApp());
