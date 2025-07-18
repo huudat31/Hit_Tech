@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hit_tech/core/constants/app_string.dart';
 import 'package:hit_tech/core/utils/validators.dart';
 import 'package:hit_tech/features/auth/register/blocs/register_cubit.dart';
-import 'package:hit_tech/presentation/widgets/auth_custom_button.dart';
-import 'package:hit_tech/presentation/widgets/button_gg_fb_auth.dart';
-import 'package:hit_tech/presentation/widgets/custom_input_field.dart';
-import 'package:hit_tech/presentation/widgets/text_bottom_auth.dart';
+import 'package:hit_tech/features/auth/presentation/widgets/auth_custom_button.dart';
+import 'package:hit_tech/features/auth/presentation/widgets/button_gg_fb_auth.dart';
+import 'package:hit_tech/features/auth/presentation/widgets/custom_input_field.dart';
+import 'package:hit_tech/features/auth/presentation/widgets/text_bottom_auth.dart';
 import 'package:hit_tech/services/shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
