@@ -12,7 +12,7 @@ class AppColors {
   static const Color bDarkHover = Color(0xFF0c5488);
   static const Color bDarkActive = Color(0xFF093f66);
   static const Color bDarker = Color(0xFF07314f);
-
+  static const Color bDarkerLogo = Color(0xFF112947);
   //Black
   static const Color lighter = Color(0xFF8c8c8c);
   static const Color lightHover = Color(0xFF757575);
