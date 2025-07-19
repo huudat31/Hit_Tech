@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hit_tech/features/auth/data/repositories/auth_repository.dart';
-import 'package:hit_tech/features/auth/register/blocs/register_cubit.dart';
-import 'package:hit_tech/features/auth/forgot_password/presentations/screens/forgot_password_screen.dart';
-import 'package:hit_tech/features/auth/presentation/screens/home_screen.dart';
-import 'package:hit_tech/features/auth/presentation/screens/splash_screen.dart';
-import 'package:hit_tech/features/auth/screens/login_screen.dart';
-import 'package:hit_tech/features/auth/screens/register_screen.dart';
+import 'package:hit_tech/features/auth/models/repositories/auth_repository.dart';
+import 'package:hit_tech/features/auth/cubit/login-register/blocs/register_cubit.dart';
+import 'package:hit_tech/features/auth/view/forgot_password_screen.dart';
+
+import 'package:hit_tech/features/auth/view/splash_page.dart';
+import 'package:hit_tech/features/auth/view/login_page.dart';
+import 'package:hit_tech/features/auth/view/register_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hit_tech/features/home/view/home_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,28 +19,40 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(authRepository: AuthRepository()),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Auth App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0xFF2454F8),
-          fontFamily: 'Roboto',
-        ),
-        home: SplashScreen(),
-        routes: {
-          '/login': (context) => LoginScreen(),
-          '/register': (context) => RegisterScreen(),
-          '/home': (context) => HomeScreen(),
-          '/forgot-password': (context) => ForgotPasswordScreen(),
-        },
-      ),
+    return ScreenUtilInit(
+      designSize: const Size(412, 917),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<AuthBloc>(
+              create: (context) => AuthBloc(authRepository: AuthRepository()),
+            ),
+            // Nếu có thêm RegisterCubit, thêm luôn ở đây
+            // BlocProvider<RegisterCubit>(
+            //   create: (context) => RegisterCubit(),
+            // ),
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Auth App',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              primaryColor: const Color(0xFF2454F8),
+              fontFamily: 'Roboto',
+              textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
+            ),
+            home: SplashScreen(),
+            routes: {
+              '/login': (context) => const LoginScreen(),
+              '/register': (context) => const RegisterScreen(),
+              '/home': (context) => HomeScreen(),
+              '/forgot-password': (context) => const ForgotPasswordScreen(),
+            },
+          ),
+        );
+      },
     );
   }
 }
