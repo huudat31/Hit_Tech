@@ -5,6 +5,7 @@ class AppColors {
   static const Color bLight = Color(0xFFe8f4fc);
   static const Color bLightHover = Color(0xFFdceefb);
   static const Color bLightActive = Color(0xFFb6dbf6);
+  static const Color bLightActive2 = Color(0xFF53B4FE);
   static const Color bNormal = Color(0xFF148ce2);
   static const Color bNormalHover = Color(0xFF127ecb);
   static const Color bNormalActive = Color(0xFF1070b5);

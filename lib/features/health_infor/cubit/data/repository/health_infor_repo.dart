@@ -10,7 +10,7 @@ class HealthInforRepo {
   Future<bool> submitHealthInfo(HealthInfoModel healthInfo) async {
     try {
       final response = await _dio.post(
-        ApiEndpoint.heathInformation,
+        ApiEndpoint.fillHeathInformation,
         data: jsonEncode(healthInfo.toJson()),
         options: Options(
           headers: {

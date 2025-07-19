@@ -1,21 +1,71 @@
 abstract class ApiEndpoint {
-  static const String baseUrl = 'http://192.168.184.103:8080';
-  static const String version = '/api/v1';
+  // static const String baseUrl = 'http://192.168.184.103:8080';
+
+  // Máy Khương
+  static const String baseUrl = 'http://192.168.50.240:8080';
+
+  // Base Endpoints
+  static const String version = '$baseUrl/api/v1';
+  static const String userEndpoint = '$version/user';
+  static const String userHealthEndpoint = '$version/user-health';
+  static const String trainingExercise = '$version/training/exercise';
+  static const String trainingPlanFlow = '$version/training-plan';
+  static const String auth = '$version/auth';
+  static const String trainingSchedule = '$version/training/schedule';
+  static const String trainingResource = '$version/training/resource';
+  static const String policy = '$version/policy';
+
+  // User Endpoint
+  static const String updateProfile = '$userEndpoint/update-profile';
+  static const String uploadAvatar = '$userEndpoint/upload-avatar';
+  static const String fillPersonalInformation =
+      '$userEndpoint/personal-information';
+  static const String getProfile = '$userEndpoint/profile';
+  static const String deleteMyAccount = '$userEndpoint/delete-account';
+
+  // User-health Endpoint
+  static const String fillHeathInformation =
+      '$userHealthEndpoint/health-information';
+
+  // Training-exercise-search
+  static const String searchExercise = '$trainingExercise/search';
+  static const String getExercise = trainingExercise;
+  static const String getExerciseByType = '$trainingExercise/type';
+  static const String getExerciseByPrimaryMuscle =
+      '$trainingExercise/target-muscle';
+  static const String getExerciseByGoal = '$trainingExercise/goal';
+
+  // Training-plan-flow
+  static const String flowStep = '$trainingPlanFlow/step';
+  static const String reset = '$trainingPlanFlow/reset';
 
   // Auth Endpoints
-  static const String register = '$baseUrl$version/auth/register';
-  static const String verifyOtp = '$baseUrl$version/auth/verify-otp';
-  static const String login = '$baseUrl$version/auth/login';
-  static const String sendOptToEmail = '$baseUrl$version/auth/forgot-password';
-  static const String resetPassword = '$baseUrl$version/auth/reset-password';
+  static const String verifyOtp = '$auth/verify-otp';
   static const String verifyOptResetPassword =
-      '$baseUrl$version/auth/verify-opt-to-reset-password';
-  
+      '$auth/verify-opt-to-reset-password';
+  static const String verifyOptRecovery = '$auth/verify-opt-to-recovery';
+  static const String resetPassword = '$auth/reset-password';
+  static const String register = '$auth/register';
+  static const String refreshToken = '$auth/refresh';
+  static const String recoverAccount = '$auth/recover-account';
+  static const String logout = '$auth/logout';
+  static const String login = '$auth/login';
+  static const String sendEmailToForgotPassword = '$auth/forgot-password';
+  static const String sendEmailToAccountRecovery = '$auth/account-recovery';
 
+  // Training-schedule
+  static const String getTrainingSchedule = trainingSchedule;
 
-  // Heath_Information Endpoints
-  static const String  heathInformation = '$baseUrl$version/user-heath/health-information';
+  // Training-resource
+  static const String getAllTrainingType = '$trainingResource/types';
+  static const String getAllTrainingTargetMuscle = '$trainingResource/target-muscles';
+  static const String getAllTrainingPlan = '$trainingResource/plans';
+  static const String getAllTrainingLocation = '$trainingResource/locations';
+  static const String getAllTrainingLevel = '$trainingResource/levels';
+  static const String getAllTrainingGoal = '$trainingResource/goals';
+  static const String getAllTrainingEquipment = '$trainingResource/equipments';
 
-  //  Training Plan Endpoints
-  static const String trainingPlan ='$baseUrl$version/training-plan/step';
+  // Policy
+  static const String getPolicyTerms = '$policy/terms';
+  static const String getPolicyPrivacy = '$policy/privacy';
 }

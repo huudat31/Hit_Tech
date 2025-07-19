@@ -9,7 +9,7 @@ class ForgotPasswordRepository {
   Future<ApiResponse> sendOptToEmail(String email) async {
     try {
       final response = await http
-          .post(Uri.parse(ApiEndpoint.sendOptToEmail), body: {'email': email})
+          .post(Uri.parse(ApiEndpoint.sendEmailToForgotPassword), body: {'email': email})
           .timeout(_timeout);
       final Map<String, dynamic> data = jsonDecode(response.body);
       return ApiResponse.fromJson(data);

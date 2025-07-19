@@ -70,6 +70,10 @@ flutter:
     - assets/icons/logo_corevo.png
     - assets/icons/google_icon.png
     - assets/icons/facebook_icon.png
+    - assets/images/level/level1.png
+    - assets/images/level/level2.png
+    - assets/images/level/level3.png
+    - assets/images/level/levelSelected2.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -96,7 +100,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-  plugin:
-    platforms:
-      macos:
-        default_package: none
+#  plugin:
+#    platforms:
+#      macos:
+#        default_package: none

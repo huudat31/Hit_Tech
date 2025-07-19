@@ -10,9 +10,9 @@ class ApiClient {
   };
 
   static Future<Map<String, dynamic>> post(
-    String endpoint,
-    Map<String, dynamic> data,
-  ) async {
+      String endpoint,
+      Map<String, dynamic> data,
+      ) async {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl$endpoint'),

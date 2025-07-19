@@ -10,6 +10,14 @@ import 'package:hit_tech/features/auth/view/register_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hit_tech/features/home/view/home_screen.dart';
 
+import 'features/main_root/home_root.dart';
+import 'features/main_root/setting/view/widgets/personal_health_selection_widget.dart';
+import 'features/main_root/setting/view/widgets/personal_infor_selection_widget.dart';
+import 'features/main_root/training_library/view/training_exercise.dart';
+import 'features/main_root/training_library/view/training_page.dart';
+import 'features/training_flow/view/widget/training_goal_selection_widget.dart';
+import 'features/training_flow/view/widget/training_level_selection_widget.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -43,7 +51,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Roboto',
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
             ),
-            home: SplashScreen(),
+            home: TrainingLevelSelectionWidget(),
             routes: {
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegisterScreen(),
