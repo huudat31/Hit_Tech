@@ -80,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           IconButton(
                             icon: Icon(
                               Icons.arrow_back_ios_new,
-                              color: AppColors.dark,
+                              color: AppColors.bNormal,
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -348,7 +348,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 style: TextStyle(
                   color: AppColors.bNormal,
                   fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline,
                 ),
               ),
             ],

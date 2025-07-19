@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           IconButton(
                             icon: Icon(
                               Icons.arrow_back_ios_new,
-                              color: AppColors.dark,
+                              color: AppColors.bNormal,
                             ),
                             onPressed: () {
                               Navigator.of(context).pop();
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: AppStrings.username,
                           borderRadius: 12,
                           borderColor: Colors.grey[400],
-                          focusedBorderColor: Color(0xFF2454F8),
+                          focusedBorderColor: AppColors.bNormal,
                           validator: Validators.validateUsername,
                           onChanged: (value) {
                             // Real-time validation if needed
@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           title: AppStrings.password,
                           borderRadius: 12,
                           borderColor: Colors.grey[400],
-                          focusedBorderColor: Color(0xFF2454F8),
+                          focusedBorderColor: AppColors.bNormal,
                           obscureText: !_isPasswordVisible,
                           validator: Validators.validatePassword,
                           suffixIcon: IconButton(
@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: _rememberMe
                                         ? Icon(
                                             Icons.check_box,
-                                            color: Color(0xFF2454F8),
+                                            color: AppColors.bNormal,
                                           )
                                         : Icon(
                                             Icons.check_box_outline_blank,
@@ -227,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Ghi nhớ đăng nhập',
                                   style: TextStyle(
                                     color: Colors.grey[600],
-                                    fontSize: 14,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ],
@@ -243,8 +243,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 AppStrings.forgotPassword,
                                 style: TextStyle(
-                                  color: Color(0xFF2454F8),
-                                  fontSize: 14,
+                                  color: AppColors.bNormal,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -311,7 +311,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               AppStrings.dontHaveAccount,
                               style: TextStyle(
                                 color: Colors.grey[600],
-                                fontSize: 14,
+                                fontSize: 16,
                               ),
                             ),
                             SizedBox(width: 4),
@@ -323,7 +323,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 AppStrings.register,
                                 style: TextStyle(
                                   color: AppColors.bNormal,
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

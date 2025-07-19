@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Roboto',
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
             ),
-            home: TrainingLevelSelectionWidget(),
+            home: SplashScreen(),
             routes: {
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegisterScreen(),

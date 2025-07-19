@@ -22,7 +22,7 @@ class DividerWithText extends StatelessWidget {
           text,
           style: const TextStyle(
             color: AppColors.bNormal,
-            fontSize: 16,
+            fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
         ),
