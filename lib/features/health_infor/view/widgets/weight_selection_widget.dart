@@ -84,22 +84,25 @@ class WeightSelectionWidget extends StatelessWidget {
 
               SizedBox(
                 width: double.infinity,
+                height: 50,
                 child: ElevatedButton(
-                  onPressed: formState.canProceedFromWeight
-                      ? () {
-                          // Move to next step automatically handled by bloc
-                        }
-                      : null,
+                  onPressed: () {
+                    context.read<HealthInfoBloc>().add(NextStep());
+                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: Color(0xFF2196F3),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(25),
                     ),
+                    elevation: 2,
                   ),
                   child: Text(
                     'Tiếp tục',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

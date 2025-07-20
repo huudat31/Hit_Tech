@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_event.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_state.dart';
 
-class AgeSelectionWidget extends StatelessWidget {
+class AgeSelectionWidget extends StatefulWidget {
+  @override
+  _AgeSelectionWidgetState createState() => _AgeSelectionWidgetState();
+}
+
+class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
+  late FixedExtentScrollController _scrollController;
+  int selectedYear = 2005;
+
+  final List<int> years = List.generate(50, (index) => 2025 - index);
+
+  @override
+  void initState() {
+    super.initState();
+    final initialIndex = years.indexOf(2005);
+    _scrollController = FixedExtentScrollController(
+      initialItem: initialIndex >= 0 ? initialIndex : 20,
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HealthInfoBloc, HealthInfoState>(
@@ -14,75 +40,124 @@ class AgeSelectionWidget extends StatelessWidget {
             : HealthInfoFormState();
 
         return Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(24),
           child: Column(
             children: [
-              Text(
-                'Tuổi',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Color(0xFFE3F2FD),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Tuổi',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF07314F),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Nhập tuổi của bạn để điều chỉnh mục tiêu phù hợp với giai đoạn của cơ thể.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
-                'Nhập tuổi của bạn để điều chỉnh mục tiêu phù hợp với độ tuổi của bạn.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-              ),
-              SizedBox(height: 40),
 
+              // Year picker
               Expanded(
-                child: PageView.builder(
-                  itemCount: 80,
-                  onPageChanged: (index) {
-                    final age = index + 10;
-                    context.read<HealthInfoBloc>().add(UpdateAge(age));
-                  },
-                  itemBuilder: (context, index) {
-                    final age = index + 10;
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
+                child: Center(
+                  child: Container(
+                    height: 280,
+                    child: ListWheelScrollView.useDelegate(
+                      controller: _scrollController,
+                      itemExtent: 60,
+                      perspective: 0.005,
+                      diameterRatio: 1.2,
+                      physics: FixedExtentScrollPhysics(),
+                      onSelectedItemChanged: (index) {
+                        setState(() {
+                          selectedYear = years[index];
+                        });
+                        final age = DateTime.now().year - selectedYear;
+                        context.read<HealthInfoBloc>().add(UpdateAge(age));
+                      },
+                      childDelegate: ListWheelChildBuilderDelegate(
+                        childCount: years.length,
+                        builder: (context, index) {
+                          final year = years[index];
+                          final isSelected = year == selectedYear;
+
+                          return AnimatedContainer(
+                            duration: Duration(milliseconds: 200),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: isSelected
+                                    ? Color(0xFF1070B5)
+                                    : Color(0xFFffff),
+                                width: isSelected ? 2 : 1,
+                              ),
+                              color: isSelected
+                                  ? Color(0xFFDCEEFB)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '$year',
+                                style: TextStyle(
+                                  fontSize: isSelected ? 32 : 20,
+                                  fontWeight: isSelected
+                                      ? FontWeight.bold
+                                      : FontWeight.w500,
+                                  color: isSelected
+                                      ? AppColors.bNormal
+                                      : Color(0xFF989DA1),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      child: Center(
-                        child: Text(
-                          '$age',
-                          style: TextStyle(
-                            fontSize: 72,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
               ),
 
-              SizedBox(height: 20),
+              SizedBox(height: 30),
 
+              // Continue Button
               SizedBox(
                 width: double.infinity,
+                height: 50,
                 child: ElevatedButton(
-                  onPressed: formState.canProceedFromAge
-                      ? () {
-                          // Move to next step automatically handled by bloc
-                        }
-                      : null,
+                  onPressed: () {
+                    context.read<HealthInfoBloc>().add(NextStep());
+                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: Color(0xFF2196F3),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(25),
                     ),
+                    elevation: 2,
                   ),
                   child: Text(
                     'Tiếp tục',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),

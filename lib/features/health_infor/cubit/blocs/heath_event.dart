@@ -41,4 +41,8 @@ class UpdateActivityLevel extends HealthInfoEvent {
   List<Object?> get props => [activityLevel];
 }
 
+class NextStep extends HealthInfoEvent {}
+
+class PreviousStep extends HealthInfoEvent {}
+
 class SubmitHealthInfo extends HealthInfoEvent {}

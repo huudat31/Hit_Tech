@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hit_tech/features/auth/models/repositories/auth_repository.dart';
@@ -8,8 +9,12 @@ import 'package:hit_tech/features/auth/view/splash_page.dart';
 import 'package:hit_tech/features/auth/view/login_page.dart';
 import 'package:hit_tech/features/auth/view/register_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hit_tech/features/health_infor/view/health_info_page.dart';
+import 'package:hit_tech/features/health_infor/view/widgets/gender_selection_widget.dart';
 import 'package:hit_tech/features/home/view/home_screen.dart';
 
+import 'features/health_infor/cubit/blocs/health_bloc.dart';
+import 'features/health_infor/cubit/data/repository/health_infor_repo.dart';
 import 'features/main_root/home_root.dart';
 import 'features/main_root/setting/view/widgets/personal_health_selection_widget.dart';
 import 'features/main_root/setting/view/widgets/personal_infor_selection_widget.dart';
@@ -41,6 +46,9 @@ class MyApp extends StatelessWidget {
             // BlocProvider<RegisterCubit>(
             //   create: (context) => RegisterCubit(),
             // ),
+            BlocProvider<HealthInfoBloc>(
+              create: (context) => HealthInfoBloc(HealthInforRepo(Dio())),
+            ),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -51,7 +59,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Roboto',
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
             ),
-            home: SplashScreen(),
+            home: HealthInfoPage(),
             routes: {
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegisterScreen(),

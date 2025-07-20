@@ -5,7 +5,7 @@ import 'package:hit_tech/features/health_infor/model/heath_infor_model.dart';
 
 class HealthInforRepo {
   final Dio _dio;
-  
+
   HealthInforRepo(this._dio);
   Future<bool> submitHealthInfo(HealthInfoModel healthInfo) async {
     try {

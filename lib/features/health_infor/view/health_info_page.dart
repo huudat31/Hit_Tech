@@ -47,7 +47,7 @@ class HealthInfoPage extends StatelessWidget {
                       Expanded(
                         child: LinearProgressIndicator(
                           value: (formState.currentStep + 1) / 5,
-                          backgroundColor: Colors.grey[300],
+                          backgroundColor: Color(0xffEDF3F8),
                           valueColor: AlwaysStoppedAnimation<Color>(
                             Colors.blue,
                           ),

@@ -14,35 +14,37 @@ class HealthInfoBloc extends Bloc<HealthInfoEvent, HealthInfoState> {
     on<UpdateWeight>(_onUpdateWeight);
     on<UpdateActivityLevel>(_onUpdateActivityLevel);
     on<SubmitHealthInfo>(_onSubmitHealthInfo);
+    on<NextStep>(_onNextStep);
+    on<PreviousStep>(_onPreviousStep);
   }
 
   void _onUpdateGender(UpdateGender event, Emitter<HealthInfoState> emit) {
     final currentState = state;
     if (currentState is HealthInfoFormState) {
-      emit(currentState.copyWith(gender: event.gender, currentStep: 1));
+      emit(currentState.copyWith(gender: event.gender));
     } else {
-      emit(HealthInfoFormState(gender: event.gender, currentStep: 1));
+      emit(HealthInfoFormState(gender: event.gender));
     }
   }
 
   void _onUpdateAge(UpdateAge event, Emitter<HealthInfoState> emit) {
     final currentState = state;
     if (currentState is HealthInfoFormState) {
-      emit(currentState.copyWith(age: event.age, currentStep: 2));
+      emit(currentState.copyWith(age: event.age));
     }
   }
 
   void _onUpdateHeight(UpdateHeight event, Emitter<HealthInfoState> emit) {
     final currentState = state;
     if (currentState is HealthInfoFormState) {
-      emit(currentState.copyWith(height: event.height, currentStep: 3));
+      emit(currentState.copyWith(height: event.height));
     }
   }
 
   void _onUpdateWeight(UpdateWeight event, Emitter<HealthInfoState> emit) {
     final currentState = state;
     if (currentState is HealthInfoFormState) {
-      emit(currentState.copyWith(weight: event.weight, currentStep: 4));
+      emit(currentState.copyWith(weight: event.weight));
     }
   }
 
@@ -77,6 +79,24 @@ class HealthInfoBloc extends Bloc<HealthInfoEvent, HealthInfoState> {
         emit(HealthInfoSuccess());
       } catch (e) {
         emit(HealthInfoError(e.toString()));
+      }
+    }
+  }
+
+  void _onNextStep(NextStep event, Emitter<HealthInfoState> emit) async {
+    if (state is HealthInfoFormState) {
+      final currentState = state as HealthInfoFormState;
+      if (currentState.currentStep < 4) {
+        emit(currentState.copyWith(currentStep: currentState.currentStep + 1));
+      }
+    }
+  }
+
+  void _onPreviousStep(PreviousStep event, Emitter<HealthInfoState> emit) {
+    if (state is HealthInfoFormState) {
+      final currentState = state as HealthInfoFormState;
+      if (currentState.currentStep > 0) {
+        emit(currentState.copyWith(currentStep: currentState.currentStep - 1));
       }
     }
   }
