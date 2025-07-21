@@ -4,6 +4,7 @@ class AppColors {
   // Blue
   static const Color bLight = Color(0xFFe8f4fc);
   static const Color bLightHover = Color(0xFFdceefb);
+  static const Color bLightNotActive = Color(0xFF9DC4E0);
   static const Color bLightActive = Color(0xFFb6dbf6);
   static const Color bLightActive2 = Color(0xFF53B4FE);
   static const Color bNormal = Color(0xFF148ce2);
@@ -15,6 +16,7 @@ class AppColors {
   static const Color bDarker = Color(0xFF07314f);
   static const Color bDarkerLogo = Color(0xFF112947);
   //Black
+  static const Color moreLighter = Color(0xffb6b6b6);
   static const Color lighter = Color(0xFF8c8c8c);
   static const Color lightHover = Color(0xFF757575);
   static const Color lightActive = Color(0xFF595959);

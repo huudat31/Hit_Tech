@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
 
-class TrainingLevelSelectionWidget extends StatefulWidget {
+class TrainingTypeSelectionWidget extends StatefulWidget {
   @override
-  _TrainingLevelSelectionState createState() => _TrainingLevelSelectionState();
+  _TrainingTypeSelectionState createState() => _TrainingTypeSelectionState();
 }
 
-class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
+class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
   int? selectedIndex;
 
-  final List<String> levels = ["Mới bắt đầu", "Cơ bản", "Nâng cao"];
-  final List<String> levelDetails = [
-    "Tập nhẹ, làm quen với động tác cơ bản",
-    "Đã có nền tảng, muốn nâng cao hiệu quả luyện tập",
-    "Tập cường độ cao, hướng tới mục tiêu rõ ràng",
-  ];
+  final List<String> types = ["Yoga", "Calisthenic", "Gym", "Cardio"];
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +45,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                         ),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            final progress = 2 / 7;
+                            final progress = 4 / 7;
                             return Stack(
                               children: [
                                 Container(
@@ -91,7 +86,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                     const SizedBox(width: 20.0),
                     Expanded(
                       child: Text(
-                        'Mức độ kinh nghiệm\ncủa bạn là gì?',
+                        'Thể loại mà bạn ưa thích\nlà gì?',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -108,7 +103,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 150),
-                  itemCount: levels.length,
+                  itemCount: types.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => setState(() {
@@ -149,40 +144,45 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                             Image.asset(
                               index == 0
                                   ? (selectedIndex == 0
-                                        ? TrainingAssets.beginnerSelected
-                                        : TrainingAssets.beginner)
+                                        ? TrainingAssets.yoga
+                                        : TrainingAssets.yoga)
                                   : index == 1
                                   ? (selectedIndex == 1
-                                        ? TrainingAssets.intermediateSelected
-                                        : TrainingAssets.intermediate)
-                                  : (selectedIndex == 2
-                                        ? TrainingAssets.advancedSelected
-                                        : TrainingAssets.advanced),
+                                        ? TrainingAssets.calisthenicSelected
+                                        : TrainingAssets.calisthenic)
+                                  : index == 2
+                                  ? (selectedIndex == 2
+                                        ? TrainingAssets.gym
+                                        : TrainingAssets.gym)
+                                  : (selectedIndex == 3
+                                        ? TrainingAssets.cardio
+                                        : TrainingAssets.cardio),
                             ),
                             SizedBox(width: 20),
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    levels[index],
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: AppColors.dark,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    levelDetails[index],
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.lightHover,
-                                    ),
-                                  ),
-                                ],
+                              child: Text(
+                                types[index],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: selectedIndex == index
+                                      ? AppColors.bNormal
+                                      : AppColors.darkActive,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                selectedIndex == index
+                                    ? TrainingAssets.durationSelected
+                                    : TrainingAssets.durationNonSelect,
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(width: 10),
                           ],
                         ),
                       ),
