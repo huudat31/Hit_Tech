@@ -49,12 +49,18 @@ class HealthInfoFormState extends HealthInfoState {
   bool get canProceedFromAge => age != null;
   bool get canProceedFromHeight => height != null;
   bool get canProceedFromWeight => weight != null;
-  bool get canSubmit =>
-      gender != null &&
-      age != null &&
-      height != null &&
-      weight != null &&
-      activityLevel != null;
+  bool get canSubmit {
+    return gender != null &&
+        gender!.isNotEmpty &&
+        age != null &&
+        age! > 0 &&
+        height != null &&
+        height! > 0 &&
+        weight != null &&
+        weight! > 0 &&
+        activityLevel != null &&
+        activityLevel!.isNotEmpty;
+  }
 
   @override
   List<Object?> get props => [

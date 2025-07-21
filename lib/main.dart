@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
             // ),
             BlocProvider<HealthInfoBloc>(
               create: (context) => HealthInfoBloc(HealthInforRepo(Dio())),
+              child: HealthInfoPage(),
             ),
           ],
           child: MaterialApp(
@@ -64,12 +65,29 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Roboto',
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
             ),
-            home: TrainingEquipmentSelectionWidget(),
+            home: HealthInfoPage(),
             routes: {
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegisterScreen(),
               '/home': (context) => HomeScreen(),
               '/forgot-password': (context) => const ForgotPasswordScreen(),
+              '/splash': (context) => const SplashScreen(),
+              '/homeRoot': (context) => HomeRoot(),
+              '/trainingGoalSelection': (context) =>
+                  TrainingGoalSelectionWidget(),
+              '/trainingTypeSelection': (context) =>
+                  TrainingTypeSelectionWidget(),
+              '/trainingDurationSelection': (context) =>
+                  TrainingDurationSelectionWidget(),
+              '/trainingFrequencySelection': (context) =>
+                  TrainingFrequencySelectionWidget(),
+              '/trainingEquipmentSelection': (context) =>
+                  TrainingEquipmentSelectionWidget(),
+              '/trainingLocationSelection': (context) =>
+                  TrainingLocationSelectionWidget(),
+              '/trainingLevelSelection': (context) =>
+                  TrainingLevelSelectionWidget(),
+              '/trainingExercise': (context) => TrainingExercise(),
             },
           ),
         );

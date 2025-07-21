@@ -34,4 +34,14 @@ class TrainingAssets {
   // health information
   static const String imageGenderBoy = 'assets/images/health_infor/boy.png';
   static const String imageGenderGirl = 'assets/images/health_infor/girl.png';
+  static const String imageActivityLevelSedentary =
+      'assets/images/health_infor/sedentary.png';
+  static const String imageActivityLevelLight =
+      'assets/images/health_infor/lightly_active.png';
+  static const String imageActivityLevelModerate =
+      'assets/images/health_infor/moderately_active.png';
+  static const String imageActivityLevelActive =
+      'assets/images/health_infor/very_active.png';
+  static const String imageActivityLevelSuperActive =
+      'assets/images/health_infor/super_active.png';
 }
