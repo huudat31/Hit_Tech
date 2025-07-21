@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_state.dart';
 import 'package:hit_tech/features/health_infor/view/widgets/activity_level_selection_widget.dart';
@@ -12,7 +13,7 @@ class HealthInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF0F8FF),
+      backgroundColor: AppColors.bgHealthInfor,
       body: SafeArea(
         child: BlocConsumer<HealthInfoBloc, HealthInfoState>(
           listener: (context, state) {
@@ -47,9 +48,9 @@ class HealthInfoPage extends StatelessWidget {
                       Expanded(
                         child: LinearProgressIndicator(
                           value: (formState.currentStep + 1) / 5,
-                          backgroundColor: Color(0xffEDF3F8),
+                          backgroundColor: AppColors.iconHealthInfor,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.blue,
+                            AppColors.bNormal,
                           ),
                         ),
                       ),

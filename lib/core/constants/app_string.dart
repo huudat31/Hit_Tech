@@ -40,4 +40,12 @@ class AppStrings {
   static const String forgotPassword = 'Quên mật khẩu?';
   static const String dontHaveAccount = 'Chưa có tài khoản?';
   static const String alreadyHaveAccount = 'Đã có tài khoản?';
+
+  // Health Information
+  static const String genderSelectionTitle = 'Giới Tính';
+  static const String genderSelectionDescription =
+      'Chọn giới tính của bạn để chúng tôi cá\nnhân hóa kế hoạch phù hợp nhất.';
+  static const String genderSelectionBoy = 'Nam';
+  static const String genderSelectionGirl = 'Nữ';
+  static const String genderSelectionContinue = 'Tiếp tục';
 }
