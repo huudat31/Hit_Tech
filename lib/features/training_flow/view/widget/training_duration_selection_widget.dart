@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
 
-class TrainingLevelSelectionWidget extends StatefulWidget {
+class TrainingDurationSelectionWidget extends StatefulWidget {
   @override
-  _TrainingLevelSelectionState createState() => _TrainingLevelSelectionState();
+  _TrainingDurationSelectionState createState() =>
+      _TrainingDurationSelectionState();
 }
 
-class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
+class _TrainingDurationSelectionState
+    extends State<TrainingDurationSelectionWidget> {
   int? selectedIndex;
 
-  final List<String> levels = ["Mới bắt đầu", "Cơ bản", "Nâng cao"];
-  final List<String> levelDetails = [
-    "Tập nhẹ, làm quen với động tác cơ bản",
-    "Đã có nền tảng, muốn nâng cao hiệu quả luyện tập",
-    "Tập cường độ cao, hướng tới mục tiêu rõ ràng",
+  final List<String> durations = [
+    "15 - 30 phút",
+    "30 - 45 phút",
+    "45 - 60 phút",
+    "Trên 60 phút",
   ];
 
   @override
@@ -50,7 +52,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                         ),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            final progress = 2 / 7;
+                            final progress = 3 / 7;
                             return Stack(
                               children: [
                                 Container(
@@ -91,7 +93,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                     const SizedBox(width: 20.0),
                     Expanded(
                       child: Text(
-                        'Mức độ kinh nghiệm\ncủa bạn là gì?',
+                        'Thời gian luyện tập mà bạn\ndành ra trong một ngày?',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -108,7 +110,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 150),
-                  itemCount: levels.length,
+                  itemCount: durations.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => setState(() {
@@ -146,43 +148,32 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                         child: Row(
                           children: [
                             SizedBox(width: 20),
-                            Image.asset(
-                              index == 0
-                                  ? (selectedIndex == 0
-                                        ? TrainingAssets.beginnerSelected
-                                        : TrainingAssets.beginner)
-                                  : index == 1
-                                  ? (selectedIndex == 1
-                                        ? TrainingAssets.intermediateSelected
-                                        : TrainingAssets.intermediate)
-                                  : (selectedIndex == 2
-                                        ? TrainingAssets.advancedSelected
-                                        : TrainingAssets.advanced),
-                            ),
+                            Image.asset(TrainingAssets.duration),
                             SizedBox(width: 20),
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    levels[index],
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: AppColors.dark,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    levelDetails[index],
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.lightHover,
-                                    ),
-                                  ),
-                                ],
+                              child: Text(
+                                durations[index],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: (selectedIndex == index
+                                      ? AppColors.bNormal
+                                      : AppColors.darkActive),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                selectedIndex == index
+                                    ? TrainingAssets.durationSelected
+                                    : TrainingAssets.durationNonSelect,
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(width: 10),
                           ],
                         ),
                       ),

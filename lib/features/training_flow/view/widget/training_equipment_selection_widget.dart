@@ -4,19 +4,24 @@ import 'package:hit_tech/core/constants/app_dimension.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
 
-class TrainingLevelSelectionWidget extends StatefulWidget {
+class TrainingEquipmentSelectionWidget extends StatefulWidget {
   @override
-  _TrainingLevelSelectionState createState() => _TrainingLevelSelectionState();
+  _TrainingEquipmentSelectionState createState() =>
+      _TrainingEquipmentSelectionState();
 }
 
-class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
+class _TrainingEquipmentSelectionState
+    extends State<TrainingEquipmentSelectionWidget> {
   int? selectedIndex;
 
-  final List<String> levels = ["Mới bắt đầu", "Cơ bản", "Nâng cao"];
-  final List<String> levelDetails = [
-    "Tập nhẹ, làm quen với động tác cơ bản",
-    "Đã có nền tảng, muốn nâng cao hiệu quả luyện tập",
-    "Tập cường độ cao, hướng tới mục tiêu rõ ràng",
+  final List<String> equipments = [
+    "Không có",
+    "Thảm yoga",
+    "Máy chạy bộ",
+    "Dây kháng lực",
+    "Đầy đủ thiết bị Gym",
+    "Xà đơn",
+    "Xà kép",
   ];
 
   @override
@@ -50,7 +55,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                         ),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            final progress = 2 / 7;
+                            final progress = 7 / 7;
                             return Stack(
                               children: [
                                 Container(
@@ -91,7 +96,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                     const SizedBox(width: 20.0),
                     Expanded(
                       child: Text(
-                        'Mức độ kinh nghiệm\ncủa bạn là gì?',
+                        'Thiết bị luyện tập\nmà bạn có?',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -107,8 +112,8 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
               // Item list
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 150),
-                  itemCount: levels.length,
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 200),
+                  itemCount: equipments.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => setState(() {
@@ -149,40 +154,45 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                             Image.asset(
                               index == 0
                                   ? (selectedIndex == 0
-                                        ? TrainingAssets.beginnerSelected
-                                        : TrainingAssets.beginner)
+                                  ? 'assets/images/type/yoga.png'
+                                  : 'assets/images/type/yoga.png')
                                   : index == 1
                                   ? (selectedIndex == 1
-                                        ? TrainingAssets.intermediateSelected
-                                        : TrainingAssets.intermediate)
-                                  : (selectedIndex == 2
-                                        ? TrainingAssets.advancedSelected
-                                        : TrainingAssets.advanced),
+                                  ? 'assets/images/type/calisthenic_selected.png'
+                                  : 'assets/images/type/calisthenic.png')
+                                  : index == 2
+                                  ? (selectedIndex == 2
+                                  ? 'assets/images/type/gym.png'
+                                  : 'assets/images/type/gym.png')
+                                  : (selectedIndex == 3
+                                  ? 'assets/images/type/cardio.png'
+                                  : 'assets/images/type/cardio.png'),
                             ),
                             SizedBox(width: 20),
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    levels[index],
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: AppColors.dark,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    levelDetails[index],
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: AppColors.lightHover,
-                                    ),
-                                  ),
-                                ],
+                              child: Text(
+                                equipments[index],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: selectedIndex == index
+                                      ? AppColors.bNormal
+                                      : AppColors.darkActive,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.asset(
+                                selectedIndex == index
+                                    ? TrainingAssets.durationSelected
+                                    : TrainingAssets.durationNonSelect,
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(width: 10),
                           ],
                         ),
                       ),
@@ -202,7 +212,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [AppColors.wWhite, Colors.transparent],
-                    stops: [0.0, 0.0],
+                    stops: [0.0, 0.2],
                   ),
                 ),
               ),

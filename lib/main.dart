@@ -12,6 +12,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hit_tech/features/health_infor/view/health_info_page.dart';
 import 'package:hit_tech/features/health_infor/view/widgets/gender_selection_widget.dart';
 import 'package:hit_tech/features/home/view/home_screen.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_duration_selection_widget.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_equipment_selection_widget.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_frequency_selection_widget.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_location_selection_widget.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_type_selection_widget.dart';
 
 import 'features/health_infor/cubit/blocs/health_bloc.dart';
 import 'features/health_infor/cubit/data/repository/health_infor_repo.dart';
@@ -59,7 +64,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Roboto',
               textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
             ),
-            home: HealthInfoPage(),
+            home: TrainingEquipmentSelectionWidget(),
             routes: {
               '/login': (context) => const LoginScreen(),
               '/register': (context) => const RegisterScreen(),

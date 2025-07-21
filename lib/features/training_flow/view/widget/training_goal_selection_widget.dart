@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
 
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
 
 class TrainingGoalSelectionWidget extends StatefulWidget {
@@ -25,23 +26,56 @@ class _TrainingGoalSelectionState extends State<TrainingGoalSelectionWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        backgroundColor: AppColors.bLight,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            size: 16,
-            color: AppColors.bDarkHover,
-          ),
-          onPressed: () {},
-        ),
-      ),
       backgroundColor: AppColors.bLight,
       body: Stack(
         children: [
           Column(
             children: [
+              Container(
+                padding: EdgeInsets.only(top: 50, right: 70),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: AppColors.bNormal,
+                      ),
+                    ),
+                    SizedBox(width: 35),
+                    Expanded(
+                      child: Container(
+                        height: 7,
+                        decoration: BoxDecoration(
+                          color: AppColors.moreLighter,
+                          borderRadius: BorderRadius.circular(
+                            AppDimensions.borderRadius,
+                          ),
+                        ),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            final progress = 1 / 7;
+                            return Stack(
+                              children: [
+                                Container(
+                                  width: constraints.maxWidth * progress,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.bNormal,
+                                    borderRadius: BorderRadius.circular(
+                                      AppDimensions.borderRadius,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30),
               // Header
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -118,16 +152,19 @@ class _TrainingGoalSelectionState extends State<TrainingGoalSelectionWidget> {
                             Expanded(
                               child: Text(
                                 goals[index],
-                                style: const TextStyle(fontSize: 20, color: AppColors.darkActive),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: AppColors.darkActive,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 12),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
-                                'assets/icons/facebook_icon.png',
-                                width: 60,
-                                height: 60,
+                                TrainingAssets.goalDemo,
+                                width: 90,
+                                height: 90,
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -166,7 +203,7 @@ class _TrainingGoalSelectionState extends State<TrainingGoalSelectionWidget> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: selectedIndex != null
                     ? AppColors.bNormal
-                    : AppColors.bLightActive,
+                    : AppColors.bLightNotActive,
                 minimumSize: const Size(double.infinity, 60),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),

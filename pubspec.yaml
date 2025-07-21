@@ -70,10 +70,10 @@ flutter:
     - assets/icons/logo_corevo.png
     - assets/icons/google_icon.png
     - assets/icons/facebook_icon.png
-    - assets/images/level/level1.png
-    - assets/images/level/level2.png
-    - assets/images/level/level3.png
-    - assets/images/level/levelSelected2.png
+    - assets/images/level/
+    - assets/images/goal/
+    - assets/images/duration/
+    - assets/images/type/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
