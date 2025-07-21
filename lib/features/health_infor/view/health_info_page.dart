@@ -9,11 +9,13 @@ import 'package:hit_tech/features/health_infor/view/widgets/gender_selection_wid
 import 'package:hit_tech/features/health_infor/view/widgets/height_selection_widget.dart';
 import 'package:hit_tech/features/health_infor/view/widgets/weight_selection_widget.dart';
 
+import '../../../core/constants/app_dimension.dart';
+
 class HealthInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgHealthInfor,
+      backgroundColor: AppColors.bLight,
       body: SafeArea(
         child: BlocConsumer<HealthInfoBloc, HealthInfoState>(
           listener: (context, state) {
@@ -38,19 +40,43 @@ class HealthInfoPage extends StatelessWidget {
               children: [
                 // Progress Bar
                 Container(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(top: 20, right: 70),
                   child: Row(
                     children: [
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.arrow_back),
+                        icon: Icon(
+                          Icons.arrow_back_ios_new,
+                          color: AppColors.bNormal,
+                        ),
                       ),
+                      SizedBox(width: 35),
                       Expanded(
-                        child: LinearProgressIndicator(
-                          value: (formState.currentStep + 1) / 5,
-                          backgroundColor: AppColors.iconHealthInfor,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.bNormal,
+                        child: Container(
+                          height: 7,
+                          decoration: BoxDecoration(
+                            color: AppColors.moreLighter,
+                            borderRadius: BorderRadius.circular(
+                              AppDimensions.borderRadius,
+                            ),
+                          ),
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              final progress = (formState.currentStep + 1) / 5;
+                              return Stack(
+                                children: [
+                                  Container(
+                                    width: constraints.maxWidth * progress,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.bNormal,
+                                      borderRadius: BorderRadius.circular(
+                                        AppDimensions.borderRadius,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ),

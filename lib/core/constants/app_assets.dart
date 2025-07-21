@@ -1,4 +1,9 @@
 class TrainingAssets {
+  // Base
+  static const String facebookIcon = 'assets/icons/facebook_icon.png';
+  static const String googleIcon = 'assets/icons/google_icon.png';
+  static const String logoCorevo = 'assets/icons/logo_corevo.png';
+
   // Goal
   static const String goalDemo = 'assets/images/goal/goal-demo.png';
 
@@ -34,6 +39,8 @@ class TrainingAssets {
   // health information
   static const String imageGenderBoy = 'assets/images/health_infor/boy.png';
   static const String imageGenderGirl = 'assets/images/health_infor/girl.png';
+  
+  // Activity
   static const String imageActivityLevelSedentary =
       'assets/images/health_infor/sedentary.png';
   static const String imageActivityLevelLight =
@@ -44,4 +51,21 @@ class TrainingAssets {
       'assets/images/health_infor/very_active.png';
   static const String imageActivityLevelSuperActive =
       'assets/images/health_infor/super_active.png';
+
+  // home root
+  static const String homeIcon = 'assets/icons/home_root/home_icon.png';
+  static const String libraryIcon = 'assets/icons/home_root/library_icon.png';
+  static const String chartIcon = 'assets/icons/home_root/chart_icon.png';
+  static const String notificationIcon = 'assets/icons/home_root/notification_icon.png';
+  static const String profileIcon = 'assets/icons/home_root/profile_icon.png';
+
+  // Setting
+  static const String personalInformationIcon = 'assets/icons/setting/personal_information_icon.png';
+  static const String healthInformationIcon = 'assets/icons/setting/health_information_icon.png';
+  static const String themeIcon = 'assets/icons/setting/theme_icon.png';
+  static const String noticeIcon = 'assets/icons/setting/notice_icon.png';
+  static const String trashIcon = 'assets/icons/setting/trash_icon.png';
+  static const String commentIcon = 'assets/icons/setting/comment_icon.png';
+  static const String policyIcon = 'assets/icons/setting/policy_icon.png';
+  static const String noticeTraining = 'assets/icons/setting/notice_training/notice_training.png';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_event.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_state.dart';
@@ -14,7 +15,7 @@ class WeightSelectionWidget extends StatelessWidget {
             : HealthInfoFormState();
 
         return Scaffold(
-          backgroundColor: Color(0xFFF5F5F5),
+          backgroundColor: AppColors.bLight,
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.all(20),
@@ -64,7 +65,7 @@ class WeightSelectionWidget extends StatelessWidget {
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.bLight,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(

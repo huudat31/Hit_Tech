@@ -12,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hit_tech/features/health_infor/view/health_info_page.dart';
 import 'package:hit_tech/features/health_infor/view/widgets/gender_selection_widget.dart';
 import 'package:hit_tech/features/home/view/home_screen.dart';
+import 'package:hit_tech/features/main_root/setting/view/widgets/notice_training_creation_widget.dart';
+import 'package:hit_tech/features/main_root/setting/view/widgets/notice_training_selection_widget.dart';
 import 'package:hit_tech/features/training_flow/view/widget/training_duration_selection_widget.dart';
 import 'package:hit_tech/features/training_flow/view/widget/training_equipment_selection_widget.dart';
 import 'package:hit_tech/features/training_flow/view/widget/training_frequency_selection_widget.dart';

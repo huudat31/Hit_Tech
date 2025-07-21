@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hit_tech/core/constants/app_color.dart';
+import 'package:hit_tech/core/constants/app_dimension.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_event.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_state.dart';
@@ -56,8 +57,8 @@ class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                 decoration: BoxDecoration(
-                  color: Color(0xFFE3F2FD),
-                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.bLightNotActive2,
+                  borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
                 ),
                 child: Column(
                   children: [
@@ -110,7 +111,7 @@ class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: isSelected
-                                    ? Color(0xFF1070B5)
+                                    ? AppColors.bNormal
                                     : Color(0xFFffff),
                                 width: isSelected ? 2 : 1,
                               ),
@@ -158,9 +159,9 @@ class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF2196F3),
+                    backgroundColor: AppColors.bNormal,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
+                      borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLarge),
                     ),
                     elevation: 2,
                   ),

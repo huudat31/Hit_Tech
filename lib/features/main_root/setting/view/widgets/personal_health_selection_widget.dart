@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../core/constants/app_assets.dart';
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_dimension.dart';
 
@@ -16,9 +17,28 @@ class PersonalHealthSelectionWidget extends StatelessWidget {
             // Header + Avatar
             Column(
               children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage('assets/icons/facebook_icon.png'),
+                Stack(
+                  children: [
+                    Positioned(
+                      left: 20,
+                      top: 0,
+                      bottom: 70,
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: AppColors.bNormal,
+                      ),
+                    ),
+
+                    Align(
+                      alignment: Alignment.center,
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage(
+                          TrainingAssets.facebookIcon,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
                 const Text(
