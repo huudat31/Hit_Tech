@@ -116,7 +116,7 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(12),
-                        height: 100,
+                        height: 80,
                         decoration: BoxDecoration(
                           color: selectedIndex == index
                               ? AppColors.bLightHover
@@ -144,7 +144,7 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                             Image.asset(
                               index == 0
                                   ? (selectedIndex == 0
-                                        ? TrainingAssets.yoga
+                                        ? TrainingAssets.yogaSelected
                                         : TrainingAssets.yoga)
                                   : index == 1
                                   ? (selectedIndex == 1
@@ -152,10 +152,10 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                                         : TrainingAssets.calisthenic)
                                   : index == 2
                                   ? (selectedIndex == 2
-                                        ? TrainingAssets.gym
+                                        ? TrainingAssets.gymSelected
                                         : TrainingAssets.gym)
                                   : (selectedIndex == 3
-                                        ? TrainingAssets.cardio
+                                        ? TrainingAssets.cardioSelected
                                         : TrainingAssets.cardio),
                             ),
                             SizedBox(width: 20),
@@ -175,8 +175,8 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
                                 selectedIndex == index
-                                    ? TrainingAssets.durationSelected
-                                    : TrainingAssets.durationNonSelect,
+                                    ? TrainingAssets.tickActive
+                                    : TrainingAssets.tickNonActive,
                                 width: 20,
                                 height: 20,
                                 fit: BoxFit.cover,
@@ -224,7 +224,7 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : null,
+              onPressed: selectedIndex != null ? () {} : (){},
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(

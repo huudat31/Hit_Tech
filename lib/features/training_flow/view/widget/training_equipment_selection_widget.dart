@@ -12,7 +12,7 @@ class TrainingEquipmentSelectionWidget extends StatefulWidget {
 
 class _TrainingEquipmentSelectionState
     extends State<TrainingEquipmentSelectionWidget> {
-  int? selectedIndex;
+  List<int> selectedIndexes = [];
 
   final List<String> equipments = [
     "Không có",
@@ -115,30 +115,32 @@ class _TrainingEquipmentSelectionState
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 200),
                   itemCount: equipments.length,
                   itemBuilder: (context, index) {
+                    bool isSelected = selectedIndexes.contains(index);
+
                     return GestureDetector(
                       onTap: () => setState(() {
-                        if (selectedIndex == index) {
-                          selectedIndex = null;
+                        if (isSelected) {
+                          selectedIndexes.remove(index);
                         } else {
-                          selectedIndex = index;
+                          selectedIndexes.add(index);
                         }
                       }),
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(12),
-                        height: 100,
+                        height: 80,
                         decoration: BoxDecoration(
-                          color: selectedIndex == index
+                          color: selectedIndexes.contains(index)
                               ? AppColors.bLightHover
                               : AppColors.wWhite,
                           borderRadius: BorderRadius.circular(
                             AppDimensions.borderRadiusSmall,
                           ),
                           border: Border.all(
-                            color: selectedIndex == index
+                            color: selectedIndexes.contains(index)
                                 ? AppColors.bNormal
                                 : Colors.grey.shade300,
-                            width: selectedIndex == index ? 2 : 1,
+                            width: selectedIndexes.contains(index) ? 2 : 1,
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -151,30 +153,12 @@ class _TrainingEquipmentSelectionState
                         child: Row(
                           children: [
                             SizedBox(width: 20),
-                            Image.asset(
-                              index == 0
-                                  ? (selectedIndex == 0
-                                  ? 'assets/images/type/yoga.png'
-                                  : 'assets/images/type/yoga.png')
-                                  : index == 1
-                                  ? (selectedIndex == 1
-                                  ? 'assets/images/type/calisthenic_selected.png'
-                                  : 'assets/images/type/calisthenic.png')
-                                  : index == 2
-                                  ? (selectedIndex == 2
-                                  ? 'assets/images/type/gym.png'
-                                  : 'assets/images/type/gym.png')
-                                  : (selectedIndex == 3
-                                  ? 'assets/images/type/cardio.png'
-                                  : 'assets/images/type/cardio.png'),
-                            ),
-                            SizedBox(width: 20),
                             Expanded(
                               child: Text(
                                 equipments[index],
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: selectedIndex == index
+                                  color: selectedIndexes.contains(index)
                                       ? AppColors.bNormal
                                       : AppColors.darkActive,
                                   fontWeight: FontWeight.w700,
@@ -184,9 +168,9 @@ class _TrainingEquipmentSelectionState
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
-                                selectedIndex == index
-                                    ? TrainingAssets.durationSelected
-                                    : TrainingAssets.durationNonSelect,
+                                selectedIndexes.contains(index)
+                                    ? TrainingAssets.tickActive
+                                    : TrainingAssets.tickNonActive,
                                 width: 20,
                                 height: 20,
                                 fit: BoxFit.cover,
@@ -226,22 +210,18 @@ class _TrainingEquipmentSelectionState
             bottom: 70,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: selectedIndex != null
-                    ? AppColors.bNormal
-                    : AppColors.bLightNotActive,
+                backgroundColor: AppColors.bNormal,
                 minimumSize: const Size(double.infinity, 60),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : null,
+              onPressed: selectedIndexes.isNotEmpty ? () {} : null,
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(
                   fontSize: 20,
-                  color: selectedIndex != null
-                      ? AppColors.wWhite
-                      : AppColors.wDark,
+                  color: AppColors.wWhite
                 ),
               ),
             ),

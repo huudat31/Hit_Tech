@@ -148,7 +148,23 @@ class _TrainingDurationSelectionState
                         child: Row(
                           children: [
                             SizedBox(width: 20),
-                            Image.asset(TrainingAssets.duration),
+                            Image.asset(
+                              index == 0
+                                  ? (selectedIndex == 0
+                                        ? TrainingAssets.durationSelected1
+                                        : TrainingAssets.duration1)
+                                  : index == 1
+                                  ? (selectedIndex == 1
+                                        ? TrainingAssets.durationSelected2
+                                        : TrainingAssets.duration2)
+                                  : index == 2
+                                  ? (selectedIndex == 2
+                                        ? TrainingAssets.durationSelected3
+                                        : TrainingAssets.duration3)
+                                  : (selectedIndex == 3
+                                        ? TrainingAssets.durationSelected4
+                                        : TrainingAssets.duration4),
+                            ),
                             SizedBox(width: 20),
                             Expanded(
                               child: Text(
@@ -158,7 +174,7 @@ class _TrainingDurationSelectionState
                                   color: (selectedIndex == index
                                       ? AppColors.bNormal
                                       : AppColors.darkActive),
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
@@ -166,8 +182,8 @@ class _TrainingDurationSelectionState
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
                                 selectedIndex == index
-                                    ? TrainingAssets.durationSelected
-                                    : TrainingAssets.durationNonSelect,
+                                    ? TrainingAssets.tickActive
+                                    : TrainingAssets.tickNonActive,
                                 width: 20,
                                 height: 20,
                                 fit: BoxFit.cover,
@@ -215,7 +231,7 @@ class _TrainingDurationSelectionState
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : null,
+              onPressed: selectedIndex != null ? () {} : (){},
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(

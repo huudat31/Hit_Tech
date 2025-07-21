@@ -12,15 +12,22 @@ class TrainingFrequencySelectionWidget extends StatefulWidget {
 
 class _TrainingFrequencySelectionState
     extends State<TrainingFrequencySelectionWidget> {
-  int? selectedIndex;
+  int selectedIndex = 0;
 
-  final List<String> frequencies = [
-    "Trên 1 ngày",
-    "Trên 2 ngày",
-    "Trên 3 ngày",
-    "Trên 4 ngày",
-    "Trên 5 ngày",
-    "Cả tuần",
+  final List<String> soBuoi = ['1', '2', '3', '4', '5+'];
+  final List<String> moTa = [
+    '"Tôi rất bận rộn, chỉ muốn tập 1 lần mỗi tuần cho đỡ cứng người."',
+    '“Tôi muốn bắt đầu nhẹ nhàng, có thời gian thư giãn và chăm sóc bản thân.”',
+    '“Tôi đang cố gắng duy trì thói quen tập luyện đều đặn mỗi tuần.”',
+    '“Tôi muốn nâng cao thể lực và cảm thấy cơ thể khỏe mạnh hơn từng ngày.”',
+    '“Vận động là một phần không thể thiếu trong cuộc sống của tôi.”',
+  ];
+  final List<String> hinhAnhLich = [
+    TrainingAssets.frequency1,
+    TrainingAssets.frequency2,
+    TrainingAssets.frequency3,
+    TrainingAssets.frequency4,
+    TrainingAssets.frequency5,
   ];
 
   @override
@@ -106,97 +113,72 @@ class _TrainingFrequencySelectionState
                   ],
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 70),
 
-              // Item list
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 200),
-                  itemCount: frequencies.length,
-                  itemBuilder: (context, index) {
+              Image.asset(hinhAnhLich[selectedIndex], width: 120, height: 120),
+              const SizedBox(height: 25),
+
+              Text(
+                '${soBuoi[selectedIndex]} buổi / tuần',
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.dark,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Text(
+                  moTa[selectedIndex],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: AppColors.dark),
+                ),
+              ),
+              const SizedBox(height: 62),
+              // Progress Dots
+              Container(
+                height: 30,
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[100],
+                  borderRadius: BorderRadius.circular(
+                    AppDimensions.borderRadiusLarge,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(hinhAnhLich.length, (index) {
+                    bool isSelected = index == selectedIndex;
                     return GestureDetector(
-                      onTap: () => setState(() {
-                        if (selectedIndex == index) {
-                          selectedIndex = null;
-                        } else {
+                      onTap: () {
+                        setState(() {
                           selectedIndex = index;
-                        }
-                      }),
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        padding: const EdgeInsets.all(12),
-                        height: 100,
+                        });
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        width: isSelected ? 24 : 16,
+                        height: isSelected ? 24 : 16,
                         decoration: BoxDecoration(
-                          color: selectedIndex == index
-                              ? AppColors.bLightHover
-                              : AppColors.wWhite,
-                          borderRadius: BorderRadius.circular(
-                            AppDimensions.borderRadiusSmall,
-                          ),
-                          border: Border.all(
-                            color: selectedIndex == index
-                                ? AppColors.bNormal
-                                : Colors.grey.shade300,
-                            width: selectedIndex == index ? 2 : 1,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 6,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 20),
-                            Image.asset(
-                              index == 0
-                                  ? (selectedIndex == 0
-                                        ? 'assets/images/type/yoga.png'
-                                        : 'assets/images/type/yoga.png')
-                                  : index == 1
-                                  ? (selectedIndex == 1
-                                        ? 'assets/images/type/calisthenic_selected.png'
-                                        : 'assets/images/type/calisthenic.png')
-                                  : index == 2
-                                  ? (selectedIndex == 2
-                                        ? 'assets/images/type/gym.png'
-                                        : 'assets/images/type/gym.png')
-                                  : (selectedIndex == 3
-                                        ? 'assets/images/type/cardio.png'
-                                        : 'assets/images/type/cardio.png'),
-                            ),
-                            SizedBox(width: 20),
-                            Expanded(
-                              child: Text(
-                                frequencies[index],
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: selectedIndex == index
-                                      ? AppColors.bNormal
-                                      : AppColors.darkActive,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                selectedIndex == index
-                                    ? TrainingAssets.durationSelected
-                                    : TrainingAssets.durationNonSelect,
-                                width: 20,
-                                height: 20,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                          ],
+                          color: AppColors.bNormal,
+                          shape: BoxShape.circle,
+                          border: isSelected
+                              ? Border.all(color: Colors.white, width: 5)
+                              : null,
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 4,
+                                  ),
+                                ]
+                              : [],
                         ),
                       ),
                     );
-                  },
+                  }),
                 ),
               ),
             ],
@@ -211,7 +193,7 @@ class _TrainingFrequencySelectionState
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [AppColors.wWhite, Colors.transparent],
-                    stops: [0.0, 0.2],
+                    stops: [0.0, 0.0],
                   ),
                 ),
               ),
@@ -233,7 +215,7 @@ class _TrainingFrequencySelectionState
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : null,
+              onPressed: selectedIndex != null ? () {} : () {},
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(
