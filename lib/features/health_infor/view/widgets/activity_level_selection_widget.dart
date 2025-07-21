@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hit_tech/core/constants/app_assets.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/core/constants/app_string.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_event.dart';
@@ -132,17 +133,18 @@ class _ActivityLevelSelectionWidgetState
         final currentActivity = activityLevels[currentIndex];
 
         return Scaffold(
-          backgroundColor: const Color(0xFFF8F9FA),
+          backgroundColor: AppColors.bLight,
 
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               children: [
+                SizedBox(height: 30),
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                   decoration: BoxDecoration(
-                    color: Color(0xFFE3F2FD),
+                    color: AppColors.bLightNotActive2,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -364,7 +366,7 @@ class _ActivityLevelSelectionWidgetState
                               : const Text(
                                   'Tiếp tục',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   ),

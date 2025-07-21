@@ -26,7 +26,7 @@ class WeightSelectionWidget extends StatelessWidget {
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                     decoration: BoxDecoration(
-                      color: Color(0xFFE3F2FD),
+                      color: AppColors.bLightNotActive2,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(

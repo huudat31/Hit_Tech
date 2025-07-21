@@ -31,7 +31,7 @@ class GenderSelectionWidget extends StatelessWidget {
                   horizontal: AppDimensions.spaceML,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.bgGengerSelection,
+                  color: AppColors.bLightNotActive2,
                   borderRadius: BorderRadius.circular(AppDimensions.circularXS),
                 ),
                 child: Column(
