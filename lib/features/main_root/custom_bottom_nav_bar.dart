@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
 
 import '../../core/constants/app_color.dart';
@@ -29,11 +30,11 @@ class CustomBottomNavBar extends StatelessWidget {
 
   Widget _buildNavItem(int index) {
     final icons = [
-      Icons.home_outlined,
-      Icons.menu_book_outlined,
-      Icons.bar_chart,
-      Icons.notifications_none,
-      Icons.person_outline,
+      TrainingAssets.homeIcon,
+      TrainingAssets.libraryIcon,
+      TrainingAssets.chartIcon,
+      TrainingAssets.notificationIcon,
+      TrainingAssets.profileIcon,
     ];
 
     final labels = [
@@ -64,10 +65,11 @@ class CustomBottomNavBar extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(left: isSelected ? 0 : 8),
-              child: Icon(
+              child: Image.asset(
                 icons[index],
                 color: isSelected ? Colors.white : Colors.black,
-                size: 23,
+                width: 23,
+                height: 23,
               ),
             ),
             if (isSelected)

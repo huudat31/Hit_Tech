@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
 
@@ -24,7 +25,7 @@ class _UserProfileScreenState extends State<SettingPage> {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/icons/facebook_icon.png'),
+                  backgroundImage: AssetImage(TrainingAssets.facebookIcon),
                 ),
                 const SizedBox(height: 10),
                 const Text(
@@ -101,9 +102,9 @@ class _UserProfileScreenState extends State<SettingPage> {
   }
 
   // Build Inner tile
-  Widget _buildInnerTile(IconData icon, String title) {
+  Widget _buildInnerTile(String icon, String title) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.bDarkHover),
+      leading: Image.asset(icon, color: AppColors.bDarkHover),
       title: Text(title, style: TextStyle(fontSize: 14)),
       trailing: const Icon(
         Icons.arrow_forward_ios,
@@ -123,8 +124,14 @@ class _UserProfileScreenState extends State<SettingPage> {
       ),
       child: Column(
         children: [
-          _buildInnerTile(Icons.person_outline, 'Thông tin cá nhân'),
-          _buildInnerTile(Icons.favorite_border, 'Thông tin sức khỏe'),
+          _buildInnerTile(
+            TrainingAssets.personalInformationIcon,
+            'Thông tin cá nhân',
+          ),
+          _buildInnerTile(
+            TrainingAssets.healthInformationIcon,
+            'Thông tin sức khỏe',
+          ),
         ],
       ),
     );
@@ -139,9 +146,25 @@ class _UserProfileScreenState extends State<SettingPage> {
       ),
       child: Column(
         children: [
-          _buildInnerTile(Icons.nightlight_outlined, "Chế độ tối"),
-          _buildInnerTile(Icons.notifications_none, 'Nhắc nhở luyện tập'),
-          _buildInnerTile(Icons.delete_outline, 'Xóa dữ liệu người dùng'),
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 16, right: 5),
+            leading: Image.asset(TrainingAssets.themeIcon, color: AppColors.bDarkHover),
+            title: Text("Chế độ tối", style: TextStyle(fontSize: 14)),
+            trailing: Transform.scale(
+              scale: 0.7,
+              child: Switch(
+                value: false,
+                onChanged: (value) {},
+                activeTrackColor: AppColors.bNormal,
+                activeColor: AppColors.wWhite,
+                inactiveTrackColor: AppColors.moreLighter,
+                inactiveThumbColor: AppColors.wWhite,
+              ),
+            ),
+            onTap: () {},
+          ),
+          _buildInnerTile(TrainingAssets.noticeIcon, 'Nhắc nhở luyện tập'),
+          _buildInnerTile(TrainingAssets.trashIcon, 'Xóa dữ liệu người dùng'),
         ],
       ),
     );
@@ -156,9 +179,9 @@ class _UserProfileScreenState extends State<SettingPage> {
       ),
       child: Column(
         children: [
-          _buildInnerTile(Icons.star_rate_outlined, 'Đánh giá'),
+          _buildInnerTile(TrainingAssets.commentIcon, 'Đánh giá'),
           _buildInnerTile(
-            Icons.privacy_tip_outlined,
+            TrainingAssets.policyIcon,
             'Chính sách và điều khoản',
           ),
         ],

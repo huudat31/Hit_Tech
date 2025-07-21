@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hit_tech/core/constants/app_assets.dart';
-import 'package:hit_tech/core/constants/app_color.dart';
-import 'package:hit_tech/core/constants/app_dimension.dart';
-import 'package:hit_tech/core/constants/app_string.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_event.dart';
 
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_state.dart';
+
+import '../../../../core/constants/app_assets.dart';
+import '../../../../core/constants/app_color.dart';
+import '../../../../core/constants/app_dimension.dart';
+import '../../../../core/constants/app_string.dart';
 
 class GenderSelectionWidget extends StatelessWidget {
   @override
@@ -148,7 +149,7 @@ class GenderSelectionWidget extends StatelessWidget {
             Container(
               height: 280,
               decoration: BoxDecoration(
-                color: isSelected ? Color(0xFFB6DBF6) : Color(0xFFFfff),
+                color: isSelected ? AppColors.bLightActive : AppColors.wWhite,
                 borderRadius: BorderRadius.circular(12),
                 border: isSelected
                     ? Border.all(color: Color(0xFF2196F3), width: 2)

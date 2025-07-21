@@ -70,6 +70,9 @@ flutter:
     - assets/icons/logo_corevo.png
     - assets/icons/google_icon.png
     - assets/icons/facebook_icon.png
+    - assets/icons/home_root/
+    - assets/icons/setting/
+    - assets/icons/setting/notice_training/
     - assets/images/level/
     - assets/images/goal/
     - assets/images/duration/

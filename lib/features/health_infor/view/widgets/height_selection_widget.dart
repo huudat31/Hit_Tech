@@ -4,6 +4,8 @@ import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_event.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_state.dart';
 
+import '../../../../core/constants/app_color.dart';
+
 class HeightSelectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class HeightSelectionWidget extends StatelessWidget {
             : HealthInfoFormState();
 
         return Scaffold(
-          backgroundColor: Color(0xFFF5F5F5),
+          backgroundColor: AppColors.bLight,
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.all(20),
@@ -25,7 +27,7 @@ class HeightSelectionWidget extends StatelessWidget {
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                     decoration: BoxDecoration(
-                      color: Color(0xFFE3F2FD),
+                      color: AppColors.bLightNotActive2,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
@@ -63,7 +65,7 @@ class HeightSelectionWidget extends StatelessWidget {
                           width: double.infinity,
                           height: double.infinity,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.bLight,
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
@@ -223,13 +225,13 @@ class HeightSelectionWidget extends StatelessWidget {
                   // Continue Button
                   SizedBox(
                     width: double.infinity,
-                    height: 56,
+                    height: 50,
                     child: ElevatedButton(
                       onPressed: () {
                         context.read<HealthInfoBloc>().add(NextStep());
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF2196F3),
+                        backgroundColor: AppColors.bNormal,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
                         ),
