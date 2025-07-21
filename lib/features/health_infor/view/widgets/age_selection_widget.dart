@@ -13,17 +13,20 @@ class AgeSelectionWidget extends StatefulWidget {
 
 class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
   late FixedExtentScrollController _scrollController;
-  int selectedYear = 2005;
-
   final List<int> years = List.generate(50, (index) => 2025 - index);
 
   @override
   void initState() {
     super.initState();
-    final initialIndex = years.indexOf(2005);
-    _scrollController = FixedExtentScrollController(
-      initialItem: initialIndex >= 0 ? initialIndex : 20,
-    );
+    final state = context.read<HealthInfoBloc>().state;
+    final currentAge = state is HealthInfoFormState ? state.age : null;
+    final initialYear = DateTime.now().year - (currentAge ?? 20);
+    final initialIndex = years
+        .indexOf(initialYear)
+        .clamp(0, years.length - 1)
+        .toInt();
+
+    _scrollController = FixedExtentScrollController(initialItem: initialIndex);
   }
 
   @override
@@ -39,6 +42,12 @@ class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
         final formState = state is HealthInfoFormState
             ? state
             : HealthInfoFormState();
+
+        final selectedYearFromState =
+            DateTime.now().year - (formState.age ?? 20);
+        final selectedYear = years.contains(selectedYearFromState)
+            ? selectedYearFromState
+            : 2005;
 
         return Padding(
           padding: EdgeInsets.all(24),
@@ -87,10 +96,8 @@ class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
                       diameterRatio: 1.2,
                       physics: FixedExtentScrollPhysics(),
                       onSelectedItemChanged: (index) {
-                        setState(() {
-                          selectedYear = years[index];
-                        });
-                        final age = DateTime.now().year - selectedYear;
+                        final year = years[index];
+                        final age = DateTime.now().year - year;
                         context.read<HealthInfoBloc>().add(UpdateAge(age));
                       },
                       childDelegate: ListWheelChildBuilderDelegate(
@@ -143,7 +150,13 @@ class _AgeSelectionWidgetState extends State<AgeSelectionWidget> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.read<HealthInfoBloc>().add(NextStep());
+                    if (formState.age != null) {
+                      context.read<HealthInfoBloc>().add(NextStep());
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Vui lòng chọn tuổi')),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.bNormal,

@@ -48,4 +48,29 @@ class AppStrings {
   static const String genderSelectionBoy = 'Nam';
   static const String genderSelectionGirl = 'Nữ';
   static const String genderSelectionContinue = 'Tiếp tục';
+  static const String activityLevelSelectionTitle = 'Mức Độ Hoạt Động';
+  static const String activityLevelSelectionDescription =
+      'Mức vận động hằng ngày giúp cá nhân hóa kế hoạch tập luyện.';
+
+  // Activity Levels
+  static const String level1 = 'Sedentary';
+  static const String level2 = 'Lightly active';
+  static const String level3 = 'Moderately active';
+  static const String level4 = 'Very active';
+  static const String level5 = 'Super active';
+  static const String activityLevelSedentary = 'Ít vận động';
+  static const String activityLevelLight = 'Vận động nhẹ';
+  static const String activityLevelModerate = 'Vận động vừa';
+  static const String activityLevelActive = 'Vận động nhiều';
+  static const String activityLevelSuperActive = 'Rất năng động';
+  static const String activityLevelSedentaryDescription =
+      'Ít vận động, chủ yếu ngồi ';
+  static const String activityLevelLightDescription =
+      'Hoạt động nhẹ, đi lại chút ít, tập nhẹ 1–3 buổi/tuần';
+  static const String activityLevelModerateDescription =
+      'Tập trung bình 3–5 buổi/tuần hoặc công việc có đi lại nhiều';
+  static const String activityLevelActiveDescription =
+      'Tập nặng 6–7 buổi/tuần hoặc lao động chân tay';
+  static const String activityLevelSuperActiveDescription =
+      'Vận động cường độ cao, 2 buổi/ngày hoặc công việc nặng ';
 }

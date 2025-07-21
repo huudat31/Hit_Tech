@@ -155,7 +155,7 @@ class WeightSelectionWidget extends StatelessWidget {
                                       padding: EdgeInsets.symmetric(
                                         horizontal: 150,
                                       ),
-                                      itemCount: 800, // 0.1kg precision
+                                      itemCount: 800,
                                       itemBuilder: (context, index) {
                                         final weight = 40.0 + (index * 0.1);
                                         final isMainMark =
@@ -167,7 +167,7 @@ class WeightSelectionWidget extends StatelessWidget {
                                             0.5;
 
                                         return Container(
-                                          width: 8,
+                                          width: 16,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -188,9 +188,13 @@ class WeightSelectionWidget extends StatelessWidget {
                                                 ),
                                               ),
                                               if (isMainMark) ...[
-                                                SizedBox(height: 4),
+                                                SizedBox(height: 6),
                                                 Text(
                                                   '${weight.toStringAsFixed(0)}',
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.visible,
+                                                  textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     color: isNearSelected
@@ -210,7 +214,6 @@ class WeightSelectionWidget extends StatelessWidget {
                                   ),
                                 ),
 
-                                // Center indicator line
                                 Positioned(
                                   left: 0,
                                   right: 0,
@@ -229,7 +232,6 @@ class WeightSelectionWidget extends StatelessWidget {
                                   ),
                                 ),
 
-                                // Blue indicator dot
                                 Positioned(
                                   left: 0,
                                   right: 0,
@@ -245,15 +247,6 @@ class WeightSelectionWidget extends StatelessWidget {
                                           color: Colors.white,
                                           width: 2,
                                         ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(
-                                              0.2,
-                                            ),
-                                            blurRadius: 4,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
                                       ),
                                     ),
                                   ),
@@ -371,7 +364,7 @@ class WeightSelectionWidget extends StatelessWidget {
               ],
             ),
             SizedBox(height: 4),
-            // Stack để đặt icon lên trên thanh trượt
+
             Stack(
               clipBehavior: Clip.none,
               children: [
@@ -422,10 +415,10 @@ class WeightSelectionWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                // BMI indicator icon positioned directly on the scale
+
                 Positioned(
-                  left: iconPosition - 12, // Center the icon (icon width / 2)
-                  top: -8, // Position above the scale bar
+                  left: iconPosition - 12,
+                  top: -8,
                   child: Container(
                     width: 24,
                     height: 24,
@@ -433,13 +426,6 @@ class WeightSelectionWidget extends StatelessWidget {
                       color: _getBMIColor(currentBMI),
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 2),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          blurRadius: 6,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
                     ),
                     child: Icon(Icons.person, size: 14, color: Colors.white),
                   ),

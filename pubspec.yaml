@@ -77,6 +77,11 @@ flutter:
     - assets/images/goal/
     - assets/images/duration/
     - assets/images/type/
+    - assets/images/health_infor/lightly_active.png
+    - assets/images/health_infor/moderately_active.png
+    - assets/images/health_infor/sedentary.png
+    - assets/images/health_infor/super_active.png
+    - assets/images/health_infor/very_active.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
