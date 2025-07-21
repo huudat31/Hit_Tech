@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
+import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/core/constants/app_string.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/health_bloc.dart';
 import 'package:hit_tech/features/health_infor/cubit/blocs/heath_event.dart';
 
@@ -15,41 +19,44 @@ class GenderSelectionWidget extends StatelessWidget {
             : HealthInfoFormState();
 
         return Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(AppDimensions.paddingHorizontal),
           child: Column(
             children: [
               // Header Section
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+                padding: EdgeInsets.symmetric(
+                  vertical: AppDimensions.paddingHorizontal,
+                  horizontal: AppDimensions.spaceML,
+                ),
                 decoration: BoxDecoration(
-                  color: Color(0xFFE3F2FD),
-                  borderRadius: BorderRadius.circular(12),
+                  color: AppColors.bgGengerSelection,
+                  borderRadius: BorderRadius.circular(AppDimensions.circularXS),
                 ),
                 child: Column(
                   children: [
                     Text(
-                      'Giới Tính',
+                      AppStrings.genderSelectionTitle,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: AppDimensions.textSizeXL,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF07314F),
+                        color: AppColors.textGenderSelection,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: AppDimensions.spaceXS),
                     Text(
-                      'Chọn giới tính của bạn để chúng tôi cá\nnhân hóa kế hoạch phù hợp nhất.',
+                      AppStrings.genderSelectionDescription,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black,
+                        fontSize: AppDimensions.textSizeS,
+                        color: AppColors.dark,
                         height: 1.3,
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 24),
+              SizedBox(height: AppDimensions.space24),
               // Gender Options
               Expanded(
                 child: Row(
@@ -58,30 +65,30 @@ class GenderSelectionWidget extends StatelessWidget {
                     _buildGenderOption(
                       context,
                       gender: 'MALE',
-                      label: 'Nam',
-                      imagePath:
-                          'assets/images/health_infor/boy.png', // Replace with actual asset path
+                      label: AppStrings.genderSelectionBoy,
+                      imagePath: TrainingAssets
+                          .imageGenderBoy, // Replace with actual asset path
                       isSelected: formState.gender == 'MALE',
                     ),
                     SizedBox(width: 16),
                     _buildGenderOption(
                       context,
                       gender: 'FEMALE',
-                      label: 'Nữ',
-                      imagePath:
-                          'assets/images/health_infor/girl.png', // Replace with actual asset path
+                      label: AppStrings.genderSelectionGirl,
+                      imagePath: TrainingAssets
+                          .imageGenderGirl, // Replace with actual asset path
                       isSelected: formState.gender == 'FEMALE',
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 24),
+              SizedBox(height: AppDimensions.space24),
               // Continue Button
               Padding(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(AppDimensions.space24),
                 child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
+                  width: AppDimensions.normal,
+                  height: AppDimensions.heightButton,
                   child: ElevatedButton(
                     onPressed: formState.gender != null
                         ? () {
@@ -90,20 +97,23 @@ class GenderSelectionWidget extends StatelessWidget {
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: formState.gender != null
-                          ? Color(0xFF2196F3)
-                          : Color(0xFFE0E0E0),
+                          ? AppColors.buttonBGBottomGenderfocus
+                          : AppColors.buttonBGBottomGender,
+
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.circularM,
+                        ),
                       ),
                       elevation: formState.gender != null ? 2 : 0,
                     ),
                     child: Text(
-                      'Tiếp tục',
+                      AppStrings.genderSelectionContinue,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: AppDimensions.textSizeM,
                         color: formState.gender != null
-                            ? Colors.white
-                            : Color(0xFF9E9E9E),
+                            ? AppColors.buttonTextGenderfocus
+                            : AppColors.buttonTextGender,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

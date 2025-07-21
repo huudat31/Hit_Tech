@@ -58,7 +58,8 @@ abstract class ApiEndpoint {
 
   // Training-resource
   static const String getAllTrainingType = '$trainingResource/types';
-  static const String getAllTrainingTargetMuscle = '$trainingResource/target-muscles';
+  static const String getAllTrainingTargetMuscle =
+      '$trainingResource/target-muscles';
   static const String getAllTrainingPlan = '$trainingResource/plans';
   static const String getAllTrainingLocation = '$trainingResource/locations';
   static const String getAllTrainingLevel = '$trainingResource/levels';

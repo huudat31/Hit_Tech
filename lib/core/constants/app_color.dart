@@ -38,4 +38,15 @@ class AppColors {
   static const Color wNormalHover = Color(0xFFf2f4f7);
   static const Color wNormalActive = Color(0xFFebeef2);
   static const Color wDark = Color(0xFFf6f8f9);
+
+  // Màu không có trong bảng
+  //// Health Information Colors
+  static const Color bgHealthInfor = Color(0xFFEDF3F8);
+  static const Color iconHealthInfor = Color(0xFFB2B7BC);
+  static const Color bgGengerSelection = Color(0xFFE3F2FD);
+  static const Color textGenderSelection = Color(0xFF07314F);
+  static const Color buttonBGBottomGenderfocus = Color(0xFF2196F3);
+  static const Color buttonBGBottomGender = Color(0xFFE0E0E0);
+  static const Color buttonTextGenderfocus = Color(0xFFFFFFFF);
+  static const Color buttonTextGender = Color(0xFF9E9E9E);
 }
