@@ -18,7 +18,7 @@ class _TrainingLocationSelectionState
     "Tại nhà",
     "Phòng gym",
     "Ngoài trời",
-    "Mọi nơi"
+    "Mọi nơi",
   ];
 
   @override
@@ -123,7 +123,7 @@ class _TrainingLocationSelectionState
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(12),
-                        height: 100,
+                        height: 80,
                         decoration: BoxDecoration(
                           color: selectedIndex == index
                               ? AppColors.bLightHover
@@ -151,19 +151,19 @@ class _TrainingLocationSelectionState
                             Image.asset(
                               index == 0
                                   ? (selectedIndex == 0
-                                  ? 'assets/images/type/yoga.png'
-                                  : 'assets/images/type/yoga.png')
+                                        ? TrainingAssets.locationHomeSelected
+                                        : TrainingAssets.locationHome)
                                   : index == 1
                                   ? (selectedIndex == 1
-                                  ? 'assets/images/type/calisthenic_selected.png'
-                                  : 'assets/images/type/calisthenic.png')
+                                        ? TrainingAssets.locationOutSideSelected
+                                        : TrainingAssets.locationOutSide)
                                   : index == 2
                                   ? (selectedIndex == 2
-                                  ? 'assets/images/type/gym.png'
-                                  : 'assets/images/type/gym.png')
+                                        ? TrainingAssets.locationGymSelected
+                                        : TrainingAssets.locationGym)
                                   : (selectedIndex == 3
-                                  ? 'assets/images/type/cardio.png'
-                                  : 'assets/images/type/cardio.png'),
+                                        ? TrainingAssets.locationGymSelected
+                                        : TrainingAssets.locationGym),
                             ),
                             SizedBox(width: 20),
                             Expanded(
@@ -182,8 +182,8 @@ class _TrainingLocationSelectionState
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
                                 selectedIndex == index
-                                    ? TrainingAssets.durationSelected
-                                    : TrainingAssets.durationNonSelect,
+                                    ? TrainingAssets.tickActive
+                                    : TrainingAssets.tickNonActive,
                                 width: 20,
                                 height: 20,
                                 fit: BoxFit.cover,
@@ -231,7 +231,7 @@ class _TrainingLocationSelectionState
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : null,
+              onPressed: selectedIndex != null ? () {} : () {},
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(

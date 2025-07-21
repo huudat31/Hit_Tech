@@ -224,7 +224,7 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : null,
+              onPressed: selectedIndex != null ? () {} : (){},
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(
