@@ -27,6 +27,14 @@ class _TrainingLocationSelectionState
       backgroundColor: AppColors.bLight,
       body: Stack(
         children: [
+          // Ảnh nền
+          Positioned.fill(
+            child: Image.asset(
+              TrainingAssets.mainBackground,
+              fit: BoxFit.cover,
+            ),
+          ),
+
           Column(
             children: [
               Container(
@@ -155,15 +163,15 @@ class _TrainingLocationSelectionState
                                         : TrainingAssets.locationHome)
                                   : index == 1
                                   ? (selectedIndex == 1
-                                        ? TrainingAssets.locationOutSideSelected
-                                        : TrainingAssets.locationOutSide)
-                                  : index == 2
-                                  ? (selectedIndex == 2
                                         ? TrainingAssets.locationGymSelected
                                         : TrainingAssets.locationGym)
+                                  : index == 2
+                                  ? (selectedIndex == 2
+                                        ? TrainingAssets.locationOutSideSelected
+                                        : TrainingAssets.locationOutSide)
                                   : (selectedIndex == 3
-                                        ? TrainingAssets.locationGymSelected
-                                        : TrainingAssets.locationGym),
+                                        ? TrainingAssets.locationAnywhereSelected
+                                        : TrainingAssets.locationAnywhere),
                             ),
                             SizedBox(width: 20),
                             Expanded(

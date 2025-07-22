@@ -12,6 +12,12 @@ class NoticeTrainingCreationWidget extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            Positioned.fill(
+              child: Image.asset(
+                TrainingAssets.mainBackground,
+                fit: BoxFit.cover,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(
                 left: 20.0,

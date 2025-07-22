@@ -95,11 +95,11 @@ class GenderSelectionWidget extends StatelessWidget {
                         ? () {
                             context.read<HealthInfoBloc>().add(NextStep());
                           }
-                        : null,
+                        : () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: formState.gender != null
                           ? AppColors.buttonBGBottomGenderfocus
-                          : AppColors.buttonBGBottomGender,
+                          : AppColors.bLightNotActive,
 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
@@ -114,7 +114,7 @@ class GenderSelectionWidget extends StatelessWidget {
                         fontSize: AppDimensions.textSizeM,
                         color: formState.gender != null
                             ? AppColors.buttonTextGenderfocus
-                            : AppColors.buttonTextGender,
+                            : AppColors.wWhite,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

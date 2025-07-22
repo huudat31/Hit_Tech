@@ -30,6 +30,14 @@ class _TrainingEquipmentSelectionState
       backgroundColor: AppColors.bLight,
       body: Stack(
         children: [
+          // Ảnh nền
+          Positioned.fill(
+            child: Image.asset(
+              TrainingAssets.mainBackground,
+              fit: BoxFit.cover,
+            ),
+          ),
+
           Column(
             children: [
               Container(

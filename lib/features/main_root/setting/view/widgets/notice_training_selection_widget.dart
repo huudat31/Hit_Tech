@@ -5,7 +5,7 @@ import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_dimension.dart';
 
 class NoticeTrainingSelectionWidget extends StatelessWidget {
-  bool _isCheck = true;
+  bool _isCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +14,12 @@ class NoticeTrainingSelectionWidget extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            Positioned.fill(
+              child: Image.asset(
+                TrainingAssets.mainBackground,
+                fit: BoxFit.cover,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(
                 left: 30.0,

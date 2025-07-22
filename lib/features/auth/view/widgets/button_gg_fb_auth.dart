@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
 
 class ButtonGgFbAuth extends StatelessWidget {
   final double width;
@@ -20,7 +21,7 @@ class ButtonGgFbAuth extends StatelessWidget {
       height: 64,
       decoration: BoxDecoration(
         border: Border.all(color: Color(0xFF989DA1), width: 1),
-        color: Colors.white,
+        color: AppColors.wWhite,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -40,7 +41,7 @@ class ButtonGgFbAuth extends StatelessWidget {
               height: 30,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: AppColors.wWhite,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),

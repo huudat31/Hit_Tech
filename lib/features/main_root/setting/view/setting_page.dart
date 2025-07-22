@@ -15,73 +15,81 @@ class _UserProfileScreenState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bLight,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-
-            // Header + Avatar
-            Column(
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage(TrainingAssets.facebookIcon),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Truong NguyenX',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: AppColors.normal,
-                  ),
-                ),
-                const Text(
-                  'Truong_05',
-                  style: TextStyle(fontSize: 12, color: AppColors.lightActive),
-                ),
-              ],
+      body: Stack(
+        children: [
+          // Ảnh nền
+          Positioned.fill(
+            child: Image.asset(
+              TrainingAssets.mainBackground,
+              fit: BoxFit.cover,
             ),
-
-            const SizedBox(height: 10),
-
-            // Các mục
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+          ),
+          Column(
+            children: [
+              const SizedBox(height: 50),
+              // Header + Avatar
+              Column(
                 children: [
-                  _buildSectionTitle('Hồ sơ người dùng'),
-                  _buildProfileSection(),
-
-                  _buildSectionTitle('Cài đặt chung'),
-                  _buildOverallSettingsSection(),
-
-                  _buildSectionTitle('Thông tin hỗ trợ'),
-                  _buildSettingsSection(),
-
-                  const SizedBox(height: 20),
-
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.wWhite,
-                      borderRadius: BorderRadius.circular(
-                        AppDimensions.borderRadius,
-                      ),
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage(TrainingAssets.facebookIcon),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Truong NguyenX',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: AppColors.normal,
                     ),
-                    child: TextButton(
-                      onPressed: () {},
-                      // style: ,
-                      child: const Text(
-                        'Đăng Xuất',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    ),
+                  ),
+                  const Text(
+                    'Truong_05',
+                    style: TextStyle(fontSize: 12, color: AppColors.lightActive),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+
+              const SizedBox(height: 10),
+
+              // Các mục
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: [
+                    _buildSectionTitle('Hồ sơ người dùng'),
+                    _buildProfileSection(),
+
+                    _buildSectionTitle('Cài đặt chung'),
+                    _buildOverallSettingsSection(),
+
+                    _buildSectionTitle('Thông tin hỗ trợ'),
+                    _buildSettingsSection(),
+
+                    const SizedBox(height: 20),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.wWhite,
+                        borderRadius: BorderRadius.circular(
+                          AppDimensions.borderRadius,
+                        ),
+                      ),
+                      child: TextButton(
+                        onPressed: () {},
+                        // style: ,
+                        child: const Text(
+                          'Đăng Xuất',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
