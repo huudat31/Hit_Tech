@@ -27,6 +27,14 @@ class _TrainingDurationSelectionState
       backgroundColor: AppColors.bLight,
       body: Stack(
         children: [
+          // Ảnh nền
+          Positioned.fill(
+            child: Image.asset(
+              TrainingAssets.mainBackground,
+              fit: BoxFit.cover,
+            ),
+          ),
+
           Column(
             children: [
               Container(
@@ -123,7 +131,7 @@ class _TrainingDurationSelectionState
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(12),
-                        height: 100,
+                        height: 90,
                         decoration: BoxDecoration(
                           color: selectedIndex == index
                               ? AppColors.bLightHover
@@ -147,7 +155,7 @@ class _TrainingDurationSelectionState
                         ),
                         child: Row(
                           children: [
-                            SizedBox(width: 20),
+                            SizedBox(width: 10),
                             Image.asset(
                               index == 0
                                   ? (selectedIndex == 0
@@ -170,7 +178,7 @@ class _TrainingDurationSelectionState
                               child: Text(
                                 durations[index],
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                   color: (selectedIndex == index
                                       ? AppColors.bNormal
                                       : AppColors.darkActive),

@@ -9,63 +9,74 @@ class PersonalInforSelectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bLight,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            // Header + Avatar
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    Positioned(
-                      left: 20,
-                      top: 0,
-                      bottom: 70,
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: AppColors.bNormal,
-                      ),
-                    ),
-
-                    Align(
-                      alignment: Alignment.center,
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundImage: AssetImage(
-                          TrainingAssets.facebookIcon,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              TrainingAssets.mainBackground,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Column(
+            children: [
+              const SizedBox(height: 50),
+              // Header + Avatar
+              Column(
+                children: [
+                  Stack(
+                    children: [
+                      Positioned(
+                        left: 20,
+                        top: 0,
+                        bottom: 70,
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: AppColors.bNormal,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Truong NguyenX',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: AppColors.normal,
+
+                      Align(
+                        alignment: Alignment.center,
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundImage: AssetImage(
+                            TrainingAssets.facebookIcon,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const Text(
-                  'nguyenxtruong05@gmail.com',
-                  style: TextStyle(fontSize: 12, color: AppColors.lightActive),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 40),
-
-            // Các mục
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: [_buildProfileSection()],
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Truong NguyenX',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: AppColors.normal,
+                    ),
+                  ),
+                  const Text(
+                    'nguyenxtruong05@gmail.com',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.lightActive,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
+
+              const SizedBox(height: 40),
+
+              // Các mục
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: [_buildProfileSection()],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

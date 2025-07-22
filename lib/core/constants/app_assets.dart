@@ -3,9 +3,17 @@ class TrainingAssets {
   static const String facebookIcon = 'assets/icons/facebook_icon.png';
   static const String googleIcon = 'assets/icons/google_icon.png';
   static const String logoCorevo = 'assets/icons/logo_corevo.png';
+  static const String customArrowIcon = 'assets/icons/custom_arrow_icon.png';
 
   static const String tickNonActive = 'assets/images/tick_non_selected.png';
   static const String tickActive = 'assets/images/tick_selected.png';
+
+  static const String startBackground =
+      'assets/images/start_flow_background_image.png';
+  static const String mainBackground =
+      'assets/images/main_background_image.png';
+  static const String authBackground =
+      'assets/images/auth_background_image.png';
 
   // Goal
   static const String goalDemo = 'assets/images/goal/goal-demo.png';
@@ -38,7 +46,7 @@ class TrainingAssets {
   // Type
   static const String yoga = 'assets/images/type/yoga.png';
   static const String yogaSelected = 'assets/images/type/yoga_selected.png';
-  static const String calisthenic = 'assets/images/type/cal isthenic.png';
+  static const String calisthenic = 'assets/images/type/calisthenic.png';
   static const String calisthenicSelected =
       'assets/images/type/calisthenic_selected.png';
   static const String gym = 'assets/images/type/gym.png';

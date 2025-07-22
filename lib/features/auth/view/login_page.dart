@@ -11,6 +11,8 @@ import 'package:hit_tech/features/auth/view/widgets/custom_input_field.dart';
 import 'package:hit_tech/features/auth/view/widgets/text_bottom_auth.dart';
 import 'package:hit_tech/services/shared_preferences/shared_preferences.dart';
 
+import '../../../core/constants/app_assets.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -87,257 +89,267 @@ class _LoginScreenState extends State<LoginScreen> {
             _showSnackBar(state.message, isError: true);
           }
         },
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  // Header
-                  Container(
-                    width: screenWidth,
-                    height: 83,
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                TrainingAssets.authBackground,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(height: 30),
+                    // Header
+                    Container(
+                      width: screenWidth,
+                      height: 83,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios_new,
+                                color: AppColors.bNormal,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+
+                            const SizedBox(width: 85),
+                            Text(
+                              AppStrings.login,
+                              style: TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.dark,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    child: Center(
-                      child: Row(
+
+                    // Form Content
+                    Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
                         children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios_new,
-                              color: AppColors.bNormal,
+                          const SizedBox(height: 22),
+
+                          // Username Field
+                          CustomInputField(
+                            isPassword: true,
+                            hintStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
                             ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
+                            width: screenWidth * 0.9,
+                            height: 64,
+                            controller: _usernameController,
+                            title: AppStrings.username,
+                            borderRadius: 12,
+                            borderColor: Colors.grey[400],
+                            focusedBorderColor: AppColors.bNormal,
+                            validator: Validators.validateUsername,
+                            onChanged: (value) {
+                              // Real-time validation if needed
                             },
                           ),
 
-                          const SizedBox(width: 75.5),
-                          Text(
-                            AppStrings.login,
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.dark,
+                          const SizedBox(height: 24),
+
+                          // Password Field
+                          CustomInputField(
+                            isPassword: true,
+                            hintStyle: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
                             ),
+                            width: screenWidth * 0.9,
+                            height: 64,
+                            controller: _passwordController,
+                            title: AppStrings.password,
+                            borderRadius: 12,
+                            borderColor: Colors.grey[400],
+                            focusedBorderColor: AppColors.bNormal,
+                            obscureText: !_isPasswordVisible,
+                            validator: Validators.validatePassword,
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.grey[600],
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isPasswordVisible = !_isPasswordVisible;
+                                });
+                              },
+                            ),
+                            onChanged: (value) {
+                              // Real-time validation if needed
+                            },
                           ),
+
+                          const SizedBox(height: 16),
+
+                          // Remember Me & Forgot Password
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _rememberMe = !_rememberMe;
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 18,
+                                      height: 18,
+                                      child: _rememberMe
+                                          ? Icon(
+                                              Icons.check_box,
+                                              color: AppColors.bNormal,
+                                            )
+                                          : Icon(
+                                              Icons.check_box_outline_blank,
+                                              color: Colors.grey[600],
+                                            ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    'Ghi nhớ đăng nhập',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigate to forgot password screen
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/forgot-password',
+                                  );
+                                },
+                                child: Text(
+                                  AppStrings.forgotPassword,
+                                  style: TextStyle(
+                                    color: AppColors.bNormal,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 40),
+
+                          // Login Button
+                          BlocBuilder<AuthBloc, AuthState>(
+                            builder: (context, state) {
+                              final isLoading = state is AuthLoading;
+
+                              return AuthCustomButton(
+                                text: isLoading
+                                    ? 'Đang đăng nhập...'
+                                    : AppStrings.login,
+                                onPressed: isLoading ? null : _handleLogin,
+                                isLoading: isLoading,
+                              );
+                            },
+                          ),
+
+                          const SizedBox(height: 40),
+
+                          // Divider
+                          DividerWithText(text: AppStrings.orLoginWith),
+
+                          const SizedBox(height: 24),
+
+                          // Social Login Buttons
+                          ButtonGgFbAuth(
+                            image: Image(
+                              image: AssetImage(TrainingAssets.facebookIcon),
+                            ),
+                            width: screenWidth * .9,
+                            text: 'Tiếp tục với Google',
+                            onPressed: () {
+                              // Handle Google login
+                              _handleSocialLogin('google');
+                            },
+                          ),
+                          const SizedBox(height: 18),
+                          ButtonGgFbAuth(
+                            image: Image(
+                              image: AssetImage(
+                                TrainingAssets.googleIcon,
+                              ),
+                            ),
+                            width: screenWidth * .9,
+                            text: 'Tiếp tục với acebook',
+                            onPressed: () {
+                              // Handle Facebook login
+                              _handleSocialLogin('facebook');
+                            },
+                          ),
+
+                          const SizedBox(height: 140),
+
+                          // Register Link
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppStrings.dontHaveAccount,
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/register');
+                                },
+                                child: Text(
+                                  AppStrings.register,
+                                  style: TextStyle(
+                                    color: AppColors.bNormal,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 31),
                         ],
                       ),
                     ),
-                  ),
-
-                  // Form Content
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 22),
-
-                        // Username Field
-                        CustomInputField(
-                          isPassword: true,
-                          hintStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                          width: screenWidth * 0.9,
-                          height: 64,
-                          controller: _usernameController,
-                          title: AppStrings.username,
-                          borderRadius: 12,
-                          borderColor: Colors.grey[400],
-                          focusedBorderColor: AppColors.bNormal,
-                          validator: Validators.validateUsername,
-                          onChanged: (value) {
-                            // Real-time validation if needed
-                          },
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        // Password Field
-                        CustomInputField(
-                          isPassword: true,
-                          hintStyle: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                          ),
-                          width: screenWidth * 0.9,
-                          height: 64,
-                          controller: _passwordController,
-                          title: AppStrings.password,
-                          borderRadius: 12,
-                          borderColor: Colors.grey[400],
-                          focusedBorderColor: AppColors.bNormal,
-                          obscureText: !_isPasswordVisible,
-                          validator: Validators.validatePassword,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Colors.grey[600],
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordVisible = !_isPasswordVisible;
-                              });
-                            },
-                          ),
-                          onChanged: (value) {
-                            // Real-time validation if needed
-                          },
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Remember Me & Forgot Password
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _rememberMe = !_rememberMe;
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 18,
-                                    height: 18,
-                                    child: _rememberMe
-                                        ? Icon(
-                                            Icons.check_box,
-                                            color: AppColors.bNormal,
-                                          )
-                                        : Icon(
-                                            Icons.check_box_outline_blank,
-                                            color: Colors.grey[600],
-                                          ),
-                                  ),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  'Ghi nhớ đăng nhập',
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // Navigate to forgot password screen
-                                Navigator.pushNamed(
-                                  context,
-                                  '/forgot-password',
-                                );
-                              },
-                              child: Text(
-                                AppStrings.forgotPassword,
-                                style: TextStyle(
-                                  color: AppColors.bNormal,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 40),
-
-                        // Login Button
-                        BlocBuilder<AuthBloc, AuthState>(
-                          builder: (context, state) {
-                            final isLoading = state is AuthLoading;
-
-                            return AuthCustomButton(
-                              text: isLoading
-                                  ? 'Đang đăng nhập...'
-                                  : AppStrings.login,
-                              onPressed: isLoading ? null : _handleLogin,
-                              isLoading: isLoading,
-                            );
-                          },
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        // Divider
-                        DividerWithText(text: AppStrings.orLoginWith),
-
-                        const SizedBox(height: 24),
-
-                        // Social Login Buttons
-                        ButtonGgFbAuth(
-                          image: Image(
-                            image: AssetImage('assets/icons/google_icon.png'),
-                          ),
-                          width: screenWidth * .9,
-                          text: 'Google',
-                          onPressed: () {
-                            // Handle Google login
-                            _handleSocialLogin('google');
-                          },
-                        ),
-                        const SizedBox(height: 18),
-                        ButtonGgFbAuth(
-                          image: Image(
-                            image: AssetImage('assets/icons/facebook_icon.png'),
-                          ),
-                          width: screenWidth * .9,
-                          text: 'Facebook',
-                          onPressed: () {
-                            // Handle Facebook login
-                            _handleSocialLogin('facebook');
-                          },
-                        ),
-
-                        const SizedBox(height: 140),
-
-                        // Register Link
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              AppStrings.dontHaveAccount,
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(width: 4),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/register');
-                              },
-                              child: Text(
-                                AppStrings.register,
-                                style: TextStyle(
-                                  color: AppColors.bNormal,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 31),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

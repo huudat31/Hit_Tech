@@ -10,6 +10,8 @@ import 'package:hit_tech/features/auth/view/widgets/auth_custom_button.dart';
 import 'package:hit_tech/features/auth/view/widgets/button_gg_fb_auth.dart';
 import 'package:hit_tech/features/auth/view/widgets/custom_input_field.dart';
 
+import '../../../core/constants/app_assets.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -27,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
   bool _agree = false;
   bool isLoading = false;
+
   void _showSnackBar(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -60,68 +63,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
           },
           child: Form(
             key: _formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Header
-                  Container(
-                    width: screenWidth,
-                    height: 83,
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                      ),
-                    ),
-                    child: Center(
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios_new,
-                              color: AppColors.bNormal,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-
-                          const SizedBox(width: 75.5),
-                          Text(
-                            AppStrings.register,
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.dark,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: Image.asset(
+                    TrainingAssets.authBackground,
+                    fit: BoxFit.cover,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: AppDimensions.spaceXL),
-                        _buildFormFields(),
-                        const SizedBox(height: AppDimensions.spaceM),
-                        _buildAgreeRow(),
-                        const SizedBox(height: AppDimensions.spaceXL),
-                        _buildRegisterButton(),
-                        const SizedBox(height: 40),
-                        _buildDivider(),
-                        const SizedBox(height: AppDimensions.spaceM),
-                        _buildSocialButtons(),
-                        const SizedBox(height: AppDimensions.spaceXXL),
-                        _buildLogInLink(),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      // Header
+                      Container(
+                        width: screenWidth,
+                        height: 83,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(24),
+                            bottomRight: Radius.circular(24),
+                          ),
+                        ),
+                        child: Center(
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back_ios_new,
+                                  color: AppColors.bNormal,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              SizedBox(width: 100),
+                              Text(
+                                AppStrings.register,
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.dark,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: AppDimensions.spaceXL),
+                            _buildFormFields(),
+                            const SizedBox(height: AppDimensions.spaceM),
+                            _buildAgreeRow(),
+                            const SizedBox(height: AppDimensions.spaceXL),
+                            _buildRegisterButton(),
+                            const SizedBox(height: 40),
+                            _buildDivider(),
+                            const SizedBox(height: AppDimensions.spaceM),
+                            _buildSocialButtons(),
+                            const SizedBox(height: AppDimensions.spaceXXL),
+                            _buildLogInLink(),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -241,12 +253,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Checkbox(
+              checkColor: Colors.white,
+              activeColor: AppColors.bNormal,
               value: _agree,
               onChanged: (v) => setState(() => _agree = v ?? false),
               // activeColor: AppColors.primaryAppColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
+              side: BorderSide(color: AppColors.bNormal, width: 2),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             Expanded(
@@ -304,7 +319,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           padding: EdgeInsets.symmetric(horizontal: AppDimensions.spaceS),
           child: Text(
             AppStrings.orRegisterWith,
-            style: TextStyle(color: AppColors.bNormal, fontSize: 16),
+            style: TextStyle(
+              color: AppColors.bNormal,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         Expanded(child: Divider(color: AppColors.bNormal)),
@@ -320,13 +339,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: [
         ButtonGgFbAuth(
           onPressed: _handleGoogleRegister,
-          image: Image(image: AssetImage('assets/icons/google_icon.png')),
+          image: Image(image: AssetImage(TrainingAssets.googleIcon)),
           text: 'Google',
           width: screenWidth * 0.4,
         ),
         ButtonGgFbAuth(
           onPressed: _handleFacebookRegister,
-          image: Image(image: AssetImage('assets/icons/facebook_icon.png')),
+          image: Image(image: AssetImage(TrainingAssets.facebookIcon)),
           text: 'Facebook',
           width: screenWidth * 0.4,
         ),

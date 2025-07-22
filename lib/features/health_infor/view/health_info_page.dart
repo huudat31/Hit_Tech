@@ -9,6 +9,7 @@ import 'package:hit_tech/features/health_infor/view/widgets/gender_selection_wid
 import 'package:hit_tech/features/health_infor/view/widgets/height_selection_widget.dart';
 import 'package:hit_tech/features/health_infor/view/widgets/weight_selection_widget.dart';
 
+import '../../../core/constants/app_assets.dart';
 import '../../../core/constants/app_dimension.dart';
 
 class HealthInfoPage extends StatelessWidget {
@@ -36,56 +37,66 @@ class HealthInfoPage extends StatelessWidget {
                 ? state
                 : HealthInfoFormState();
 
-            return Column(
+            return Stack(
               children: [
-                // Progress Bar
-                Container(
-                  padding: EdgeInsets.only(top: 20, right: 70),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(
-                          Icons.arrow_back_ios_new,
-                          color: AppColors.bNormal,
-                        ),
-                      ),
-                      SizedBox(width: 35),
-                      Expanded(
-                        child: Container(
-                          height: 7,
-                          decoration: BoxDecoration(
-                            color: AppColors.moreLighter,
-                            borderRadius: BorderRadius.circular(
-                              AppDimensions.borderRadius,
-                            ),
-                          ),
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              final progress = (formState.currentStep + 1) / 5;
-                              return Stack(
-                                children: [
-                                  Container(
-                                    width: constraints.maxWidth * progress,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.bNormal,
-                                      borderRadius: BorderRadius.circular(
-                                        AppDimensions.borderRadius,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                Positioned.fill(
+                  child: Image.asset(
+                    TrainingAssets.mainBackground,
+                    fit: BoxFit.cover,
                   ),
                 ),
+                Column(
+                  children: [
+                    // Progress Bar
+                    Container(
+                      padding: EdgeInsets.only(top: 20, right: 70),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: AppColors.bNormal,
+                            ),
+                          ),
+                          SizedBox(width: 35),
+                          Expanded(
+                            child: Container(
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: AppColors.moreLighter,
+                                borderRadius: BorderRadius.circular(
+                                  AppDimensions.borderRadius,
+                                ),
+                              ),
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  final progress = (formState.currentStep + 1) / 5;
+                                  return Stack(
+                                    children: [
+                                      Container(
+                                        width: constraints.maxWidth * progress,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.bNormal,
+                                          borderRadius: BorderRadius.circular(
+                                            AppDimensions.borderRadius,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
-                // Content
-                Expanded(child: _buildCurrentStep(formState)),
+                    // Content
+                    Expanded(child: _buildCurrentStep(formState)),
+                  ],
+                )
               ],
             );
           },
