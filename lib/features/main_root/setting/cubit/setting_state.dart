@@ -17,12 +17,8 @@ class SettingLoaded extends SettingState {
 
   const SettingLoaded({required this.userProfile});
 
-  SettingLoaded copyWith({
-    UserProfileModel? userProfile,
-  }) {
-    return SettingLoaded(
-      userProfile: userProfile ?? this.userProfile,
-    );
+  SettingLoaded copyWith({UserProfileModel? userProfile}) {
+    return SettingLoaded(userProfile: userProfile ?? this.userProfile);
   }
 
   @override
@@ -67,6 +63,17 @@ class SettingPersonalInfoUpdated extends SettingState {
   final String message;
 
   const SettingPersonalInfoUpdated({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class SettingAccountDeleting extends SettingState {}
+
+class SettingAccountDeleted extends SettingState {
+  final String message;
+
+  const SettingAccountDeleted({required this.message});
 
   @override
   List<Object?> get props => [message];

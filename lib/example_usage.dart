@@ -14,10 +14,7 @@ class ExampleUsage extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           title: 'Training Flow Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            fontFamily: 'Roboto',
-          ),
+          theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Roboto'),
           home: const TrainingFlowPage(),
           debugShowCheckedModeBanner: false,
         );
@@ -39,9 +36,7 @@ class NavigateToTrainingFlowExample extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => const TrainingFlowPage(),
-              ),
+              MaterialPageRoute(builder: (context) => const TrainingFlowPage()),
             );
           },
           child: const Text('Bắt đầu thiết lập tập luyện'),

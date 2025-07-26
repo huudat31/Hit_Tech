@@ -7,6 +7,6 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Redirect to the new setting page with API integration
-    return const NewSettingPage.SettingPage();
+    return const SettingPage();
   }
 }

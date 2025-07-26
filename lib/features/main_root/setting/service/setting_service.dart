@@ -24,11 +24,7 @@ class SettingService {
 
     // Add interceptor for logging
     _dio.interceptors.add(
-      LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        error: true,
-      ),
+      LogInterceptor(requestBody: true, responseBody: true, error: true),
     );
   }
 
@@ -50,7 +46,6 @@ class SettingService {
     }
   }
 
-  /// PUT /api/v1/user/update-profile - Cập nhật thông tin profile
   Future<ApiResponse<UserProfileModel>> updateProfile({
     required UpdateProfileRequest request,
   }) async {
@@ -76,9 +71,7 @@ class SettingService {
   }
 
   /// POST /api/v1/user/upload-avatar - Tải lên ảnh đại diện
-  Future<ApiResponse<String>> uploadAvatar({
-    required File avatarFile,
-  }) async {
+  Future<ApiResponse<String>> uploadAvatar({required File avatarFile}) async {
     try {
       // Create FormData for file upload
       final formData = FormData.fromMap({
@@ -91,16 +84,11 @@ class SettingService {
       final response = await _dio.post(
         '/api/v1/user/upload-avatar',
         data: formData,
-        options: Options(
-          contentType: 'multipart/form-data',
-        ),
+        options: Options(contentType: 'multipart/form-data'),
       );
 
       if (response.statusCode == 200) {
-        return ApiResponse.fromJson(
-          response.data,
-          (data) => data.toString(),
-        );
+        return ApiResponse.fromJson(response.data, (data) => data.toString());
       } else {
         throw Exception('Failed to upload avatar: ${response.statusCode}');
       }
@@ -122,12 +110,28 @@ class SettingService {
       );
 
       if (response.statusCode == 200) {
-        return ApiResponse.fromJson(
-          response.data,
-          (data) => data.toString(),
-        );
+        return ApiResponse.fromJson(response.data, (data) => data.toString());
       } else {
-        throw Exception('Failed to update personal information: ${response.statusCode}');
+        throw Exception(
+          'Failed to update personal information: ${response.statusCode}',
+        );
+      }
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
+
+  /// DELETE /api/v1/user/delete-my-account - Xóa tài khoản
+  Future<ApiResponse<String>> deleteMyAccount() async {
+    try {
+      final response = await _dio.delete('/api/v1/user/delete-my-account');
+
+      if (response.statusCode == 200) {
+        return ApiResponse.fromJson(response.data, (data) => data.toString());
+      } else {
+        throw Exception('Failed to delete account: ${response.statusCode}');
       }
     } on DioException catch (e) {
       throw _handleDioError(e);

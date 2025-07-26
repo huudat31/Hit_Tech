@@ -26,7 +26,7 @@ class UserProfileModel extends Equatable {
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
     return UserProfileModel(
       username: json['username'],
-      firstName: json['firstName'], 
+      firstName: json['firstName'],
       lastName: json['lastName'],
       phone: json['phone'],
       nationality: json['nationality'],
@@ -50,8 +50,10 @@ class UserProfileModel extends Equatable {
       if (nationality != null) 'nationality': nationality,
       if (address != null) 'address': address,
       if (district != null) 'district': district,
-      if (personalInformation != null) 'personalInformation': personalInformation?.toJson(),
-      if (healthInformation != null) 'healthInformation': healthInformation?.toJson(),
+      if (personalInformation != null)
+        'personalInformation': personalInformation?.toJson(),
+      if (healthInformation != null)
+        'healthInformation': healthInformation?.toJson(),
     };
   }
 
@@ -81,16 +83,16 @@ class UserProfileModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        username,
-        firstName,
-        lastName,
-        phone,
-        nationality,
-        address,
-        district,
-        personalInformation,
-        healthInformation,
-      ];
+    username,
+    firstName,
+    lastName,
+    phone,
+    nationality,
+    address,
+    district,
+    personalInformation,
+    healthInformation,
+  ];
 }
 
 class PersonalInformation extends Equatable {
@@ -152,13 +154,13 @@ class PersonalInformation extends Equatable {
 
   @override
   List<Object?> get props => [
-        userName,
-        fullName,
-        email,
-        phoneNumber,
-        dateOfBirth,
-        nationality,
-      ];
+    userName,
+    fullName,
+    email,
+    phoneNumber,
+    dateOfBirth,
+    nationality,
+  ];
 }
 
 class HealthInformation extends Equatable {

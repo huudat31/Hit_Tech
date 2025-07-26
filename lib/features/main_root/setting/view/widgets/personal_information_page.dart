@@ -12,12 +12,13 @@ class PersonalInformationPage extends StatefulWidget {
   const PersonalInformationPage({super.key});
 
   @override
-  State<PersonalInformationPage> createState() => _PersonalInformationPageState();
+  State<PersonalInformationPage> createState() =>
+      _PersonalInformationPageState();
 }
 
 class _PersonalInformationPageState extends State<PersonalInformationPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   late TextEditingController _userNameController;
   late TextEditingController _fullNameController;
   late TextEditingController _emailController;
@@ -33,7 +34,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
 
   void _initializeControllers() {
     _userNameController = TextEditingController();
-    _fullNameController = TextEditingController(); 
+    _fullNameController = TextEditingController();
     _emailController = TextEditingController();
     _phoneController = TextEditingController();
     _dateOfBirthController = TextEditingController();
@@ -132,10 +133,11 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   Widget _buildHeader(BuildContext context, SettingState state) {
     String displayName = 'User';
     String email = 'email@example.com';
-    
+
     if (state is SettingLoaded) {
       displayName = state.userProfile.personalInformation?.fullName ?? 'User';
-      email = state.userProfile.personalInformation?.email ?? 'email@example.com';
+      email =
+          state.userProfile.personalInformation?.email ?? 'email@example.com';
     }
 
     return Column(
@@ -148,19 +150,14 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
               bottom: 70.h,
               child: GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.bNormal,
-                ),
+                child: Icon(Icons.arrow_back_ios, color: AppColors.bNormal),
               ),
             ),
             Align(
               alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 40.r,
-                backgroundImage: AssetImage(
-                  TrainingAssets.facebookIcon,
-                ),
+                backgroundImage: AssetImage(TrainingAssets.facebookIcon),
               ),
             ),
           ],
@@ -176,10 +173,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         ),
         Text(
           email,
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: AppColors.lightActive,
-          ),
+          style: TextStyle(fontSize: 12.sp, color: AppColors.lightActive),
         ),
       ],
     );
@@ -197,9 +191,17 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
           const Divider(height: 1, color: AppColors.bLightHover),
           _buildEditableField('Họ và tên', _fullNameController),
           const Divider(height: 1, color: AppColors.bLightHover),
-          _buildEditableField('Email', _emailController, keyboardType: TextInputType.emailAddress),
+          _buildEditableField(
+            'Email',
+            _emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
           const Divider(height: 1, color: AppColors.bLightHover),
-          _buildEditableField('Số điện thoại', _phoneController, keyboardType: TextInputType.phone),
+          _buildEditableField(
+            'Số điện thoại',
+            _phoneController,
+            keyboardType: TextInputType.phone,
+          ),
           const Divider(height: 1, color: AppColors.bLightHover),
           _buildDateField('Ngày sinh', _dateOfBirthController),
           const Divider(height: 1, color: AppColors.bLightHover),
@@ -210,7 +212,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   }
 
   Widget _buildEditableField(
-    String title, 
+    String title,
     TextEditingController controller, {
     TextInputType? keyboardType,
   }) {
@@ -219,17 +221,11 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
       subtitle: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
-        style: TextStyle(
-          color: AppColors.bNormal,
-          fontSize: 14.sp,
-        ),
+        style: TextStyle(color: AppColors.bNormal, fontSize: 14.sp),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Nhập $title',
-          hintStyle: TextStyle(
-            color: AppColors.lightActive,
-            fontSize: 14.sp,
-          ),
+          hintStyle: TextStyle(color: AppColors.lightActive, fontSize: 14.sp),
         ),
         validator: (value) {
           if (title == 'Email' && value != null && value.isNotEmpty) {
@@ -249,17 +245,11 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
       subtitle: TextFormField(
         controller: controller,
         readOnly: true,
-        style: TextStyle(
-          color: AppColors.bNormal,
-          fontSize: 14.sp,
-        ),
+        style: TextStyle(color: AppColors.bNormal, fontSize: 14.sp),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Chọn ngày sinh',
-          hintStyle: TextStyle(
-            color: AppColors.lightActive,
-            fontSize: 14.sp,
-          ),
+          hintStyle: TextStyle(color: AppColors.lightActive, fontSize: 14.sp),
           suffixIcon: Icon(
             Icons.calendar_today,
             color: AppColors.bNormal,
@@ -273,7 +263,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
 
   Widget _buildSaveButton(SettingState state) {
     final isLoading = state is SettingPersonalInfoUpdating;
-    
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -284,7 +274,9 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 16.h),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLarge),
+            borderRadius: BorderRadius.circular(
+              AppDimensions.borderRadiusLarge,
+            ),
           ),
         ),
         child: isLoading
@@ -298,10 +290,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
               )
             : Text(
                 'Lưu thay đổi',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
       ),
     );
@@ -310,9 +299,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
   Widget _buildLoadingOverlay() {
     return Container(
       color: Colors.black.withOpacity(0.3),
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      child: const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -325,7 +312,8 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
     );
     if (picked != null) {
       setState(() {
-        _dateOfBirthController.text = "${picked.day}/${picked.month}/${picked.year}";
+        _dateOfBirthController.text =
+            "${picked.day}/${picked.month}/${picked.year}";
       });
     }
   }

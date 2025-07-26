@@ -78,9 +78,9 @@ class CustomBottomNavBar extends StatelessWidget {
                 child: Text(
                   labels[index],
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
                   ),
                 ),
               ),
