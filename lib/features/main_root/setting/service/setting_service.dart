@@ -46,7 +46,6 @@ class SettingService {
     }
   }
 
-  /// PUT /api/v1/user/update-profile - Cập nhật thông tin profile
   Future<ApiResponse<UserProfileModel>> updateProfile({
     required UpdateProfileRequest request,
   }) async {
