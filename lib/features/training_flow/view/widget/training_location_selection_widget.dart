@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_equipment_selection_widget.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
+import '../../model/training_flow_request.dart';
+import '../../service/training_flow_service.dart';
 
 class TrainingLocationSelectionWidget extends StatefulWidget {
+  final String? nextStep;
+  final Map<String, List<String>> selectedValues;
+  final List<String> options;
+
+  const TrainingLocationSelectionWidget({
+    Key? key,
+    required this.nextStep,
+    required this.selectedValues,
+    required this.options,
+  }) : super(key: key);
+
   @override
   _TrainingLocationSelectionState createState() =>
       _TrainingLocationSelectionState();
@@ -13,6 +27,12 @@ class TrainingLocationSelectionWidget extends StatefulWidget {
 class _TrainingLocationSelectionState
     extends State<TrainingLocationSelectionWidget> {
   int? selectedIndex;
+
+  String? get currentStep => widget.nextStep;
+
+  Map<String, List<String>> get selectedValues => widget.selectedValues;
+
+  List<String> get options => widget.options;
 
   final List<String> locations = [
     "Tại nhà",
@@ -170,7 +190,8 @@ class _TrainingLocationSelectionState
                                         ? TrainingAssets.locationOutSideSelected
                                         : TrainingAssets.locationOutSide)
                                   : (selectedIndex == 3
-                                        ? TrainingAssets.locationAnywhereSelected
+                                        ? TrainingAssets
+                                              .locationAnywhereSelected
                                         : TrainingAssets.locationAnywhere),
                             ),
                             SizedBox(width: 20),
@@ -239,7 +260,40 @@ class _TrainingLocationSelectionState
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : () {},
+              onPressed: selectedIndex != null
+                  ? () async {
+                      final request = TrainingFlowRequest(
+                        currentStep: currentStep,
+                        selectedValue: options,
+                        selectedValues: selectedValues,
+                      );
+
+                      try {
+                        final response = await TrainingFlowService.sendStep(
+                          request,
+                        );
+
+                        var selectedValues = response.selectedValues;
+
+                        print(response.nextStep);
+                        print(selectedValues);
+                        print(response.options);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TrainingEquipmentSelectionWidget(
+                              nextStep: response.nextStep,
+                              selectedValues: selectedValues,
+                              options: response.options,
+                            ),
+                          ),
+                        );
+                      } catch (e) {
+                        print("Error: $e");
+                      }
+                    }
+                  : null,
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(

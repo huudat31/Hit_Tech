@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_duration_selection_widget.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
+import '../../model/training_flow_request.dart';
+import '../../service/training_flow_service.dart';
 
 class TrainingLevelSelectionWidget extends StatefulWidget {
+  final String? nextStep;
+  final Map<String, List<String>> selectedValues;
+  final List<int> options;
+
+  const TrainingLevelSelectionWidget({
+    Key? key,
+    required this.nextStep,
+    required this.selectedValues,
+    required this.options,
+  }) : super(key: key);
+
   @override
   _TrainingLevelSelectionState createState() => _TrainingLevelSelectionState();
 }
 
 class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
   int? selectedIndex;
+
+  String? get currentStep => widget.nextStep;
+
+  Map<String, List<String>> get selectedValues => widget.selectedValues;
+
+  List<int> get options => widget.options;
 
   final List<String> levels = ["Mới bắt đầu", "Cơ bản", "Nâng cao"];
   final List<String> levelDetails = [
@@ -232,7 +253,51 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : (){},
+              onPressed: selectedIndex != null
+                  ? () async {
+                      var selectedLevel = levels[selectedIndex!];
+                      selectedLevel = normalizeLevel(selectedLevel);
+
+                      if (!options.contains(selectedIndex! + 1)) {
+                        selectedLevel = "INTERMEDIATE";
+                      }
+
+                      final request = TrainingFlowRequest(
+                        currentStep: currentStep,
+                        selectedValue: [selectedLevel],
+                        selectedValues: selectedValues,
+                      );
+
+                      try {
+                        final response = await TrainingFlowService.sendStep(
+                          request,
+                        );
+
+                        var selectedValues = response.selectedValues;
+
+                        final List<String> durations = response.options
+                            .toList();
+
+                        print(response.nextStep);
+                        print(selectedValues);
+                        print(durations);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TrainingDurationSelectionWidget(
+                                  nextStep: response.nextStep,
+                                  selectedValues: selectedValues,
+                                  options: durations,
+                                ),
+                          ),
+                        );
+                      } catch (e) {
+                        print("Error: $e");
+                      }
+                    }
+                  : null,
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(
@@ -247,5 +312,15 @@ class _TrainingLevelSelectionState extends State<TrainingLevelSelectionWidget> {
         ],
       ),
     );
+  }
+
+  String normalizeLevel(String vietnameseLevel) {
+    const mapping = {
+      "Mới bắt đầu": "BEGINNER",
+      "Cơ bản": "INTERMEDIATE",
+      "Nâng cao": "ADVANCED",
+    };
+
+    return mapping[vietnameseLevel] ?? vietnameseLevel;
   }
 }

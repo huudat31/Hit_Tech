@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_location_selection_widget.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
+import '../../model/training_flow_request.dart';
+import '../../service/training_flow_service.dart';
 
 class TrainingFrequencySelectionWidget extends StatefulWidget {
+  final String? nextStep;
+  final Map<String, List<String>> selectedValues;
+  final List<String> options;
+
+  const TrainingFrequencySelectionWidget({
+    Key? key,
+    required this.nextStep,
+    required this.selectedValues,
+    required this.options,
+  }) : super(key: key);
+
   @override
   _TrainingFrequencySelectionState createState() =>
       _TrainingFrequencySelectionState();
@@ -13,6 +27,12 @@ class TrainingFrequencySelectionWidget extends StatefulWidget {
 class _TrainingFrequencySelectionState
     extends State<TrainingFrequencySelectionWidget> {
   int selectedIndex = 0;
+
+  String? get currentStep => widget.nextStep;
+
+  Map<String, List<String>> get selectedValues => widget.selectedValues;
+
+  List<String> get options => widget.options;
 
   final List<String> soBuoi = ['1', '2', '3', '4', '5+'];
   final List<String> moTa = [
@@ -223,7 +243,40 @@ class _TrainingFrequencySelectionState
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : () {},
+              onPressed: selectedIndex != null
+                  ? () async {
+                final request = TrainingFlowRequest(
+                  currentStep: currentStep,
+                  selectedValue: options,
+                  selectedValues: selectedValues,
+                );
+
+                try {
+                  final response = await TrainingFlowService.sendStep(
+                    request,
+                  );
+
+                  var selectedValues = response.selectedValues;
+
+                  print(response.nextStep);
+                  print(selectedValues);
+                  print(response.options);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TrainingLocationSelectionWidget(
+                        nextStep: response.nextStep,
+                        selectedValues: selectedValues,
+                        options: response.options,
+                      ),
+                    ),
+                  );
+                } catch (e) {
+                  print("Error: $e");
+                }
+              }
+                  : null,
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(
