@@ -12,20 +12,28 @@ import '../../../../core/constants/app_dimension.dart';
 class LevelStepWidget extends BaseStepWidget {
   final TrainingStepModel stepData;
 
-  const LevelStepWidget({
-    super.key,
-    required this.stepData,
-  }) : super(
-          stepTitle: 'Mức độ kinh nghiệm\ncủa bạn là gì?',
-          stepDescription: 'Chọn trình độ phù hợp với khả năng hiện tại',
-          currentStepKey: 'level',
-          nextStepKey: 'duration',
-        );
+  const LevelStepWidget({super.key, required this.stepData})
+    : super(
+        stepTitle: 'Mức độ kinh nghiệm\ncủa bạn là gì?',
+        stepDescription: 'Chọn trình độ phù hợp với khả năng hiện tại',
+        currentStepKey: 'level',
+        nextStepKey: 'duration',
+      );
 
   @override
   Widget buildStepContent(BuildContext context) {
     final availableLevels = stepData.selectedValues.level ?? [];
-    
+
+    // Show loading state if no options available from API
+    if (availableLevels.isEmpty) {
+      return Center(
+        child: Text(
+          'Đang tải...',
+          style: TextStyle(fontSize: 16.sp, color: AppColors.lightHover),
+        ),
+      );
+    }
+
     return BlocBuilder<TrainingFlowCubit, TrainingFlowState>(
       builder: (context, state) {
         if (state is TrainingFlowLoaded) {
@@ -120,7 +128,7 @@ class LevelStepWidget extends BaseStepWidget {
   String _getLevelAsset(int index, bool isSelected) {
     switch (index) {
       case 0:
-        return isSelected 
+        return isSelected
             ? TrainingAssets.beginnerSelected
             : TrainingAssets.beginner;
       case 1:

@@ -1,36 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
+import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/cubit/training_flow_state.dart';
 
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/training_assets.dart';
 import '../../cubit/training_flow_cubit.dart';
 import '../../model/training_step_model.dart';
 import '../common/base_step_widget.dart';
 
 class FrequencyStepWidget extends BaseStepWidget {
-  const FrequencyStepWidget({
-    super.key,
-    required super.stepData,
-  });
+  final TrainingStepModel stepData;
 
-  @override
-  String get stepTitle => 'Tần suất tập luyện';
-
-  @override
-  String get stepDescription => 'Bạn thường tập luyện bao nhiêu ngày trong tuần?';
-
-  @override
-  String get currentStepKey => 'frequency';
-
-  @override
-  String get nextStepKey => 'location';
+  const FrequencyStepWidget({super.key, required this.stepData})
+    : super(
+        stepTitle: 'Tần suất tập luyện',
+        stepDescription: 'Bạn thường tập luyện bao nhiêu ngày trong tuần?',
+        currentStepKey: 'frequency',
+        nextStepKey: 'location',
+      );
 
   @override
   Widget buildStepContent(BuildContext context) {
+    // Only use API data - no fallback to hardcoded options
     final availableFrequencies = stepData.selectedValues.frequency ?? [];
-    
+
+    // If no options from API, show loading or error
+    if (availableFrequencies.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16.h),
+            Text(
+              'Đang tải tần suất tập luyện...',
+              style: TextStyle(fontSize: 16.sp),
+            ),
+          ],
+        ),
+      );
+    }
+
     return BlocBuilder<TrainingFlowCubit, TrainingFlowState>(
       builder: (context, state) {
         if (state is TrainingFlowLoaded) {
@@ -38,16 +50,16 @@ class FrequencyStepWidget extends BaseStepWidget {
               .read<TrainingFlowCubit>()
               .getUserSelection('frequency');
 
-          int selectedIndex = availableFrequencies.isNotEmpty && selectedFrequency.isNotEmpty
+          int selectedIndex = selectedFrequency.isNotEmpty
               ? availableFrequencies.indexOf(selectedFrequency.first)
               : 0;
-              
+
           if (selectedIndex == -1) selectedIndex = 0;
 
           return Column(
             children: [
               SizedBox(height: 70.h),
-              
+
               // Main frequency image
               Image.asset(
                 _getFrequencyImage(selectedIndex),
@@ -66,17 +78,14 @@ class FrequencyStepWidget extends BaseStepWidget {
                 ),
               ),
               SizedBox(height: 20.h),
-              
+
               // Description
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Text(
                   _getFrequencyDescription(selectedIndex),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16.sp, 
-                    color: AppColors.dark,
-                  ),
+                  style: TextStyle(fontSize: 16.sp, color: AppColors.dark),
                 ),
               ),
               SizedBox(height: 62.h),
@@ -98,10 +107,11 @@ class FrequencyStepWidget extends BaseStepWidget {
                     bool isSelected = index == selectedIndex;
                     return GestureDetector(
                       onTap: () {
-                        context.read<TrainingFlowCubit>().updateTemporarySelection(
-                          'frequency',
-                          [availableFrequencies[index]],
-                        );
+                        context
+                            .read<TrainingFlowCubit>()
+                            .updateTemporarySelection('frequency', [
+                              availableFrequencies[index],
+                            ]);
                       },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),

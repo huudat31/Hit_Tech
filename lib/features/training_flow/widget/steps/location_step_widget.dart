@@ -1,43 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
+import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/cubit/training_flow_state.dart';
 
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/training_assets.dart';
 import '../../cubit/training_flow_cubit.dart';
 import '../../model/training_step_model.dart';
 import '../common/base_step_widget.dart';
 
 class LocationStepWidget extends BaseStepWidget {
-  const LocationStepWidget({
-    super.key,
-    required super.stepData,
-  });
+  final TrainingStepModel stepData;
 
-  @override
-  String get stepTitle => 'Địa điểm tập luyện';
-
-  @override
-  String get stepDescription => 'Địa điểm luyện tập mà bạn ưa thích?';
-
-  @override
-  String get currentStepKey => 'location';
-
-  @override
-  String get nextStepKey => 'equipment';
+  const LocationStepWidget({super.key, required this.stepData})
+    : super(
+        stepTitle: 'Địa điểm tập luyện',
+        stepDescription: 'Địa điểm luyện tập mà bạn ưa thích?',
+        currentStepKey: 'location',
+        nextStepKey: 'equipment',
+        allowMultipleSelection: true,
+      );
 
   @override
   Widget buildStepContent(BuildContext context) {
+    // Only use API data - no fallback to hardcoded options
     final availableLocations = stepData.selectedValues.location ?? [];
-    
+
+    // If no options from API, show loading or error
+    if (availableLocations.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16.h),
+            Text(
+              'Đang tải địa điểm tập luyện...',
+              style: TextStyle(fontSize: 16.sp),
+            ),
+          ],
+        ),
+      );
+    }
+
     return BlocBuilder<TrainingFlowCubit, TrainingFlowState>(
       builder: (context, state) {
         if (state is TrainingFlowLoaded) {
           final selectedLocations = context
               .read<TrainingFlowCubit>()
               .getUserSelection('location');
-
           return ListView.builder(
             padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 150.h),
             itemCount: availableLocations.length,
@@ -53,7 +65,7 @@ class LocationStepWidget extends BaseStepWidget {
                   } else {
                     newSelection.add(location);
                   }
-                  
+
                   context.read<TrainingFlowCubit>().updateTemporarySelection(
                     'location',
                     newSelection,
@@ -134,7 +146,7 @@ class LocationStepWidget extends BaseStepWidget {
       case 'home':
       case 'nhà':
       case 'tại nhà':
-        return isSelected 
+        return isSelected
             ? TrainingAssets.locationHomeSelected
             : TrainingAssets.locationHome;
       case 'gym':

@@ -12,20 +12,28 @@ import '../../../../core/constants/app_dimension.dart';
 class DurationStepWidget extends BaseStepWidget {
   final TrainingStepModel stepData;
 
-  const DurationStepWidget({
-    super.key,
-    required this.stepData,
-  }) : super(
-          stepTitle: 'Thời gian luyện tập mà bạn\ndành ra trong một ngày?',
-          stepDescription: 'Chọn thời gian phù hợp với lịch trình của bạn',
-          currentStepKey: 'duration',
-          nextStepKey: 'type',
-        );
+  const DurationStepWidget({super.key, required this.stepData})
+    : super(
+        stepTitle: 'Thời gian luyện tập mà bạn\ndành ra trong một ngày?',
+        stepDescription: 'Chọn thời gian phù hợp với lịch trình của bạn',
+        currentStepKey: 'duration',
+        nextStepKey: 'type',
+      );
 
   @override
   Widget buildStepContent(BuildContext context) {
     final availableDurations = stepData.selectedValues.duration ?? [];
-    
+
+    // Show loading state if no options available from API
+    if (availableDurations.isEmpty) {
+      return Center(
+        child: Text(
+          'Đang tải...',
+          style: TextStyle(fontSize: 16.sp, color: AppColors.lightHover),
+        ),
+      );
+    }
+
     return BlocBuilder<TrainingFlowCubit, TrainingFlowState>(
       builder: (context, state) {
         if (state is TrainingFlowLoaded) {
@@ -75,9 +83,7 @@ class DurationStepWidget extends BaseStepWidget {
                   child: Row(
                     children: [
                       SizedBox(width: 10.w),
-                      Image.asset(
-                        _getDurationAsset(index, isSelected),
-                      ),
+                      Image.asset(_getDurationAsset(index, isSelected)),
                       SizedBox(width: 20.w),
                       Expanded(
                         child: Text(
@@ -118,7 +124,7 @@ class DurationStepWidget extends BaseStepWidget {
   String _getDurationAsset(int index, bool isSelected) {
     switch (index) {
       case 0:
-        return isSelected 
+        return isSelected
             ? TrainingAssets.durationSelected1
             : TrainingAssets.duration1;
       case 1:

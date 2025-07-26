@@ -1,25 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../model/training_step_model.dart';
 import '../service/training_flow_service.dart';
 import 'training_flow_state.dart';
 
 class TrainingFlowCubit extends Cubit<TrainingFlowState> {
   final TrainingFlowService _trainingFlowService;
-  
+
   // Store user selections across steps
   final Map<String, List<String>> _userSelections = {};
 
-  TrainingFlowCubit({
+  TrainingFlowCubit(
+    trainingFlowRepo, {
     required TrainingFlowService trainingFlowService,
-  })  : _trainingFlowService = trainingFlowService,
-        super(TrainingFlowInitial());
+  }) : _trainingFlowService = trainingFlowService,
+       super(TrainingFlowInitial());
 
   /// Initialize training flow with the first step
   Future<void> initializeTrainingFlow() async {
-    await getTrainingStep(
-      currentStep: 'goals',
-      selectedValue: [],
-    );
+    await getTrainingStep(currentStep: 'goals', selectedValue: []);
   }
 
   /// Get training step data from API
@@ -29,17 +26,19 @@ class TrainingFlowCubit extends Cubit<TrainingFlowState> {
   }) async {
     try {
       emit(TrainingFlowLoading());
-      
+
       final stepData = await _trainingFlowService.getTrainingStep(
         currentStep: currentStep,
         selectedValue: selectedValue,
         selectedValues: _userSelections,
       );
 
-      emit(TrainingFlowLoaded(
-        stepData: stepData,
-        userSelections: Map.from(_userSelections),
-      ));
+      emit(
+        TrainingFlowLoaded(
+          stepData: stepData,
+          userSelections: Map.from(_userSelections),
+        ),
+      );
     } catch (e) {
       emit(TrainingFlowError(e.toString()));
     }
@@ -51,27 +50,31 @@ class TrainingFlowCubit extends Cubit<TrainingFlowState> {
     required List<String> selectedValues,
     String? nextStep,
   }) async {
-    // Save current selection
-    _userSelections[currentStep] = selectedValues;
+    try {
+      // Save current selection
+      _userSelections[currentStep] = selectedValues;
 
-    // If nextStep is provided, get next step data
-    if (nextStep != null && nextStep.isNotEmpty) {
-      await getTrainingStep(
-        currentStep: nextStep,
+      // Call API with current step and selected values to get next step
+      emit(TrainingFlowLoading());
+
+      final stepData = await _trainingFlowService.getTrainingStep(
+        currentStep: currentStep,
         selectedValue: selectedValues,
+        selectedValues: _userSelections,
       );
-    } else {
-      // Just update state with current selections
-      final currentState = state;
-      if (currentState is TrainingFlowLoaded) {
-        emit(currentState.copyWith(
+
+      // API should return the next step data with available options
+      emit(
+        TrainingFlowLoaded(
+          stepData: stepData,
           userSelections: Map.from(_userSelections),
-        ));
-      }
+        ),
+      );
+    } catch (e) {
+      emit(TrainingFlowError(e.toString()));
     }
   }
 
-  /// Go back to previous step
   Future<void> goToPreviousStep(String previousStep) async {
     final previousSelections = _userSelections[previousStep] ?? [];
     await getTrainingStep(
@@ -97,10 +100,8 @@ class TrainingFlowCubit extends Cubit<TrainingFlowState> {
     if (currentState is TrainingFlowLoaded) {
       final updatedSelections = Map<String, List<String>>.from(_userSelections);
       updatedSelections[step] = values;
-      
-      emit(currentState.copyWith(
-        userSelections: updatedSelections,
-      ));
+
+      emit(currentState.copyWith(userSelections: updatedSelections));
     }
   }
 
@@ -108,18 +109,21 @@ class TrainingFlowCubit extends Cubit<TrainingFlowState> {
   Future<void> completeTrainingFlow() async {
     try {
       emit(TrainingFlowLoading());
-      
+
       // Call API to submit training configuration
-      final completionResult = await _trainingFlowService.submitTrainingConfiguration(
-        userSelections: _userSelections,
+      final completionResult = await _trainingFlowService
+          .submitTrainingConfiguration(userSelections: _userSelections);
+
+      emit(
+        TrainingFlowCompleted(
+          userSelections: Map.from(_userSelections),
+          completionResult: completionResult,
+        ),
       );
-      
-      emit(TrainingFlowCompleted(
-        userSelections: Map.from(_userSelections),
-        completionResult: completionResult,
-      ));
     } catch (e) {
-      emit(TrainingFlowError('Không thể hoàn thành thiết lập: ${e.toString()}'));
+      emit(
+        TrainingFlowError('Không thể hoàn thành thiết lập: ${e.toString()}'),
+      );
     }
   }
 }

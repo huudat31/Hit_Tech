@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
+import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/cubit/training_flow_state.dart';
 
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/training_assets.dart';
 import '../../cubit/training_flow_cubit.dart';
 import '../../model/training_step_model.dart';
 import '../common/base_step_widget.dart';
 
 class EquipmentStepWidget extends BaseStepWidget {
+  final TrainingStepModel stepData;
   const EquipmentStepWidget({
     super.key,
-    required super.stepData,
+    required this.stepData,
+    required super.stepTitle,
+    required super.stepDescription,
+    required super.currentStepKey,
+    required super.nextStepKey,
   });
 
   @override
@@ -33,7 +39,17 @@ class EquipmentStepWidget extends BaseStepWidget {
   @override
   Widget buildStepContent(BuildContext context) {
     final availableEquipments = stepData.selectedValues.equipment ?? [];
-    
+
+    // Show loading state if no options available from API
+    if (availableEquipments.isEmpty) {
+      return Center(
+        child: Text(
+          'Đang tải...',
+          style: TextStyle(fontSize: 16.sp, color: AppColors.lightHover),
+        ),
+      );
+    }
+
     return BlocBuilder<TrainingFlowCubit, TrainingFlowState>(
       builder: (context, state) {
         if (state is TrainingFlowLoaded) {
@@ -56,7 +72,7 @@ class EquipmentStepWidget extends BaseStepWidget {
                   } else {
                     newSelection.add(equipment);
                   }
-                  
+
                   context.read<TrainingFlowCubit>().updateTemporarySelection(
                     'equipment',
                     newSelection,

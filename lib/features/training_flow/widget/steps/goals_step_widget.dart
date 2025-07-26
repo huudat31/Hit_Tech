@@ -12,20 +12,28 @@ import '../../../../core/constants/app_dimension.dart';
 class GoalsStepWidget extends BaseStepWidget {
   final TrainingStepModel stepData;
 
-  const GoalsStepWidget({
-    super.key,
-    required this.stepData,
-  }) : super(
-          stepTitle: 'Mục tiêu luyện tập\ncủa bạn là gì?',
-          stepDescription: 'Chọn mục tiêu phù hợp với bạn',
-          currentStepKey: 'goals',
-          nextStepKey: 'level',
-        );
+  const GoalsStepWidget({super.key, required this.stepData})
+    : super(
+        stepTitle: 'Mục tiêu luyện tập\ncủa bạn là gì?',
+        stepDescription: 'Chọn mục tiêu phù hợp với bạn',
+        currentStepKey: 'goals',
+        nextStepKey: 'level',
+      );
 
   @override
   Widget buildStepContent(BuildContext context) {
     final availableGoals = stepData.selectedValues.goals ?? [];
-    
+
+    // Show loading state if no options available from API
+    if (availableGoals.isEmpty) {
+      return Center(
+        child: Text(
+          'Đang tải...',
+          style: TextStyle(fontSize: 16.sp, color: AppColors.lightHover),
+        ),
+      );
+    }
+
     return BlocBuilder<TrainingFlowCubit, TrainingFlowState>(
       builder: (context, state) {
         if (state is TrainingFlowLoaded) {

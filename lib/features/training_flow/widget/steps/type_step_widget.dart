@@ -1,43 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
+import 'package:hit_tech/core/constants/app_color.dart';
+import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/cubit/training_flow_state.dart';
 
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_dimensions.dart';
-import '../../../../core/constants/training_assets.dart';
 import '../../cubit/training_flow_cubit.dart';
 import '../../model/training_step_model.dart';
 import '../common/base_step_widget.dart';
 
 class TypeStepWidget extends BaseStepWidget {
-  const TypeStepWidget({
-    super.key,
-    required super.stepData,
-  });
+  final TrainingStepModel stepData;
 
-  @override
-  String get stepTitle => 'Loại hình tập luyện';
-
-  @override
-  String get stepDescription => 'Chọn loại hình tập luyện phù hợp với sở thích';
-
-  @override
-  String get currentStepKey => 'type';
-
-  @override
-  String get nextStepKey => 'frequency';
+  const TypeStepWidget({super.key, required this.stepData})
+    : super(
+        stepTitle: 'Loại hình tập luyện',
+        stepDescription: 'Chọn loại hình tập luyện phù hợp với sở thích',
+        currentStepKey: 'type',
+        nextStepKey: 'frequency',
+      );
 
   @override
   Widget buildStepContent(BuildContext context) {
+    // Only use API data - no fallback to hardcoded options
     final availableTypes = stepData.selectedValues.type ?? [];
-    
+
+    // If no options from API, show loading or error
+    if (availableTypes.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16.h),
+            Text(
+              'Đang tải các loại hình tập luyện...',
+              style: TextStyle(fontSize: 16.sp),
+            ),
+          ],
+        ),
+      );
+    }
+
     return BlocBuilder<TrainingFlowCubit, TrainingFlowState>(
       builder: (context, state) {
         if (state is TrainingFlowLoaded) {
           final selectedType = context
               .read<TrainingFlowCubit>()
               .getUserSelection('type');
-
           return ListView.builder(
             padding: EdgeInsets.fromLTRB(15.w, 0, 15.w, 150.h),
             itemCount: availableTypes.length,
@@ -125,18 +136,14 @@ class TypeStepWidget extends BaseStepWidget {
   String _getTypeAsset(String type, bool isSelected) {
     switch (type.toLowerCase()) {
       case 'yoga':
-        return isSelected 
-            ? TrainingAssets.yogaSelected
-            : TrainingAssets.yoga;
+        return isSelected ? TrainingAssets.yogaSelected : TrainingAssets.yoga;
       case 'calisthenic':
       case 'calisthenics':
         return isSelected
             ? TrainingAssets.calisthenicSelected
             : TrainingAssets.calisthenic;
       case 'gym':
-        return isSelected
-            ? TrainingAssets.gymSelected
-            : TrainingAssets.gym;
+        return isSelected ? TrainingAssets.gymSelected : TrainingAssets.gym;
       case 'cardio':
         return isSelected
             ? TrainingAssets.cardioSelected

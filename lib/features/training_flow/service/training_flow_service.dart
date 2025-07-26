@@ -14,15 +14,28 @@ class TrainingFlowService {
     _dio.options.connectTimeout = ApiConfig.connectionTimeout;
     _dio.options.receiveTimeout = ApiConfig.receiveTimeout;
     _dio.options.headers = ApiConfig.defaultHeaders;
-
-    // Add interceptor for logging (optional)
-    _dio.interceptors.add(LogInterceptor(
-      requestBody: true,
-      responseBody: true,
-      logPrint: (object) => print(object),
-    ));
+    _dio.interceptors.add(
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        logPrint: (object) => print(object),
+      ),
+    );
   }
 
+  /// Get training step data from API
+  ///
+  /// Parameters:
+  /// - currentStep: Current step being processed (e.g., 'goals', 'type', 'frequency')
+  /// - selectedValue: Values selected by user in the current step
+  /// - selectedValues: All previous selections from earlier steps
+  ///
+  /// API Response should contain:
+  /// - nextStep: The next step to display (e.g., 'type' after 'goals')
+  /// - availableOptions: Options for the next step based on previous selections
+  /// - availableSections: All sections returned by API (có thể nhiều phần)
+  /// - primarySection: Section chính cần hiển thị
+  /// - secondarySection: Section phụ cần hiển thị (optional)
   Future<TrainingStepModel> getTrainingStep({
     required String currentStep,
     required List<String> selectedValue,
@@ -56,7 +69,6 @@ class TrainingFlowService {
     }
   }
 
-  /// Submit final training configuration
   Future<Map<String, dynamic>> submitTrainingConfiguration({
     required Map<String, List<String>> userSelections,
   }) async {
