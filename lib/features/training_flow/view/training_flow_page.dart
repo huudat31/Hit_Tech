@@ -19,6 +19,7 @@ class TrainingFlowPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => TrainingFlowCubit(
+        null, // trainingFlowRepo parameter
         trainingFlowService: TrainingFlowService(),
       )..initializeTrainingFlow(),
       child: const TrainingFlowView(),
@@ -48,9 +49,7 @@ class TrainingFlowView extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is TrainingFlowLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (state is TrainingFlowLoaded) {
@@ -65,9 +64,7 @@ class TrainingFlowView extends StatelessWidget {
             return _buildCompletionWidget(context, state);
           }
 
-          return const Center(
-            child: Text('Initializing training flow...'),
-          );
+          return const Center(child: Text('Initializing training flow...'));
         },
       ),
     );
@@ -75,7 +72,7 @@ class TrainingFlowView extends StatelessWidget {
 
   Widget _buildStepContent(BuildContext context, TrainingFlowLoaded state) {
     final stepData = state.stepData;
-    
+
     switch (stepData.currentStep) {
       case 'goals':
         return GoalsStepWidget(stepData: stepData);
@@ -90,11 +87,15 @@ class TrainingFlowView extends StatelessWidget {
       case 'location':
         return LocationStepWidget(stepData: stepData);
       case 'equipment':
-        return EquipmentStepWidget(stepData: stepData);
-      default:
-        return Center(
-          child: Text('Unknown step: ${stepData.currentStep}'),
+        return EquipmentStepWidget(
+          stepData: stepData,
+          stepTitle: 'Thiết bị luyện tập',
+          stepDescription: 'Thiết bị luyện tập mà bạn có?',
+          currentStepKey: 'equipment',
+          nextStepKey: '',
         );
+      default:
+        return Center(child: Text('Unknown step: ${stepData.currentStep}'));
     }
   }
 
@@ -103,18 +104,11 @@ class TrainingFlowView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error_outline,
-            size: 64.r,
-            color: Colors.red,
-          ),
+          Icon(Icons.error_outline, size: 64.r, color: Colors.red),
           SizedBox(height: 16.h),
           Text(
             'Đã có lỗi xảy ra',
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.h),
           Text(
@@ -137,27 +131,28 @@ class TrainingFlowView extends StatelessWidget {
   void _navigateToHome(BuildContext context) {
     // Replace current screen with home screen
     Navigator.of(context).pushReplacementNamed('/home');
-    
+
     // Show success message
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Thiết lập thành công! Chào mừng bạn đến với chương trình tập luyện.'),
+        content: Text(
+          'Thiết lập thành công! Chào mừng bạn đến với chương trình tập luyện.',
+        ),
         backgroundColor: Colors.green,
         duration: Duration(seconds: 3),
       ),
     );
   }
 
-  Widget _buildCompletionWidget(BuildContext context, TrainingFlowCompleted state) {
+  Widget _buildCompletionWidget(
+    BuildContext context,
+    TrainingFlowCompleted state,
+  ) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.check_circle,
-            size: 80.r,
-            color: Colors.green,
-          ),
+          Icon(Icons.check_circle, size: 80.r, color: Colors.green),
           SizedBox(height: 24.h),
           Text(
             'Hoàn thành!',
@@ -170,15 +165,10 @@ class TrainingFlowView extends StatelessWidget {
           SizedBox(height: 16.h),
           Text(
             'Đang chuyển đến trang chủ...',
-            style: TextStyle(
-              fontSize: 16.sp,
-              color: Colors.grey[600],
-            ),
+            style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
           ),
           SizedBox(height: 32.h),
-          CircularProgressIndicator(
-            color: Colors.green,
-          ),
+          CircularProgressIndicator(color: Colors.green),
         ],
       ),
     );

@@ -66,11 +66,19 @@ class TrainingStepData extends Equatable {
     return TrainingStepData(
       goals: json['goals'] != null ? List<String>.from(json['goals']) : null,
       level: json['level'] != null ? List<String>.from(json['level']) : null,
-      duration: json['duration'] != null ? List<String>.from(json['duration']) : null,
+      duration: json['duration'] != null
+          ? List<String>.from(json['duration'])
+          : null,
       type: json['type'] != null ? List<String>.from(json['type']) : null,
-      frequency: json['frequency'] != null ? List<String>.from(json['frequency']) : null,
-      location: json['location'] != null ? List<String>.from(json['location']) : null,
-      equipment: json['equipment'] != null ? List<String>.from(json['equipment']) : null,
+      frequency: json['frequency'] != null
+          ? List<String>.from(json['frequency'])
+          : null,
+      location: json['location'] != null
+          ? List<String>.from(json['location'])
+          : null,
+      equipment: json['equipment'] != null
+          ? List<String>.from(json['equipment'])
+          : null,
     );
   }
 
@@ -87,7 +95,15 @@ class TrainingStepData extends Equatable {
   }
 
   @override
-  List<Object?> get props => [goals, level, duration, type, frequency, location, equipment];
+  List<Object?> get props => [
+    goals,
+    level,
+    duration,
+    type,
+    frequency,
+    location,
+    equipment,
+  ];
 }
 
 class TrainingStepRequest extends Equatable {
