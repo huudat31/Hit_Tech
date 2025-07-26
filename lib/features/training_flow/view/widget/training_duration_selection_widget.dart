@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_type_selection_widget.dart';
 
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
 import '../../model/training_flow_request.dart';
 import '../../service/training_flow_service.dart';
 
-class TrainingEquipmentSelectionWidget extends StatefulWidget {
+class TrainingDurationSelectionWidget extends StatefulWidget {
   final String? nextStep;
   final Map<String, List<String>> selectedValues;
   final List<String> options;
 
-  const TrainingEquipmentSelectionWidget({
+  const TrainingDurationSelectionWidget({
     Key? key,
     required this.nextStep,
     required this.selectedValues,
@@ -19,13 +20,13 @@ class TrainingEquipmentSelectionWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TrainingEquipmentSelectionState createState() =>
-      _TrainingEquipmentSelectionState();
+  _TrainingDurationSelectionState createState() =>
+      _TrainingDurationSelectionState();
 }
 
-class _TrainingEquipmentSelectionState
-    extends State<TrainingEquipmentSelectionWidget> {
-  List<int> selectedIndexes = [];
+class _TrainingDurationSelectionState
+    extends State<TrainingDurationSelectionWidget> {
+  int? selectedIndex;
 
   String? get currentStep => widget.nextStep;
 
@@ -33,14 +34,11 @@ class _TrainingEquipmentSelectionState
 
   List<String> get options => widget.options;
 
-  final List<String> equipments = [
-    "Không có",
-    "Thảm yoga",
-    "Máy chạy bộ",
-    "Dây kháng lực",
-    "Đầy đủ thiết bị Gym",
-    "Xà đơn",
-    "Xà kép",
+  final List<String> durations = [
+    "15 - 30 phút",
+    "30 - 45 phút",
+    "45 - 60 phút",
+    "Trên 60 phút",
   ];
 
   @override
@@ -82,7 +80,7 @@ class _TrainingEquipmentSelectionState
                         ),
                         child: LayoutBuilder(
                           builder: (context, constraints) {
-                            final progress = 7 / 7;
+                            final progress = 3 / 7;
                             return Stack(
                               children: [
                                 Container(
@@ -123,7 +121,7 @@ class _TrainingEquipmentSelectionState
                     const SizedBox(width: 20.0),
                     Expanded(
                       child: Text(
-                        'Thiết bị luyện tập\nmà bạn có?',
+                        'Thời gian luyện tập mà bạn\ndành ra trong một ngày?',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -139,35 +137,33 @@ class _TrainingEquipmentSelectionState
               // Item list
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 200),
-                  itemCount: equipments.length,
+                  padding: const EdgeInsets.fromLTRB(15, 0, 15, 150),
+                  itemCount: durations.length,
                   itemBuilder: (context, index) {
-                    bool isSelected = selectedIndexes.contains(index);
-
                     return GestureDetector(
                       onTap: () => setState(() {
-                        if (isSelected) {
-                          selectedIndexes.remove(index);
+                        if (selectedIndex == index) {
+                          selectedIndex = null;
                         } else {
-                          selectedIndexes.add(index);
+                          selectedIndex = index;
                         }
                       }),
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(12),
-                        height: 80,
+                        height: 90,
                         decoration: BoxDecoration(
-                          color: selectedIndexes.contains(index)
+                          color: selectedIndex == index
                               ? AppColors.bLightHover
                               : AppColors.wWhite,
                           borderRadius: BorderRadius.circular(
                             AppDimensions.borderRadiusSmall,
                           ),
                           border: Border.all(
-                            color: selectedIndexes.contains(index)
+                            color: selectedIndex == index
                                 ? AppColors.bNormal
                                 : Colors.grey.shade300,
-                            width: selectedIndexes.contains(index) ? 2 : 1,
+                            width: selectedIndex == index ? 2 : 1,
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -179,23 +175,41 @@ class _TrainingEquipmentSelectionState
                         ),
                         child: Row(
                           children: [
+                            SizedBox(width: 10),
+                            Image.asset(
+                              index == 0
+                                  ? (selectedIndex == 0
+                                        ? TrainingAssets.durationSelected1
+                                        : TrainingAssets.duration1)
+                                  : index == 1
+                                  ? (selectedIndex == 1
+                                        ? TrainingAssets.durationSelected2
+                                        : TrainingAssets.duration2)
+                                  : index == 2
+                                  ? (selectedIndex == 2
+                                        ? TrainingAssets.durationSelected3
+                                        : TrainingAssets.duration3)
+                                  : (selectedIndex == 3
+                                        ? TrainingAssets.durationSelected4
+                                        : TrainingAssets.duration4),
+                            ),
                             SizedBox(width: 20),
                             Expanded(
                               child: Text(
-                                equipments[index],
+                                durations[index],
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  color: selectedIndexes.contains(index)
+                                  fontSize: 20,
+                                  color: (selectedIndex == index
                                       ? AppColors.bNormal
-                                      : AppColors.darkActive,
-                                  fontWeight: FontWeight.w700,
+                                      : AppColors.darkActive),
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
-                                selectedIndexes.contains(index)
+                                selectedIndex == index
                                     ? TrainingAssets.tickActive
                                     : TrainingAssets.tickNonActive,
                                 width: 20,
@@ -223,7 +237,7 @@ class _TrainingEquipmentSelectionState
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [AppColors.wWhite, Colors.transparent],
-                    stops: [0.0, 0.2],
+                    stops: [0.0, 0.0],
                   ),
                 ),
               ),
@@ -237,13 +251,15 @@ class _TrainingEquipmentSelectionState
             bottom: 70,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.bNormal,
+                backgroundColor: selectedIndex != null
+                    ? AppColors.bNormal
+                    : AppColors.bLightNotActive,
                 minimumSize: const Size(double.infinity, 60),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndexes.isNotEmpty
+              onPressed: selectedIndex != null
                   ? () async {
                       final request = TrainingFlowRequest(
                         currentStep: currentStep,
@@ -260,18 +276,18 @@ class _TrainingEquipmentSelectionState
 
                         print(response.nextStep);
                         print(selectedValues);
-                        print(response.trainingPlans);
+                        print(response.options);
 
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => TrainingTypeSelectionWidget(
-                        //       nextStep: response.nextStep,
-                        //       selectedValues: selectedValues,
-                        //       options: response.options,
-                        //     ),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TrainingTypeSelectionWidget(
+                              nextStep: response.nextStep,
+                              selectedValues: selectedValues,
+                              options: response.options,
+                            ),
+                          ),
+                        );
                       } catch (e) {
                         print("Error: $e");
                       }
@@ -279,12 +295,21 @@ class _TrainingEquipmentSelectionState
                   : null,
               child: Text(
                 "Tiếp tục",
-                style: TextStyle(fontSize: 20, color: AppColors.wWhite),
+                style: TextStyle(
+                  fontSize: 20,
+                  color: selectedIndex != null
+                      ? AppColors.wWhite
+                      : AppColors.wDark,
+                ),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  String normalizeReverseDurationList(List<String> durations) {
+    return durations.join('\n');
   }
 }

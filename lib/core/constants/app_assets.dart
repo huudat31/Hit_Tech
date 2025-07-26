@@ -15,6 +15,8 @@ class TrainingAssets {
   static const String authBackground =
       'assets/images/auth_background_image.png';
 
+  static const String defaultImage = '';
+
   // Goal
   static const String goalDemo = 'assets/images/goal/goal-demo.png';
 

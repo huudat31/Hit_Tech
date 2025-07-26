@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_level_selection_widget.dart';
 
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_color.dart';
+import '../../model/training_flow_request.dart';
+import '../../service/training_flow_service.dart';
 
 class TrainingGoalSelectionWidget extends StatefulWidget {
   @override
@@ -22,6 +25,8 @@ class _TrainingGoalSelectionState extends State<TrainingGoalSelectionWidget> {
     "Giảm stress, thư giãn",
     "Tăng chiều cao",
   ];
+
+  Map<String, List<String>> selectedValues = {};
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +222,98 @@ class _TrainingGoalSelectionState extends State<TrainingGoalSelectionWidget> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : null,
+              onPressed: selectedIndex != null
+                  ? () async {
+                      var selectedGoal = goals[selectedIndex!];
+                      selectedGoal = normalizeGoal(selectedGoal);
+
+                      final request = TrainingFlowRequest(
+                        currentStep: 'goals',
+                        selectedValue: [selectedGoal],
+                        selectedValues: selectedValues,
+                      );
+
+                      try {
+                        final response = await TrainingFlowService.sendStep(
+                          request,
+                        );
+
+                        var selectedValues = response.selectedValues;
+
+                        final List<int> levelIds = [];
+                        switch (selectedGoal) {
+                          case "Lose fat":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              break;
+                            }
+                          case "Gain weight":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              break;
+                            }
+                          case "Gain muscle":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              levelIds.add(3);
+                              break;
+                            }
+                          case "Maintain body":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              break;
+                            }
+                          case "Increase endurance":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              break;
+                            }
+                          case "Improve cardiovascular":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              break;
+                            }
+                          case "Stress relief/relaxation":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              levelIds.add(3);
+                              break;
+                            }
+                          case "Increase height":
+                            {
+                              levelIds.add(1);
+                              levelIds.add(2);
+                              levelIds.add(3);
+                              break;
+                            }
+                        }
+
+                        print(response.nextStep);
+                        print(selectedValues);
+                        print(levelIds);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TrainingLevelSelectionWidget(
+                              nextStep: response.nextStep,
+                              selectedValues: selectedValues,
+                              options: levelIds,
+                            ),
+                          ),
+                        );
+                      } catch (e) {
+                        print("Error: $e");
+                      }
+                    }
+                  : null,
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(
@@ -232,5 +328,20 @@ class _TrainingGoalSelectionState extends State<TrainingGoalSelectionWidget> {
         ],
       ),
     );
+  }
+
+  String normalizeGoal(String vietnameseGoal) {
+    const mapping = {
+      "Giảm cân / Giảm mỡ": "Lose fat",
+      "Tăng cân": "Gain weight",
+      "Tăng cơ": "Gain muscle",
+      "Duy trì vóc dáng": "Maintain body",
+      "Tăng sức bền": "Increase endurance",
+      "Cải thiện tim mạch": "Improve cardiovascular",
+      "Giảm stress, thư giãn": "Stress relief/relaxation",
+      "Tăng chiều cao": "Increase height",
+    };
+
+    return mapping[vietnameseGoal] ?? vietnameseGoal;
   }
 }

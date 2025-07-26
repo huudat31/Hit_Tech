@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/features/training_flow/view/widget/training_frequency_selection_widget.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../model/training_flow_request.dart';
+import '../../service/training_flow_service.dart';
 
 class TrainingTypeSelectionWidget extends StatefulWidget {
+  final String? nextStep;
+  final Map<String, List<String>> selectedValues;
+  final List<String> options;
+
+  const TrainingTypeSelectionWidget({
+    Key? key,
+    required this.nextStep,
+    required this.selectedValues,
+    required this.options,
+  }) : super(key: key);
+
   @override
   _TrainingTypeSelectionState createState() => _TrainingTypeSelectionState();
 }
@@ -12,7 +26,11 @@ class TrainingTypeSelectionWidget extends StatefulWidget {
 class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
   int? selectedIndex;
 
-  final List<String> types = ["Yoga", "Calisthenic", "Gym", "Cardio"];
+  String? get currentStep => widget.nextStep;
+
+  Map<String, List<String>> get selectedValues => widget.selectedValues;
+
+  List<String> get options => widget.options;
 
   @override
   Widget build(BuildContext context) {
@@ -111,32 +129,31 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.fromLTRB(15, 0, 15, 150),
-                  itemCount: types.length,
+                  itemCount: options.length,
                   itemBuilder: (context, index) {
+                    final option = options[index];
+                    final isSelected = selectedIndex == index;
+
                     return GestureDetector(
                       onTap: () => setState(() {
-                        if (selectedIndex == index) {
-                          selectedIndex = null;
-                        } else {
-                          selectedIndex = index;
-                        }
+                        selectedIndex = isSelected ? null : index;
                       }),
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 12),
                         padding: const EdgeInsets.all(12),
                         height: 80,
                         decoration: BoxDecoration(
-                          color: selectedIndex == index
+                          color: isSelected
                               ? AppColors.bLightHover
                               : AppColors.wWhite,
                           borderRadius: BorderRadius.circular(
                             AppDimensions.borderRadiusSmall,
                           ),
                           border: Border.all(
-                            color: selectedIndex == index
+                            color: isSelected
                                 ? AppColors.bNormal
                                 : Colors.grey.shade300,
-                            width: selectedIndex == index ? 2 : 1,
+                            width: isSelected ? 2 : 1,
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -150,29 +167,21 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                           children: [
                             SizedBox(width: 20),
                             Image.asset(
-                              index == 0
-                                  ? (selectedIndex == 0
-                                        ? TrainingAssets.yogaSelected
-                                        : TrainingAssets.yoga)
-                                  : index == 1
-                                  ? (selectedIndex == 1
-                                        ? TrainingAssets.calisthenicSelected
-                                        : TrainingAssets.calisthenic)
-                                  : index == 2
-                                  ? (selectedIndex == 2
-                                        ? TrainingAssets.gymSelected
-                                        : TrainingAssets.gym)
-                                  : (selectedIndex == 3
-                                        ? TrainingAssets.cardioSelected
-                                        : TrainingAssets.cardio),
+                              isSelected
+                                  ? typeImagesSelected[option] ??
+                                        TrainingAssets.defaultImage
+                                  : typeImages[option] ??
+                                        TrainingAssets.defaultImage,
+                              width: 40,
+                              height: 40,
                             ),
                             SizedBox(width: 20),
                             Expanded(
                               child: Text(
-                                types[index],
+                                option,
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: selectedIndex == index
+                                  color: isSelected
                                       ? AppColors.bNormal
                                       : AppColors.darkActive,
                                   fontWeight: FontWeight.w700,
@@ -182,7 +191,7 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
-                                selectedIndex == index
+                                isSelected
                                     ? TrainingAssets.tickActive
                                     : TrainingAssets.tickNonActive,
                                 width: 20,
@@ -232,7 +241,43 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: selectedIndex != null ? () {} : (){},
+              onPressed: selectedIndex != null
+                  ? () async {
+                      final selectedType = options[selectedIndex!];
+
+                      final request = TrainingFlowRequest(
+                        currentStep: currentStep,
+                        selectedValue: [selectedType],
+                        selectedValues: selectedValues,
+                      );
+
+                      try {
+                        final response = await TrainingFlowService.sendStep(
+                          request,
+                        );
+
+                        var selectedValues = response.selectedValues;
+
+                        print(response.nextStep);
+                        print(selectedValues);
+                        print(response.options);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                TrainingFrequencySelectionWidget(
+                                  nextStep: response.nextStep,
+                                  selectedValues: selectedValues,
+                                  options: response.options,
+                                ),
+                          ),
+                        );
+                      } catch (e) {
+                        print("Error: $e");
+                      }
+                    }
+                  : null,
               child: Text(
                 "Tiếp tục",
                 style: TextStyle(
@@ -248,4 +293,18 @@ class _TrainingTypeSelectionState extends State<TrainingTypeSelectionWidget> {
       ),
     );
   }
+
+  final Map<String, String> typeImages = {
+    "Yoga": TrainingAssets.yoga,
+    "Calisthenic": TrainingAssets.calisthenic,
+    "Gym": TrainingAssets.gym,
+    "Cardio": TrainingAssets.cardio,
+  };
+
+  final Map<String, String> typeImagesSelected = {
+    "Yoga": TrainingAssets.yogaSelected,
+    "Calisthenic": TrainingAssets.calisthenicSelected,
+    "Gym": TrainingAssets.gymSelected,
+    "Cardio": TrainingAssets.cardioSelected,
+  };
 }
