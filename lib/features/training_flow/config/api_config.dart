@@ -11,4 +11,3 @@ class ApiConfig {
     'Accept': 'application/json',
   };
 }
-

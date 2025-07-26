@@ -9,16 +9,16 @@ class SettingCubit extends Cubit<SettingState> {
   final SettingService _settingService;
 
   SettingCubit({required SettingService settingService})
-      : _settingService = settingService,
-        super(SettingInitial());
+    : _settingService = settingService,
+      super(SettingInitial());
 
   /// Load user profile
   Future<void> loadUserProfile() async {
     try {
       emit(SettingLoading());
-      
+
       final userProfile = await _settingService.getUserProfile();
-      
+
       emit(SettingLoaded(userProfile: userProfile));
     } catch (e) {
       emit(SettingError(message: e.toString()));
@@ -34,7 +34,7 @@ class SettingCubit extends Cubit<SettingState> {
     try {
       if (state is SettingLoaded) {
         emit(SettingProfileUpdating());
-        
+
         final request = UpdateProfileRequest(
           username: username,
           personalInformation: personalInfo,
@@ -42,13 +42,17 @@ class SettingCubit extends Cubit<SettingState> {
         );
 
         final response = await _settingService.updateProfile(request: request);
-        
+
         if (response.isSuccess && response.data != null) {
           emit(SettingProfileUpdated(updatedProfile: response.data!));
           // Also update the loaded state with new profile
           emit(SettingLoaded(userProfile: response.data!));
         } else {
-          emit(SettingError(message: response.message ?? 'Failed to update profile'));
+          emit(
+            SettingError(
+              message: response.message ?? 'Failed to update profile',
+            ),
+          );
         }
       }
     } catch (e) {
@@ -60,16 +64,20 @@ class SettingCubit extends Cubit<SettingState> {
   Future<void> uploadAvatar({required File avatarFile}) async {
     try {
       emit(SettingAvatarUploading());
-      
-      final response = await _settingService.uploadAvatar(avatarFile: avatarFile);
-      
+
+      final response = await _settingService.uploadAvatar(
+        avatarFile: avatarFile,
+      );
+
       if (response.isSuccess && response.data != null) {
         emit(SettingAvatarUploaded(avatarUrl: response.data!));
-        
+
         // Reload profile to get updated avatar
         await loadUserProfile();
       } else {
-        emit(SettingError(message: response.message ?? 'Failed to upload avatar'));
+        emit(
+          SettingError(message: response.message ?? 'Failed to upload avatar'),
+        );
       }
     } catch (e) {
       emit(SettingError(message: e.toString()));
@@ -82,18 +90,28 @@ class SettingCubit extends Cubit<SettingState> {
   }) async {
     try {
       emit(SettingPersonalInfoUpdating());
-      
-      final response = await _settingService.updatePersonalInformation(request: request);
-      
+
+      final response = await _settingService.updatePersonalInformation(
+        request: request,
+      );
+
       if (response.isSuccess) {
-        emit(SettingPersonalInfoUpdated(
-          message: response.message ?? 'Personal information updated successfully',
-        ));
-        
+        emit(
+          SettingPersonalInfoUpdated(
+            message:
+                response.message ?? 'Personal information updated successfully',
+          ),
+        );
+
         // Reload profile to get updated information
         await loadUserProfile();
       } else {
-        emit(SettingError(message: response.message ?? 'Failed to update personal information'));
+        emit(
+          SettingError(
+            message:
+                response.message ?? 'Failed to update personal information',
+          ),
+        );
       }
     } catch (e) {
       emit(SettingError(message: e.toString()));
@@ -138,6 +156,40 @@ class SettingCubit extends Cubit<SettingState> {
     );
 
     await updatePersonalInformation(request: personalInfo);
+  }
+
+  /// Upload avatar with file picker
+  Future<void> uploadAvatarFromPicker({bool fromCamera = false}) async {
+    try {
+      // TODO: Implement file picker logic
+      // For now, we'll just emit an error
+      emit(SettingError(message: 'File picker not implemented yet'));
+    } catch (e) {
+      emit(SettingError(message: e.toString()));
+    }
+  }
+
+  /// Delete user account
+  Future<void> deleteUserAccount() async {
+    try {
+      emit(SettingAccountDeleting());
+
+      final response = await _settingService.deleteMyAccount();
+
+      if (response.isSuccess) {
+        emit(
+          SettingAccountDeleted(
+            message: response.message ?? 'Account deleted successfully',
+          ),
+        );
+      } else {
+        emit(
+          SettingError(message: response.message ?? 'Failed to delete account'),
+        );
+      }
+    } catch (e) {
+      emit(SettingError(message: e.toString()));
+    }
   }
 
   /// Reset state to initial

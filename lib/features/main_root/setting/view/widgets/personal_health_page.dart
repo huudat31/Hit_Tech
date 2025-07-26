@@ -17,11 +17,11 @@ class PersonalHealthPage extends StatefulWidget {
 
 class _PersonalHealthPageState extends State<PersonalHealthPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   late TextEditingController _heightController;
   late TextEditingController _weightController;
   late TextEditingController _ageController;
-  
+
   String? _selectedGender;
   String? _selectedActivityLevel;
 
@@ -134,10 +134,11 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
   Widget _buildHeader(BuildContext context, SettingState state) {
     String displayName = 'User';
     String email = 'email@example.com';
-    
+
     if (state is SettingLoaded) {
       displayName = state.userProfile.personalInformation?.fullName ?? 'User';
-      email = state.userProfile.personalInformation?.email ?? 'email@example.com';
+      email =
+          state.userProfile.personalInformation?.email ?? 'email@example.com';
     }
 
     return Column(
@@ -150,19 +151,14 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
               bottom: 70.h,
               child: GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: AppColors.bNormal,
-                ),
+                child: Icon(Icons.arrow_back_ios, color: AppColors.bNormal),
               ),
             ),
             Align(
               alignment: Alignment.center,
               child: CircleAvatar(
                 radius: 40.r,
-                backgroundImage: AssetImage(
-                  TrainingAssets.facebookIcon,
-                ),
+                backgroundImage: AssetImage(TrainingAssets.facebookIcon),
               ),
             ),
           ],
@@ -178,10 +174,7 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
         ),
         Text(
           email,
-          style: TextStyle(
-            fontSize: 12.sp,
-            color: AppColors.lightActive,
-          ),
+          style: TextStyle(fontSize: 12.sp, color: AppColors.lightActive),
         ),
       ],
     );
@@ -207,11 +200,16 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
             });
           }),
           const Divider(height: 1, color: AppColors.bLightHover),
-          _buildDropdownField('Mức độ hoạt động', _selectedActivityLevel, _activityLevels, (value) {
-            setState(() {
-              _selectedActivityLevel = value;
-            });
-          }),
+          _buildDropdownField(
+            'Mức độ hoạt động',
+            _selectedActivityLevel,
+            _activityLevels,
+            (value) {
+              setState(() {
+                _selectedActivityLevel = value;
+              });
+            },
+          ),
         ],
       ),
     );
@@ -223,17 +221,11 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
       subtitle: TextFormField(
         controller: controller,
         keyboardType: TextInputType.number,
-        style: TextStyle(
-          color: AppColors.bNormal,
-          fontSize: 14.sp,
-        ),
+        style: TextStyle(color: AppColors.bNormal, fontSize: 14.sp),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Nhập $title',
-          hintStyle: TextStyle(
-            color: AppColors.lightActive,
-            fontSize: 14.sp,
-          ),
+          hintStyle: TextStyle(color: AppColors.lightActive, fontSize: 14.sp),
         ),
         validator: (value) {
           if (value != null && value.isNotEmpty) {
@@ -261,20 +253,11 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: 'Chọn $title',
-          hintStyle: TextStyle(
-            color: AppColors.lightActive,
-            fontSize: 14.sp,
-          ),
+          hintStyle: TextStyle(color: AppColors.lightActive, fontSize: 14.sp),
         ),
-        style: TextStyle(
-          color: AppColors.bNormal,
-          fontSize: 14.sp,
-        ),
+        style: TextStyle(color: AppColors.bNormal, fontSize: 14.sp),
         items: options.map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
+          return DropdownMenuItem<String>(value: value, child: Text(value));
         }).toList(),
         onChanged: onChanged,
       ),
@@ -283,7 +266,7 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
 
   Widget _buildSaveButton(SettingState state) {
     final isLoading = state is SettingProfileUpdating;
-    
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -294,7 +277,9 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(vertical: 16.h),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLarge),
+            borderRadius: BorderRadius.circular(
+              AppDimensions.borderRadiusLarge,
+            ),
           ),
         ),
         child: isLoading
@@ -308,10 +293,7 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
               )
             : Text(
                 'Lưu thay đổi',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
               ),
       ),
     );
@@ -320,9 +302,7 @@ class _PersonalHealthPageState extends State<PersonalHealthPage> {
   Widget _buildLoadingOverlay() {
     return Container(
       color: Colors.black.withOpacity(0.3),
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      child: const Center(child: CircularProgressIndicator()),
     );
   }
 

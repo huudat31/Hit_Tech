@@ -4,8 +4,6 @@ import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
 
-
-
 class NoticeTrainingPage extends StatefulWidget {
   const NoticeTrainingPage({super.key});
 
@@ -15,7 +13,7 @@ class NoticeTrainingPage extends StatefulWidget {
 
 class _NoticeTrainingPageState extends State<NoticeTrainingPage> {
   bool _hasNotifications = false; // This would come from API/state management
-  
+
   // Mock data - would come from API
   final List<TrainingNotification> _notifications = [
     TrainingNotification(
@@ -40,11 +38,7 @@ class _NoticeTrainingPageState extends State<NoticeTrainingPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(
-                left: 30.w,
-                right: 10.w,
-                top: 20.h,
-              ),
+              padding: EdgeInsets.only(left: 30.w, right: 10.w, top: 20.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -71,10 +65,7 @@ class _NoticeTrainingPageState extends State<NoticeTrainingPage> {
             alignment: Alignment.centerLeft,
             child: GestureDetector(
               onTap: () => Navigator.pop(context),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: AppColors.bNormal,
-              ),
+              child: Icon(Icons.arrow_back_ios, color: AppColors.bNormal),
             ),
           ),
           if (_hasNotifications)
@@ -117,10 +108,7 @@ class _NoticeTrainingPageState extends State<NoticeTrainingPage> {
               "cách gửi thông báo nhắc nhở vào thời gian phù hợp \n"
               "trong ngày.",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.lightActive,
-              ),
+              style: TextStyle(fontSize: 14.sp, color: AppColors.lightActive),
             ),
           ],
         ),
@@ -207,7 +195,9 @@ class _NoticeTrainingPageState extends State<NoticeTrainingPage> {
                     value: notification.isActive,
                     onChanged: (value) {
                       setState(() {
-                        _notifications[index] = notification.copyWith(isActive: value);
+                        _notifications[index] = notification.copyWith(
+                          isActive: value,
+                        );
                       });
                     },
                     activeTrackColor: AppColors.bNormal,
@@ -298,9 +288,8 @@ class _NoticeTrainingPageState extends State<NoticeTrainingPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NoticeTrainingCreationPage(
-          notification: _notifications[index],
-        ),
+        builder: (context) =>
+            NoticeTrainingCreationPage(notification: _notifications[index]),
       ),
     ).then((result) {
       if (result != null && result is TrainingNotification) {
@@ -343,7 +332,7 @@ class _NoticeTrainingPageState extends State<NoticeTrainingPage> {
 // Simple creation page (placeholder)
 class NoticeTrainingCreationPage extends StatelessWidget {
   final TrainingNotification? notification;
-  
+
   const NoticeTrainingCreationPage({super.key, this.notification});
 
   @override
