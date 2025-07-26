@@ -43,6 +43,8 @@ class RegisterRequested extends AuthEvent {
 
 class LogoutRequested extends AuthEvent {}
 
+class CheckAuthStatusRequested extends AuthEvent {}
+
 // States
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -83,6 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginRequested>(_onLoginRequested);
     on<RegisterRequested>(_onRegisterRequested);
     on<LogoutRequested>(_onLogoutRequested);
+    on<CheckAuthStatusRequested>(_onCheckAuthStatusRequested);
   }
 
   void _onLoginRequested(LoginRequested event, Emitter<AuthState> emit) async {
@@ -139,7 +142,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  void _onLogoutRequested(LogoutRequested event, Emitter<AuthState> emit) {
-    emit(AuthInitial());
+  void _onLogoutRequested(
+    LogoutRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(AuthLoading());
+    try {
+      await authRepository.logout();
+      emit(AuthInitial());
+    } catch (e) {
+      print('[AuthBloc] Logout error: $e');
+      emit(AuthInitial()); // Vẫn logout dù có lỗi
+    }
+  }
+
+  void _onCheckAuthStatusRequested(
+    CheckAuthStatusRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      final isAuthenticated = await authRepository.isAuthenticated();
+
+      if (isAuthenticated) {
+        final userData = await authRepository.getCurrentUser();
+        emit(
+          AuthSuccess(
+            token:
+                'existing_token', // Token đã được lưu trong SharedPreferences
+            user: userData,
+            message: 'Already authenticated',
+          ),
+        );
+      } else {
+        emit(AuthInitial());
+      }
+    } catch (e) {
+      print('[AuthBloc] Check auth status error: $e');
+      emit(AuthInitial());
+    }
   }
 }

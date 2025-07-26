@@ -1,40 +1,23 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import '../model/user_profile_model.dart';
-import '../model/setting_request_model.dart';
+import '../model/setting_request_model.dart' hide ApiResponse;
+import '../../../../services/api/base_api_service.dart';
 
-class SettingService {
-  final Dio _dio;
-
-  SettingService({Dio? dio}) : _dio = dio ?? Dio() {
-    _setupDio();
-  }
-
-  void _setupDio() {
-    _dio.options = BaseOptions(
-      baseUrl: 'http://localhost:8080',
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      sendTimeout: const Duration(seconds: 30),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    );
-
-    // Add interceptor for logging
-    _dio.interceptors.add(
-      LogInterceptor(requestBody: true, responseBody: true, error: true),
-    );
-  }
+class SettingService extends BaseApiService {
+  SettingService({Dio? dio}) : super(dio: dio);
 
   /// GET /api/v1/user/profile - Lấy thông tin profile user
   Future<UserProfileModel> getUserProfile() async {
     try {
-      final response = await _dio.get('/api/v1/user/profile');
+      // Check authentication before making request
+      if (!await isAuthenticated()) {
+        throw Exception('User not authenticated');
+      }
+
+      final response = await dio.get('/api/v1/user/profile');
 
       if (response.statusCode == 200) {
-        // Assuming the response structure based on API docs
         return UserProfileModel.fromJson(response.data);
       } else {
         throw Exception('Failed to get user profile: ${response.statusCode}');
@@ -46,23 +29,24 @@ class SettingService {
     }
   }
 
+  /// PUT /api/v1/user/update-profile - Cập nhật profile user
   Future<ApiResponse<UserProfileModel>> updateProfile({
     required UpdateProfileRequest request,
   }) async {
     try {
-      final response = await _dio.put(
+      if (!await isAuthenticated()) {
+        throw Exception('User not authenticated');
+      }
+
+      final response = await dio.put(
         '/api/v1/user/update-profile',
         data: request.toJson(),
       );
 
-      if (response.statusCode == 200) {
-        return ApiResponse.fromJson(
-          response.data,
-          (data) => UserProfileModel.fromJson(data),
-        );
-      } else {
-        throw Exception('Failed to update profile: ${response.statusCode}');
-      }
+      return handleResponse<UserProfileModel>(
+        response,
+        (data) => UserProfileModel.fromJson(data),
+      );
     } on DioException catch (e) {
       throw _handleDioError(e);
     } catch (e) {
@@ -73,6 +57,10 @@ class SettingService {
   /// POST /api/v1/user/upload-avatar - Tải lên ảnh đại diện
   Future<ApiResponse<String>> uploadAvatar({required File avatarFile}) async {
     try {
+      if (!await isAuthenticated()) {
+        throw Exception('User not authenticated');
+      }
+
       // Create FormData for file upload
       final formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(
@@ -81,17 +69,13 @@ class SettingService {
         ),
       });
 
-      final response = await _dio.post(
+      final response = await dio.post(
         '/api/v1/user/upload-avatar',
         data: formData,
         options: Options(contentType: 'multipart/form-data'),
       );
 
-      if (response.statusCode == 200) {
-        return ApiResponse.fromJson(response.data, (data) => data.toString());
-      } else {
-        throw Exception('Failed to upload avatar: ${response.statusCode}');
-      }
+      return handleStringResponse(response);
     } on DioException catch (e) {
       throw _handleDioError(e);
     } catch (e) {
@@ -104,18 +88,16 @@ class SettingService {
     required PersonalInformationRequest request,
   }) async {
     try {
-      final response = await _dio.post(
+      if (!await isAuthenticated()) {
+        throw Exception('User not authenticated');
+      }
+
+      final response = await dio.post(
         '/api/v1/user/personal-information',
         data: request.toJson(),
       );
 
-      if (response.statusCode == 200) {
-        return ApiResponse.fromJson(response.data, (data) => data.toString());
-      } else {
-        throw Exception(
-          'Failed to update personal information: ${response.statusCode}',
-        );
-      }
+      return handleStringResponse(response);
     } on DioException catch (e) {
       throw _handleDioError(e);
     } catch (e) {
@@ -126,13 +108,13 @@ class SettingService {
   /// DELETE /api/v1/user/delete-my-account - Xóa tài khoản
   Future<ApiResponse<String>> deleteMyAccount() async {
     try {
-      final response = await _dio.delete('/api/v1/user/delete-my-account');
-
-      if (response.statusCode == 200) {
-        return ApiResponse.fromJson(response.data, (data) => data.toString());
-      } else {
-        throw Exception('Failed to delete account: ${response.statusCode}');
+      if (!await isAuthenticated()) {
+        throw Exception('User not authenticated');
       }
+
+      final response = await dio.delete('/api/v1/user/delete-my-account');
+
+      return handleStringResponse(response);
     } on DioException catch (e) {
       throw _handleDioError(e);
     } catch (e) {

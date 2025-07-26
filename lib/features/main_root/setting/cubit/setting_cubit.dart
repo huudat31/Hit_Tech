@@ -15,13 +15,30 @@ class SettingCubit extends Cubit<SettingState> {
   /// Load user profile
   Future<void> loadUserProfile() async {
     try {
+      print('[SettingCubit] Starting to load user profile...');
+
+      // Check if user is authenticated first
+      final isAuth = await _settingService.isAuthenticated();
+      print('[SettingCubit] Is authenticated: $isAuth');
+
+      if (!isAuth) {
+        emit(
+          SettingError(message: 'User not authenticated. Please login first.'),
+        );
+        return;
+      }
+
       emit(SettingLoading());
 
       final userProfile = await _settingService.getUserProfile();
+      print(
+        '[SettingCubit] User profile loaded successfully: ${userProfile.toJson()}',
+      );
 
       emit(SettingLoaded(userProfile: userProfile));
     } catch (e) {
-      emit(SettingError(message: e.toString()));
+      print('[SettingCubit] Error loading user profile: $e');
+      emit(SettingError(message: 'Failed to load profile: ${e.toString()}'));
     }
   }
 

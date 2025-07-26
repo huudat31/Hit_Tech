@@ -4,10 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hit_tech/core/constants/app_assets.dart';
 import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import '../../../../services/shared_preferences/shared_preferences.dart';
+import '../debug/debug_api_helper.dart';
 
 import '../cubit/setting_cubit.dart';
 import '../cubit/setting_state.dart';
-import '../service/setting_service.dart';
 import 'widgets/personal_information_page.dart';
 import 'widgets/personal_health_page.dart';
 import 'widgets/notice_training_page.dart';
@@ -17,16 +18,48 @@ import 'pages/avatar_upload_page.dart';
 import 'pages/personal_info_update_page.dart';
 import 'pages/account_deletion_page.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
   @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  @override
+  void initState() {
+    super.initState();
+    _initializeSettings();
+  }
+
+  Future<void> _initializeSettings() async {
+    try {
+      // Debug: Test token và API connection
+      await DebugApiHelper.testTokenOnly();
+      await DebugApiHelper.testApiConnection();
+
+      // Check token first
+      final token = await SharedPreferencesService.getToken();
+      final isLoggedIn = await SharedPreferencesService.isLoggedIn();
+
+      print('[SettingPage] Token: ${token?.substring(0, 20)}...');
+      print('[SettingPage] IsLoggedIn: $isLoggedIn');
+
+      if (isLoggedIn && token != null) {
+        // Use existing SettingCubit from main.dart và load user profile
+        final settingCubit = BlocProvider.of<SettingCubit>(context);
+        settingCubit.loadUserProfile();
+      } else {
+        print('[SettingPage] No token found, user needs to login');
+      }
+    } catch (e) {
+      print('[SettingPage] Error initializing settings: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          SettingCubit(settingService: SettingService())..loadUserProfile(),
-      child: const SettingView(),
-    );
+    return const SettingView();
   }
 }
 

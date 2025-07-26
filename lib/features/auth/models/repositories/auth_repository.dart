@@ -4,6 +4,8 @@ import 'package:hit_tech/features/auth/models/reset_password_request.dart';
 import 'package:hit_tech/features/auth/models/reset_password_response.dart';
 import 'package:hit_tech/features/auth/models/verify_opt_request.dart';
 import 'package:hit_tech/features/auth/models/verify_opt_response.dart';
+import '../../../../services/shared_preferences/shared_preferences.dart';
+import '../../../../services/api/base_api_service.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,13 +15,15 @@ import '../register_response.dart';
 import '../login_request.dart';
 import '../login_response.dart';
 
-class AuthRepository {
+class AuthRepository extends BaseApiService {
   static const Duration _timeout = Duration(seconds: 30);
 
   static const Map<String, String> _defaultHeaders = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };
+
+  AuthRepository() : super();
 
   Future<RegisterResponse> register(RegisterRequest request) async {
     try {
@@ -59,7 +63,20 @@ class AuthRepository {
           )
           .timeout(_timeout);
 
-      return _handleLoginResponse(response);
+      final loginResponse = _handleLoginResponse(response);
+
+      // Tự động lưu token và user data khi login thành công
+      if (loginResponse.success && loginResponse.token != null) {
+        await SharedPreferencesService.saveToken(loginResponse.token!);
+
+        if (loginResponse.user != null) {
+          await SharedPreferencesService.saveUserData(loginResponse.user!);
+        }
+
+        print('[AUTH] Login successful, token and user data saved');
+      }
+
+      return loginResponse;
     } on SocketException {
       return LoginResponse(
         success: false,
@@ -70,6 +87,7 @@ class AuthRepository {
     } on FormatException {
       return LoginResponse(success: false, message: AppStrings.invalidResponse);
     } catch (e) {
+      print('[AUTH] Login error: $e');
       return LoginResponse(success: false, message: AppStrings.generalError);
     }
   }
@@ -272,6 +290,31 @@ class AuthRepository {
       default:
         return AppStrings.generalError;
     }
+  }
+
+  // Logout method để xóa token và user data
+  Future<void> logout() async {
+    try {
+      await SharedPreferencesService.logout();
+      print('[AUTH] User logged out successfully');
+    } catch (e) {
+      print('[AUTH] Logout error: $e');
+    }
+  }
+
+  // Check authentication status
+  Future<bool> isAuthenticated() async {
+    return await SharedPreferencesService.isLoggedIn();
+  }
+
+  // Get current user data
+  Future<Map<String, dynamic>?> getCurrentUser() async {
+    return await SharedPreferencesService.getUserData();
+  }
+
+  // Get current token
+  Future<String?> getCurrentToken() async {
+    return await SharedPreferencesService.getToken();
   }
 }
 

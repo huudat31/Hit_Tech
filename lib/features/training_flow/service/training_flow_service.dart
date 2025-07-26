@@ -1,27 +1,10 @@
 import 'package:dio/dio.dart';
 import '../model/training_step_model.dart';
 import '../config/api_config.dart';
+import '../../../services/api/base_api_service.dart';
 
-class TrainingFlowService {
-  final Dio _dio;
-
-  TrainingFlowService({Dio? dio}) : _dio = dio ?? Dio() {
-    _setupDio();
-  }
-
-  void _setupDio() {
-    _dio.options.baseUrl = ApiConfig.baseUrl;
-    _dio.options.connectTimeout = ApiConfig.connectionTimeout;
-    _dio.options.receiveTimeout = ApiConfig.receiveTimeout;
-    _dio.options.headers = ApiConfig.defaultHeaders;
-    _dio.interceptors.add(
-      LogInterceptor(
-        requestBody: true,
-        responseBody: true,
-        logPrint: (object) => print(object),
-      ),
-    );
-  }
+class TrainingFlowService extends BaseApiService {
+  TrainingFlowService({Dio? dio}) : super(dio: dio);
 
   Future<TrainingStepModel> getTrainingStep({
     required String currentStep,
@@ -29,13 +12,17 @@ class TrainingFlowService {
     required Map<String, dynamic> selectedValues,
   }) async {
     try {
+      if (!await isAuthenticated()) {
+        throw Exception('User not authenticated');
+      }
+
       final request = TrainingStepRequest(
         currentStep: currentStep,
         selectedValue: selectedValue,
         selectedValues: selectedValues,
       );
 
-      final response = await _dio.post(
+      final response = await dio.post(
         ApiConfig.trainingStepEndpoint,
         data: request.toJson(),
       );
@@ -60,7 +47,11 @@ class TrainingFlowService {
     required Map<String, List<String>> userSelections,
   }) async {
     try {
-      final response = await _dio.post(
+      if (!await isAuthenticated()) {
+        throw Exception('User not authenticated');
+      }
+
+      final response = await dio.post(
         '/training/submit-configuration',
         data: {
           'user_selections': userSelections,
