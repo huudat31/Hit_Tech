@@ -13,8 +13,7 @@ class TrainingFlowService {
     TrainingFlowRequest request,
   ) async {
     try {
-      final token =
-          "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMTIzIiwiZXhwIjoxNzUzNTUwMTg1LCJpYXQiOjE3NTM1NDY1ODUsInVzZXJJZCI6ImI0ZmE4MDQzLTUxYjQtNGRmNy1iYjVmLWQwNWZiOTQ5NDIwZCIsImp0aSI6IjczZTkyYWYyLWY1N2MtNGRhNy04ZDZkLTJlOWViYTQ1Y2ZmYyIsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJlbWFpbCI6ImJveXpzbm8xQGdtYWlsLmNvbSJ9.GOuFg4bhnGI8rU-JcR4_w7Rgtl3bLZlOGglBb3_DxhniUmpdVTbcmKXJ23gp8LHv9A0hYKeR1aZzVP0xVcSnEg";
+      final token = "";
       final response = await http
           .post(
             Uri.parse(url),
