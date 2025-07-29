@@ -101,6 +101,8 @@ class UserMessage {
 
   static const String errInvalidImage = 'Ảnh tải lên không hợp lệ.';
 
+  static const String errEmailNotExist = 'Email không chính xác';
+
   // Success message
   static const String sucUpdateProfile = 'Cập nhật hồ sơ thành công.';
   static const String sucUploadAvatar = 'Tải ảnh đại diện thành công.';

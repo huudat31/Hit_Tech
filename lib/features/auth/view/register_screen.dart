@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hit_tech/core/constants/app_color.dart';
 import 'package:hit_tech/core/constants/app_dimension.dart';
+import 'package:hit_tech/core/constants/app_message.dart';
 import 'package:hit_tech/core/constants/app_string.dart';
-import 'package:hit_tech/features/auth/cubit/login-register/utils/validators.dart';
-import 'package:hit_tech/features/auth/cubit/login-register/blocs/register_cubit.dart';
+import 'package:hit_tech/features/auth/models/responses/register_response.dart';
 import 'package:hit_tech/features/auth/view/widgets/auth_custom_button.dart';
 import 'package:hit_tech/features/auth/view/widgets/button_gg_fb_auth.dart';
 import 'package:hit_tech/features/auth/view/widgets/custom_input_field.dart';
+import 'package:hit_tech/features/auth/view/otp_verification_screen.dart';
 
 import '../../../core/constants/app_assets.dart';
+import '../models/requests/register_request.dart';
+import '../service/auth_service.dart';
+import '../utils/validator_util.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -47,119 +51,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: AppColors.wLight,
       body: SafeArea(
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthSuccess) {
-              _showSnackBar(state.message ?? 'Đăng ký thành công!');
-              // Navigate to OTP verification screen với email
-              Navigator.pushNamed(
-                context,
-                '/otp-verification',
-                arguments: _emailController.text.trim(),
-              );
-            } else if (state is AuthFailure) {
-              _showSnackBar(state.message, isError: true);
-            }
-          },
-          child: Form(
-            key: _formKey,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    TrainingAssets.authBackground,
-                    fit: BoxFit.cover,
-                  ),
+        child: Form(
+          key: _formKey,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  TrainingAssets.authBackground,
+                  fit: BoxFit.cover,
                 ),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20),
-                      // Header
-                      Container(
-                        width: screenWidth,
-                        height: 83,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(24),
-                            bottomRight: Radius.circular(24),
-                          ),
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+
+                    // Header
+                    Container(
+                      width: screenWidth,
+                      height: 83,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(24),
+                          bottomRight: Radius.circular(24),
                         ),
-                        child: Center(
-                          child: Row(
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  Icons.arrow_back_ios_new,
-                                  color: AppColors.bNormal,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              SizedBox(width: 100),
-                              Text(
-                                AppStrings.register,
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.dark,
-                                ),
-                              ),
-                            ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          AppStrings.register,
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.dark,
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: AppDimensions.spaceXL),
-                            _buildFormFields(),
-                            const SizedBox(height: AppDimensions.spaceM),
-                            _buildAgreeRow(),
-                            const SizedBox(height: AppDimensions.spaceXL),
-                            _buildRegisterButton(),
-                            const SizedBox(height: 40),
-                            _buildDivider(),
-                            const SizedBox(height: AppDimensions.spaceM),
-                            _buildSocialButtons(),
-                            const SizedBox(height: AppDimensions.spaceXXL),
-                            _buildLogInLink(),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: AppDimensions.spaceXL),
+                          _buildFormFields(),
+                          const SizedBox(height: AppDimensions.spaceM),
+                          _buildAgreeRow(),
+                          const SizedBox(height: AppDimensions.spaceXL),
+                          _buildRegisterButton(),
+                          const SizedBox(height: 40),
+                          _buildDivider(),
+                          const SizedBox(height: AppDimensions.spaceM),
+                          _buildSocialButtons(),
+                          const SizedBox(height: AppDimensions.spaceXXL),
+                          _buildLogInLink(),
+                          const SizedBox(height: 20),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBackButton() {
-    return GestureDetector(
-      onTap: () => Navigator.pop(context),
-      child: const Icon(
-        Icons.arrow_back_ios,
-        // color: AppColors.backgroundColor,
-        size: AppDimensions.backIconSize,
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return const Center(
-      child: Text(
-        AppStrings.register,
-        style: TextStyle(
-          fontSize: 40,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
         ),
       ),
     );
@@ -180,7 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             title: AppStrings.email,
             focusedBorderColor: AppColors.bNormal,
             keyboardType: TextInputType.emailAddress,
-            validator: Validators.validateEmail,
+            validator: ValidatorUtil.validateEmail,
           ),
           const SizedBox(height: AppDimensions.spaceM),
           CustomInputField(
@@ -189,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             controller: _usernameController,
             title: AppStrings.username,
             focusedBorderColor: AppColors.bNormal,
-            validator: Validators.validateUsername,
+            validator: ValidatorUtil.validateUsername,
           ),
           const SizedBox(height: AppDimensions.spaceM),
           Row(
@@ -201,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 title: AppStrings.firstName,
                 focusedBorderColor: AppColors.bNormal,
                 width: screenWidth * 0.52,
-                validator: Validators.validateFirstName,
+                validator: ValidatorUtil.validateFirstName,
               ),
               const SizedBox(width: AppDimensions.spaceM),
               CustomInputField(
@@ -210,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 title: AppStrings.lastName,
                 focusedBorderColor: AppColors.bNormal,
                 width: screenWidth * 0.33,
-                validator: Validators.validateLastName,
+                validator: ValidatorUtil.validateLastName,
               ),
             ],
           ),
@@ -222,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             controller: _passwordController,
             title: AppStrings.password,
             obscureText: !_isPasswordVisible,
-            validator: Validators.validatePassword,
+            validator: ValidatorUtil.validatePassword,
             suffixIcon: IconButton(
               icon: Icon(
                 _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
@@ -300,16 +252,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildRegisterButton() => BlocBuilder<AuthBloc, AuthState>(
-    builder: (context, state) {
-      final isLoading = state is AuthLoading;
-      return AuthCustomButton(
-        text: isLoading ? 'Đang đăng ký...' : AppStrings.register,
-        onPressed: isLoading ? null : _handleRegister,
-        isLoading: isLoading,
-      );
-    },
-  );
+  Widget _buildRegisterButton() {
+    return AuthCustomButton(
+      text: isLoading ? 'Đang đăng ký...' : AppStrings.register,
+      onPressed: isLoading ? null : _handleRegister,
+      isLoading: isLoading,
+    );
+  }
 
   Widget _buildDivider() {
     return const Row(
@@ -356,7 +305,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildLogInLink() {
     return Center(
       child: TextButton(
-        onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        ),
         child: const Text.rich(
           TextSpan(
             text: 'Đã có tài khoản? ',
@@ -376,7 +328,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _handleRegister() {
+  void _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
     if (!_agree) {
@@ -389,15 +341,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     FocusScope.of(context).unfocus();
 
-    context.read<AuthBloc>().add(
-      RegisterRequested(
-        username: _usernameController.text.trim(),
-        password: _passwordController.text,
-        firstName: _firstnameController.text.trim(),
-        lastName: _lastnameController.text.trim(),
-        email: _emailController.text.trim(),
-      ),
+    final request = RegisterRequest(
+      username: _usernameController.text.trim(),
+      password: _passwordController.text,
+      firstName: _firstnameController.text.trim(),
+      lastName: _lastnameController.text.trim(),
+      email: _emailController.text.trim(),
     );
+    try {
+      final RegisterResponse response = await AuthService.register(request);
+
+      if (response.status == 'SUCCESS') {
+        _showSnackBar(response.data ?? '', isError: false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                OtpVerificationScreen(email: request.email, isRegister: true),
+          ),
+        );
+      } else {
+        _showSnackBar(response.data ?? '', isError: true);
+      }
+    } catch (e) {
+      _showSnackBar(AuthMessage.errRegisterFail, isError: false);
+    }
   }
 
   void _handleGoogleRegister() {
@@ -406,15 +374,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _handleFacebookRegister() {
     // TODO dang phat trien
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _usernameController.dispose();
-    _firstnameController.dispose();
-    _lastnameController.dispose();
-    super.dispose();
   }
 }

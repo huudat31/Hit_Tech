@@ -2,24 +2,45 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
-  static const String _tokenKey = 'auth_token';
+  static const String _accessTokenKey = 'auth_access_token';
+  static const String _refreshTokenKey = 'auth_refresh_token';
   static const String _userKey = 'user_data';
 
   // Token methods
-  static Future<void> saveToken(String token) async {
+  static Future<void> saveAccessToken(String token) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString(_tokenKey, token);
+      await prefs.setString(_accessTokenKey, token);
     } catch (e) {
       print('Error saving token: $e');
       rethrow;
     }
   }
 
-  static Future<String?> getToken() async {
+  static Future<String?> getAccessToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_tokenKey);
+      return prefs.getString(_accessTokenKey);
+    } catch (e) {
+      print('Error getting token: $e');
+      return null;
+    }
+  }
+
+  static Future<void> saveRefreshToken(String token) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_refreshTokenKey, token);
+    } catch (e) {
+      print('Error saving token: $e');
+      rethrow;
+    }
+  }
+
+  static Future<String?> getRefreshToken() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString(_refreshTokenKey);
     } catch (e) {
       print('Error getting token: $e');
       return null;
@@ -27,10 +48,10 @@ class SharedPreferencesService {
   }
 
   // User data methods with proper JSON serialization
-  static Future<void> saveUserData(Map<String, dynamic> userData) async {
+  static Future<void> saveUserData(String userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final userDataJson = jsonEncode(userData);
+      final userDataJson = jsonEncode(userId);
       await prefs.setString(_userKey, userDataJson);
     } catch (e) {
       print('Error saving user data: $e');
@@ -66,7 +87,8 @@ class SharedPreferencesService {
   static Future<void> removeToken() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      await prefs.remove(_tokenKey);
+      await prefs.remove(_accessTokenKey);
+      await prefs.remove(_refreshTokenKey);
     } catch (e) {
       print('Error removing token: $e');
       rethrow;
@@ -85,7 +107,7 @@ class SharedPreferencesService {
 
   static Future<bool> isLoggedIn() async {
     try {
-      final token = await getToken();
+      final token = await getAccessToken();
       return token != null && token.isNotEmpty;
     } catch (e) {
       print('Error checking login status: $e');
