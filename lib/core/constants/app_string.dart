@@ -9,6 +9,7 @@ class AppStrings {
   static const String validationError = 'Dữ liệu không hợp lệ';
   static const String forgotPasswordSuccess =
       'Link đặt lại mật khẩu đã được gửi';
+
   // Authentication
   static const String loginFailed = 'Đăng nhập thất bại';
   static const String registerFailed = 'Đăng ký thất bại';
@@ -26,10 +27,12 @@ class AppStrings {
   static const String lastNameRequired = 'Tên là bắt buộc';
 
   // UI Text
+  static const String ok = 'Xác nhận';
   static const String login = 'Đăng nhập';
   static const String register = 'Đăng ký';
   static const String email = 'Email';
   static const String password = 'Mật khẩu';
+  static const String reEnterPassword = 'Nhập lại mật khẩu';
   static const String username = 'Tên đăng nhập';
   static const String firstName = 'Họ';
   static const String lastName = 'Tên';
@@ -40,6 +43,12 @@ class AppStrings {
   static const String forgotPassword = 'Quên mật khẩu?';
   static const String dontHaveAccount = 'Chưa có tài khoản?';
   static const String alreadyHaveAccount = 'Đã có tài khoản?';
+  static const String fillEmailToResetPassword =
+      'Nhập email của bạn để đặt lại mật khẩu';
+  static const String fillOtp =
+      'Nhập mã OTP được gửi về email của bạn';
+  static const String resetYourPassword =
+      'Đặt lại mật khẩu mới của bạn';
 
   // Health Information
   static const String genderSelectionTitle = 'Giới Tính';

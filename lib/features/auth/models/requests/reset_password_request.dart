@@ -1,24 +1,19 @@
 class ResetPasswordRequest {
   final String email;
   final String newPassword;
-  final String reenterPassword;
+  final String reEnterPassword;
 
   ResetPasswordRequest({
     required this.email,
     required this.newPassword,
-    required this.reenterPassword,
+    required this.reEnterPassword,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'email': email,
       'newPassword': newPassword,
-      'reenterPassword': reenterPassword,
+      'reEnterPassword': reEnterPassword,
     };
-  }
-
-  @override
-  String toString() {
-    return 'ResetPasswordRequest(email: $email, newPassword: $newPassword, reenterPassword: $reenterPassword)';
   }
 }

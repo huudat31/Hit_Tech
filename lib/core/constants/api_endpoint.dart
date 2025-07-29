@@ -42,7 +42,7 @@ abstract class ApiEndpoint {
   // Auth Endpoints
   static const String verifyOtp = '$auth/verify-otp';
   static const String verifyOptResetPassword =
-      '$auth/verify-opt-to-reset-password';
+      '$auth/verify-otp-to-reset-password';
   static const String verifyOptRecovery = '$auth/verify-opt-to-recovery';
   static const String resetPassword = '$auth/reset-password';
   static const String register = '$auth/register';

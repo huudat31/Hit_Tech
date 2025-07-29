@@ -1,6 +1,6 @@
 import 'package:hit_tech/core/constants/app_string.dart';
 
-class Validators {
+class ValidatorUtil {
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return AppStrings.emailRequired;

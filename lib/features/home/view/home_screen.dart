@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hit_tech/features/auth/cubit/login-register/blocs/register_cubit.dart';
 import 'package:hit_tech/services/shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -46,7 +45,6 @@ class HomeScreen extends StatelessWidget {
     await SharedPreferencesService.clearAll();
 
     // Trigger logout event
-    context.read<AuthBloc>().add(LogoutRequested());
 
     // Navigate to login screen
     Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);

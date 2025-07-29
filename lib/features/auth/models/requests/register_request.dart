@@ -13,13 +13,11 @@ class RegisterRequest {
     required this.email,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'username': username,
-      'password': password,
-      'firstName': firstName,
-      'lastName': lastName,
-      'email': email,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+    'username': username,
+    'password': password,
+    'firstName': firstName,
+    'lastName': lastName,
+    'email': email,
+  };
 }
